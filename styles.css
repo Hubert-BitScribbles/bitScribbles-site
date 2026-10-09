@@ -52,6 +52,7 @@ h2{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(26px
 .app p{margin:0; color:#33383F; font-size:15px; flex:1;}
 .app .open{font-family:'Space Grotesk',sans-serif; font-weight:600; color:#0e9688; text-decoration:none; margin-top:6px;}
 .app .open:hover{text-decoration:underline;}
+.app:nth-child(1) .open{color:var(--amber);}
 .app:nth-child(2) .open{color:var(--purple);}
 
 /* contact */
