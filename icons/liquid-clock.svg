@@ -1,11 +1,1 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <defs><clipPath id="face"><circle cx="256" cy="256" r="164"/></clipPath></defs>
-  <rect width="512" height="512" rx="115" fill="#6E56CF"/>
-  <circle cx="256" cy="256" r="164" fill="#FAFAF9"/>
-  <path clip-path="url(#face)" fill="#6E56CF" d="M80,296 C130,272 170,320 224,296 C278,272 318,320 372,296 C400,284 420,284 440,292 L440,440 L80,440 Z"/>
-  <g stroke="#4B3A9A" stroke-width="16" stroke-linecap="round" fill="none">
-    <path d="M256,256 L196,221"/>
-    <path d="M256,256 L351,201"/>
-  </g>
-  <circle cx="256" cy="256" r="14" fill="#4B3A9A"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22.5" fill="#6E56CF"/><defs><clipPath id="c"><circle cx="50" cy="50" r="30"/></clipPath></defs><circle cx="50" cy="50" r="30" fill="#FAFAF9"/><g clip-path="url(#c)"><path d="M16 57 C28 47 38 68 51 58 S72 46 86 59 L86 90 L16 90Z" fill="#6E56CF" opacity=".9"/></g><line x1="50" y1="50" x2="38.5" y2="43.4" stroke="#4B3A9A" stroke-width="4.6" stroke-linecap="round"/><line x1="50" y1="50" x2="68" y2="39.6" stroke="#4B3A9A" stroke-width="3.4" stroke-linecap="round"/><circle cx="50" cy="50" r="3.6799999999999997" fill="#4B3A9A"/></svg>
