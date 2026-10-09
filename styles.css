@@ -45,10 +45,12 @@ h2{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(26px
 .apps{background:#F3F2EF;}
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; margin-top:36px;}
 .app{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px; display:flex; flex-direction:column; gap:12px;}
+.app-head{display:flex; align-items:center; gap:16px; margin-bottom:4px;}
+.app-icon{width:64px; height:64px; border-radius:15px; flex:none; display:block;}
 .app .kind{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);}
-.app h3{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; margin:0;}
+.app h3{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; margin:2px 0 0;}
 .app p{margin:0; color:#33383F; font-size:15px; flex:1;}
-.app .open{font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--teal); text-decoration:none; margin-top:6px;}
+.app .open{font-family:'Space Grotesk',sans-serif; font-weight:600; color:#0e9688; text-decoration:none; margin-top:6px;}
 .app .open:hover{text-decoration:underline;}
 .app:nth-child(2) .open{color:var(--purple);}
 
