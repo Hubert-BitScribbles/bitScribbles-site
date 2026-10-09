@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#14171C; --paper:#FAFAF9; --teal:#16B3A3; --purple:#6E56CF; --amber:#F2B134;
+  --mid:#6B7280; --line:rgba(20,23,28,0.10); --card:#FFFFFF;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',system-ui,sans-serif; line-height:1.6;}
+a{color:inherit;}
+.wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
+
+/* wordmark */
+.wordmark{display:inline-flex; align-items:baseline; gap:2px; text-decoration:none; white-space:nowrap;}
+.wordmark .bit{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); font-size:20px;}
+.wordmark .scr{font-family:'Caveat',cursive; font-weight:700; font-size:32.4px; line-height:1;}
+.on-ink .wordmark .scr{color:var(--paper);}
+.on-paper .wordmark .scr{color:var(--ink);}
+
+/* header */
+header.site{background:var(--ink);}
+header.site .wrap{display:flex; align-items:center; justify-content:space-between; padding-top:18px; padding-bottom:18px;}
+nav a{font-family:'JetBrains Mono',monospace; font-size:13px; color:#C9CDD3; text-decoration:none; margin-left:24px;}
+nav a:hover, nav a[aria-current="page"]{color:var(--teal);}
+
+/* hero */
+.hero{background:linear-gradient(135deg, var(--ink) 0%, #231A3D 60%, #34285C 120%); color:var(--paper); padding:96px 0 104px;}
+.hero h1{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(34px,6vw,60px); line-height:1.08; letter-spacing:-0.02em; margin:0 0 20px; max-width:760px;}
+.hero h1 span{color:var(--teal);}
+.hero .tagline{font-family:'JetBrains Mono',monospace; font-size:14px; color:#B9AEE8; letter-spacing:0.04em; margin:0 0 36px;}
+.btn{display:inline-block; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; padding:13px 24px; border-radius:12px; text-decoration:none; transition:transform .15s ease;}
+.btn:hover{transform:translateY(-1px);}
+.btn.primary{background:var(--teal); color:var(--ink);}
+.btn.secondary{border:1px solid rgba(255,255,255,0.25); color:var(--paper); margin-left:10px;}
+
+/* sections */
+section{padding:84px 0;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--purple); margin-bottom:10px;}
+h2{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(26px,4vw,36px); letter-spacing:-0.01em; margin:0 0 20px;}
+.lead{font-size:17px; color:#33383F; max-width:680px;}
+.about p{max-width:680px; color:#33383F; font-size:16.5px;}
+.about p:last-child{font-family:'Caveat',cursive; font-weight:700; font-size:26px; color:var(--ink); margin-top:28px;}
+
+/* apps */
+.apps{background:#F3F2EF;}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; margin-top:36px;}
+.app{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:28px; display:flex; flex-direction:column; gap:12px;}
+.app .kind{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);}
+.app h3{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; margin:0;}
+.app p{margin:0; color:#33383F; font-size:15px; flex:1;}
+.app .open{font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--teal); text-decoration:none; margin-top:6px;}
+.app .open:hover{text-decoration:underline;}
+.app:nth-child(2) .open{color:var(--purple);}
+
+/* contact */
+.contact-card{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:32px; margin-top:28px; max-width:640px;}
+.contact-card h3{font-family:'Space Grotesk',sans-serif; margin:0 0 6px; font-size:18px;}
+.contact-card p{margin:0 0 4px; color:#33383F;}
+.contact-card a{color:var(--purple); font-weight:500;}
+.contact-card + .contact-card{margin-top:16px;}
+
+/* footer */
+footer{background:var(--ink); color:#9CA3AF; padding:44px 0; font-size:13px;}
+footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
+footer a{color:#C9CDD3; text-decoration:none; margin-left:18px; font-family:'JetBrains Mono',monospace;}
+footer a:hover{color:var(--teal);}
+
+@media (max-width:560px){
+  nav a{margin-left:14px;}
+  .btn.secondary{margin-left:0; margin-top:10px;}
+}
