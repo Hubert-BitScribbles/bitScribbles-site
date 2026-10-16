@@ -82,3 +82,10 @@ footer a:hover{color:var(--teal);}
   nav a{margin-left:14px;}
   .btn.secondary{margin-left:0; margin-top:10px;}
 }
+
+/* narrow screens: menu on its own row under the logo */
+@media (max-width:640px){
+  header.site .wrap{flex-wrap:wrap; row-gap:8px;}
+  nav{width:100%; display:flex; flex-wrap:wrap; gap:6px 20px;}
+  nav a{margin-left:0;}
+}
