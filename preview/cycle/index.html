@@ -57,7 +57,7 @@ header { display: grid; gap: 12px; }
 .bar { display: flex; justify-content: space-between; padding: 14px 22px 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
 .view { flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: grid; align-content: start; gap: 16px; }
 .view[hidden] { display: none !important; }
-.tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
+.tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
 .tabs button { background: none; border: 0; font: 700 12px var(--body); color: var(--muted); padding: 10px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; }
 .tabs button svg { width: 22px; height: 22px; }
 .tabs button[aria-selected="true"] { color: var(--berry); }
@@ -118,6 +118,13 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .upcoming li { display: flex; justify-content: space-between; gap: 8px; }
 .hextra { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 12px; color: var(--muted); margin-top: -4px; }
 .chip.tag { background: var(--berry-soft); }
+.rgroup { display: grid; gap: 8px; }
+.rgroup h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-family: var(--body); }
+.res { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 4px; }
+.res-name { font-weight: 700; }
+.res a { color: var(--berry); font-weight: 700; text-underline-offset: 3px; }
+.res .num { font-variant-numeric: tabular-nums; }
+.region { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 14px; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -258,6 +265,49 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <p class="sample">Sample data.</p>
         </div>
 
+        <!-- Support -->
+        <div class="view" id="v-support" role="tabpanel" aria-labelledby="t-support" hidden>
+          <h2>Support</h2>
+          <div class="region"><span class="meta">Showing <b>British Columbia</b></span><button class="quiet" type="button" id="regionBtn">Change</button></div>
+          <p class="note" id="regionNote" hidden>In the app, this picks your province or country, and the list changes to match.</p>
+
+          <div class="rgroup">
+            <h3>Health questions, any time</h3>
+            <div class="res"><span class="res-name">HealthLink BC</span><span>Call <a class="num" href="tel:811">8-1-1</a> to talk to a nurse, 24 hours a day. Free, in over 130 languages. Deaf or hard of hearing: <a class="num" href="tel:711">7-1-1</a>.</span><a href="https://www.healthlinkbc.ca/" target="_blank" rel="noopener">healthlinkbc.ca</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Periods and sexual health</h3>
+            <div class="res"><span class="res-name">Sex Sense, from Options for Sexual Health</span><span>Free, confidential answers from nurses and educators, periods included. Call <a class="num" href="tel:18007397367">1-800-739-7367</a>, Monday to Friday 9 am to 9 pm. Text and chat Tuesday to Friday, 2 to 9 pm.</span><a href="https://www.optionsforsexualhealth.org/sex-sense/" target="_blank" rel="noopener">Sex Sense</a></div>
+            <div class="res"><span class="res-name">Find a sexual health clinic</span><span>Options' clinics across BC.</span><a href="https://www.optionsforsexualhealth.org/care/clinic-finder/" target="_blank" rel="noopener">Clinic finder</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Ages 12 to 24</h3>
+            <div class="res"><span class="res-name">Foundry</span><span>Free, confidential health and wellness support for young people, in person or online. No referral needed.</span><a href="https://foundrybc.ca/" target="_blank" rel="noopener">foundrybc.ca</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Learn more</h3>
+            <div class="res"><span class="res-name">The Endometriosis Network Canada</span><span>Information and virtual support groups, run by people living with endometriosis.</span><a href="https://endometriosisnetwork.com/" target="_blank" rel="noopener">endometriosisnetwork.com</a></div>
+            <div class="res"><span class="res-name">Menopause Foundation of Canada</span><span>Information about perimenopause and menopause.</span><a href="https://menopausefoundationcanada.ca/" target="_blank" rel="noopener">menopausefoundationcanada.ca</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Free products</h3>
+            <div class="res"><span class="res-name">Project AIM</span><span>Free period and incontinence products, barrier-free.</span><a href="https://www.projectaimcommunity.com/" target="_blank" rel="noopener">projectaimcommunity.com</a><button class="linkbtn" type="button" data-go="find" style="justify-self:start">Find boxes near you</button></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Someone to talk to, any time</h3>
+            <div class="res"><span class="res-name">Suicide Crisis Helpline</span><span>Call or text <a class="num" href="tel:988">9-8-8</a>, 24 hours a day.</span></div>
+            <div class="res"><span class="res-name">Kids Help Phone</span><span>Call <a class="num" href="tel:18006686868">1-800-668-6868</a> or text CONNECT to <span class="num">686868</span>, 24 hours a day.</span></div>
+          </div>
+
+          <div class="res" style="border-color: var(--berry)"><span class="res-name">Emergency</span><span>Call <a class="num" href="tel:911">9-1-1</a>.</span></div>
+          <p class="sample">Checked against each service's own site, 28 Oct 2026. Rechecked before each release.</p>
+        </div>
+
         <nav class="tabs" role="tablist" aria-label="App sections">
           <button role="tab" id="t-today" aria-selected="true" aria-controls="v-today" data-go="today" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="4" r="2" fill="currentColor"></circle></svg>Today</button>
@@ -265,6 +315,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.5-6-11a6 6 0 1 1 12 0c0 5.5-6 11-6 11z"></path><circle cx="12" cy="10" r="2"></circle></svg>Free products</button>
           <button role="tab" id="t-hist" aria-selected="false" aria-controls="v-hist" data-go="hist" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M4 12h14M4 17h8"></path></svg>History</button>
+          <button role="tab" id="t-support" aria-selected="false" aria-controls="v-support" data-go="support" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path></svg>Support</button>
         </nav>
       </div>
     </div>
@@ -296,6 +348,11 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <section class="plain">
         <h2>Forgetting to tap, and fixing dates</h2>
         <p>If a period runs past the person's usual length without "ended" being tapped, Today asks "Still going?" and offers the likely end days, so one tap puts it right. "Change dates" moves the start or end of the latest period a day at a time, and older ones are changed from History. In the mockup, start a period, then use "skip ahead to day 7" to see it.</p>
+      </section>
+
+      <section class="plain">
+        <h2>Support where you live</h2>
+        <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for the person's own province or country. Every number and link is checked against the service's own site, dated, and rechecked before each release, as in Clear Tracker. They're links and phone numbers only, so nothing is shared by opening them. Project AIM and joni could suggest what belongs there.</p>
       </section>
 
       <section class="plain">
@@ -346,7 +403,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 <script>
 (function () {
   // --- Tabs
-  var views = { today: 'v-today', find: 'v-find', hist: 'v-hist' };
+  var views = { today: 'v-today', find: 'v-find', hist: 'v-hist', support: 'v-support' };
+  document.getElementById('regionBtn').addEventListener('click', function () { document.getElementById('regionNote').hidden = false; });
   function go(name) {
     Object.keys(views).forEach(function (k) {
       document.getElementById(views[k]).hidden = k !== name;
