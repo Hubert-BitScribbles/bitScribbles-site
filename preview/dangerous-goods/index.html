@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Dangerous Goods — a concept from bitScribbles</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@600;700&display=swap">
+<style>
+/* Layout: a working phone on the left, the thinking beside it; one column on phones. */
+:root {
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --manila: #F5EFE3;       /* the paperwork: manifests, cards */
+  --ink: #14171C;
+  --muted: #5A5F69;
+  --line: rgba(20, 23, 28, 0.12);
+  --rust: #B8441F;         /* the app's colour: the danger half, main actions, stamps */
+  --rust-soft: #F7E4DB;
+  --on-rust: #FFFFFF;
+  --phone: #14171C;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #131519; --surface: #1C1F24; --manila: #26231E; --ink: #F2F1EE; --muted: #A7ABB3; --line: rgba(242,241,238,0.14);
+  --rust: #E07A55; --rust-soft: #3A231B; --on-rust: #1A0D07; --phone: #050608;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #131519; --surface: #1C1F24; --manila: #26231E; --ink: #F2F1EE; --muted: #A7ABB3; --line: rgba(242,241,238,0.14);
+  --rust: #E07A55; --rust-soft: #3A231B; --on-rust: #1A0D07; --phone: #050608;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 56px; }
+.wrap { max-width: 1060px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 22px; font-weight: 700; }
+h3 { font-size: 17px; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--rust); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--rust); outline-offset: 2px; }
+[tabindex="-1"]:focus { outline: none; }
+header { display: grid; gap: 14px; }
+.eyebrow { display: flex; align-items: center; gap: 12px; font: 500 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); }
+.eyebrow svg { width: 44px; height: 44px; flex: none; }
+.lead { font-size: 18px; color: var(--muted); max-width: 62ch; }
+
+.main { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; align-items: start; }
+@media (max-width: 820px) { .main { grid-template-columns: minmax(0, 1fr); } .phone { margin: 0 auto; } }
+
+/* Phone */
+.phone { width: 100%; max-width: 360px; background: var(--phone); border-radius: 44px; padding: 12px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+@media (max-width: 820px) { .phone { position: static; } }
+.screen { background: var(--bg); border-radius: 34px; height: 700px; display: flex; flex-direction: column; overflow: hidden; }
+.bar { display: flex; justify-content: space-between; padding: 14px 22px 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.view { flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 16px; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
+.tabs button { background: none; border: 0; font: 600 12px var(--body); color: var(--muted); padding: 10px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; min-height: 48px; }
+.tabs svg { width: 22px; height: 22px; }
+.tabs button[aria-current="page"] { color: var(--rust); }
+
+.topline { display: flex; justify-content: space-between; font: 500 12px var(--mono); letter-spacing: 0.12em; color: var(--muted); padding-top: 6px; }
+.topline .brand { color: var(--rust); }
+.question { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+.q-title { font-size: 32px; line-height: 1.12; letter-spacing: -0.01em; }
+.stack { display: grid; gap: 12px; }
+.btn { min-height: 52px; border-radius: 14px; font: 600 16px var(--body); cursor: pointer; padding: 12px 16px; width: 100%; }
+.btn-primary { background: var(--rust); color: var(--on-rust); border: 0; }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-outline svg { width: 18px; height: 18px; }
+.stamp { display: inline-block; transform: rotate(-5deg); border: 2px solid var(--rust); border-radius: 4px; padding: 3px 8px; font: 500 11px var(--mono); letter-spacing: 0.1em; color: var(--rust); justify-self: start; align-self: flex-start; white-space: nowrap; }
+.stamp.ended { border-color: var(--muted); color: var(--muted); }
+.cleared { display: grid; gap: 10px; background: var(--manila); border-radius: 16px; padding: 16px; }
+.linkbtn { background: none; border: 0; padding: 6px 0; font: 600 14px var(--body); color: var(--rust); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; justify-self: start; align-self: flex-start; min-height: 44px; }
+.transit-card { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; text-align: left; padding: 14px 16px; border-radius: 14px; background: var(--manila); border: 1px solid var(--line); color: var(--ink); font: 500 15px var(--body); cursor: pointer; }
+.transit-card small { display: block; font: 500 11px var(--mono); letter-spacing: 0.12em; color: var(--muted); margin-bottom: 2px; }
+.transit-card svg { width: 20px; height: 20px; flex: none; }
+.back { align-self: flex-start; background: none; border: 0; display: flex; align-items: center; gap: 4px; font: 600 15px var(--body); color: var(--ink); padding: 0; min-height: 44px; cursor: pointer; }
+.back svg { width: 20px; height: 20px; }
+
+.field { display: grid; gap: 6px; }
+.field label, .label-mono { font: 500 11px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.field input, .field textarea { width: 100%; font: 16px/1.4 var(--body); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.field textarea { resize: vertical; min-height: 64px; }
+.error { color: var(--rust); font-size: 14px; font-weight: 600; min-height: 1.2em; }
+.sample { font-size: 12px; color: var(--muted); font-style: italic; }
+.meta { font-size: 14px; color: var(--muted); }
+.live { font-size: 13px; color: var(--muted); min-height: 1.2em; }
+
+.list { display: grid; gap: 12px; }
+.good { display: grid; gap: 10px; width: 100%; text-align: left; padding: 14px 16px; border-radius: 16px; background: var(--manila); border: 1px solid var(--line); color: var(--ink); font: inherit; cursor: pointer; }
+.good.past { background: transparent; }
+.good-top { display: flex; gap: 12px; align-items: center; }
+.good-top svg { flex: none; }
+.good-title { font-weight: 600; font-size: 15px; line-height: 1.3; }
+.good-meta { font: 500 11px var(--mono); letter-spacing: 0.08em; color: var(--muted); }
+.track { display: flex; align-items: center; }
+.track .dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--muted); flex: none; }
+.track .dot.on { background: var(--rust); border-color: var(--rust); }
+.track .seg { flex: 1; height: 2px; background: var(--line); }
+.track .seg.on { background: var(--rust); }
+.track.done .dot.on { background: var(--muted); border-color: var(--muted); }
+.track.done .seg.on { background: var(--muted); }
+.track-labels { display: flex; justify-content: space-between; font: 500 10px var(--mono); letter-spacing: 0.08em; color: var(--muted); margin-top: 6px; text-transform: uppercase; }
+
+.manifest { background: var(--manila); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 14px; }
+.m-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.m-id { font: 500 11px var(--mono); letter-spacing: 0.12em; color: var(--muted); padding-top: 4px; }
+.m-title { display: flex; gap: 14px; align-items: center; }
+.m-title svg { width: 88px; height: 88px; flex: none; }
+.m-title h3 { font-size: 18px; line-height: 1.25; }
+.m-cls { display: block; font: 500 11px var(--mono); letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-top: 6px; }
+.m-field { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid var(--line); }
+.m-field span { font: 500 11px var(--mono); letter-spacing: 0.12em; color: var(--muted); }
+.m-field p { font-size: 15px; line-height: 1.45; white-space: pre-line; }
+.m-track { padding-top: 12px; border-top: 1px solid var(--line); }
+.journey { list-style: none; margin: 0; padding: 0; display: grid; }
+.journey li { display: grid; grid-template-columns: 52px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.45; white-space: pre-line; }
+.journey time { font: 500 11px var(--mono); letter-spacing: 0.08em; color: var(--muted); padding-top: 3px; white-space: nowrap; }
+.note { background: var(--rust-soft); border-radius: 14px; padding: 12px 14px; font-size: 14px; display: grid; gap: 10px; }
+.mini { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 6px; }
+.mini b { font-family: var(--display); font-size: 15px; }
+.ends { display: grid; gap: 8px; }
+.ends button { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; color: var(--ink); font: inherit; cursor: pointer; display: grid; gap: 2px; min-height: 48px; }
+.ends b { font-family: var(--display); font-size: 16px; }
+.ends span { font-size: 13px; color: var(--muted); }
+
+/* The thinking column */
+.side { display: grid; gap: 36px; min-width: 0; }
+.side section { display: grid; gap: 12px; }
+.side p { max-width: 62ch; }
+.steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; counter-increment: s; }
+.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--rust-soft); color: var(--rust); font: 700 15px var(--display); display: grid; place-items: center; }
+.points, .questions { margin: 0; padding-left: 20px; display: grid; gap: 8px; max-width: 62ch; }
+.endings { display: flex; flex-wrap: wrap; gap: 8px; }
+.endings span { font: 500 12px var(--mono); letter-spacing: 0.08em; border: 1.5px solid var(--muted); color: var(--muted); border-radius: 4px; padding: 4px 10px; }
+.cta { background: var(--manila); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: grid; gap: 10px; }
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="115" fill="#B8441F"/><polygon points="256,64 448,256 256,448 64,256" fill="#FAFAF9"/><polygon points="256,94 418,256 94,256" fill="#B8441F"/><path d="M200,256 A56,56 0 0 1 312,256 Z" fill="#FAFAF9"/><path d="M200,256 A56,56 0 0 0 312,256 Z" fill="#B8441F"/></svg>
+      Dangerous Goods · a concept from bitScribbles
+    </span>
+    <h1>A journal for the things you're carrying</h1>
+    <p class="lead">An early sketch, and we're looking for someone to shape it with us. Try the phone below: answer the question, declare something, add to its journey, then end a voyage. Everything in it is a made-up sample, and nothing you type is saved or sent.</p>
+  </header>
+
+  <div class="main">
+    <div class="phone" aria-label="App mockup">
+      <div class="screen">
+        <div class="bar"><span>9:41</span><span aria-hidden="true">●●●</span></div>
+
+        <!-- Today: the question -->
+        <div class="view" id="v-today">
+          <div class="topline"><span class="brand">DANGEROUS GOODS</span><span id="todayDate"></span></div>
+          <div class="question">
+            <h2 class="q-title" tabindex="-1">Any dangerous goods with you today?</h2>
+            <p class="meta" style="font-size:16px">Most days, nothing. Some days, something you're carrying.</p>
+            <div class="stack" id="answers">
+              <button class="btn btn-outline" id="nothingBtn" type="button">Nothing to declare</button>
+              <button class="btn btn-primary" id="onlyMeBtn" type="button">Only me</button>
+            </div>
+            <div class="cleared" id="cleared" hidden>
+              <span class="stamp" id="clearedStamp"></span>
+              <p>Nothing to declare. Safe travels.</p>
+              <button class="linkbtn" id="somethingBtn" type="button">Actually, there's something</button>
+            </div>
+          </div>
+          <button class="transit-card" id="transitCard" type="button">
+            <span><small>IN TRANSIT</small><span id="transitText"></span></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Only me: new, or one already carried? -->
+        <div class="view" id="v-which" hidden>
+          <button class="back" type="button" data-go="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Today</button>
+          <h2 tabindex="-1">Something new, or something you're already carrying?</h2>
+          <div class="list" id="whichList"></div>
+          <button class="btn btn-primary" type="button" data-go="declare">Declare something new</button>
+        </div>
+
+        <!-- Declare -->
+        <div class="view" id="v-declare" hidden>
+          <button class="back" type="button" data-go="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Today</button>
+          <h2 tabindex="-1">Declare it</h2>
+          <p class="meta">Write as much or as little as you like. Only the first line is needed.</p>
+          <form id="declareForm" class="stack" novalidate>
+            <div class="field"><label for="fTitle">What you're carrying</label><input id="fTitle" autocomplete="off" placeholder="e.g. Asking for a raise"></div>
+            <div class="field"><label for="fCls">Class · in your own words</label><input id="fCls" autocomplete="off" placeholder="e.g. A conversation with my boss"></div>
+            <div class="field"><label for="fDanger">Danger · to whom, to what</label><textarea id="fDanger"></textarea></div>
+            <div class="field"><label for="fGood">Good · what it could start</label><textarea id="fGood"></textarea></div>
+            <div class="field"><label for="fNotes">Handling notes</label><textarea id="fNotes" placeholder="Who needs to know? What would make it safer?"></textarea></div>
+            <p class="error" id="declareError" aria-live="polite"></p>
+            <button class="btn btn-primary" type="submit">Declare it</button>
+            <p class="sample">Mockup: nothing you type is saved or sent.</p>
+          </form>
+        </div>
+
+        <!-- Carrying -->
+        <div class="view" id="v-carry" hidden>
+          <h2 tabindex="-1" style="font-size:28px">What you're carrying</h2>
+          <p class="meta" style="margin-top:-8px">Journey before outcome.</p>
+          <span class="label-mono" id="openCount"></span>
+          <p class="meta" id="openEmpty" hidden>Nothing in transit right now.</p>
+          <div class="list" id="openList"></div>
+          <span class="label-mono" id="pastCount" style="padding-top:6px"></span>
+          <div class="list" id="pastList"></div>
+          <button class="linkbtn" type="button" data-go="declare">Declare something new</button>
+        </div>
+
+        <!-- One manifest -->
+        <div class="view" id="v-manifest" hidden>
+          <button class="back" type="button" data-go="carry"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Carrying</button>
+          <h2 class="label-mono" tabindex="-1" style="font-family:var(--mono)">Manifest</h2>
+          <article class="manifest" id="mCard"></article>
+          <h3>The journey</h3>
+          <ol class="journey" id="mJourney"></ol>
+          <p class="meta" id="mNoEntries">No entries yet. Add one as it moves.</p>
+          <div class="stack" id="entryBox">
+            <div class="field"><label for="entryText">Add to the journey</label><textarea id="entryText" placeholder="What happened? How does it feel now?"></textarea></div>
+            <button class="btn btn-primary" id="addEntry" type="button">Add entry</button>
+          </div>
+          <p class="live" id="mLive" aria-live="polite"></p>
+          <button class="btn btn-outline" id="shareBtn" type="button" aria-expanded="false" aria-controls="shareNote">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+            Share your manifest
+          </button>
+          <div class="note" id="shareNote" hidden>
+            <p>In the app, this turns the manifest into a card and opens your own messages app, so you choose who gets it. The app keeps no copy, and bitScribbles never sees it. Like a letter, the person you give it to could still show it to others.</p>
+            <div class="mini"><span class="stamp">HANDLE WITH CARE</span><span class="meta">You've been handed a manifest.</span><b id="miniTitle"></b></div>
+          </div>
+          <button class="linkbtn" id="endBtn" type="button" aria-expanded="false" aria-controls="endChoices">End this voyage</button>
+          <div class="ends" id="endChoices" hidden>
+            <button type="button" data-end="arrived"><b>Arrived</b><span>It got where it was going.</span></button>
+            <button type="button" data-end="jettisoned"><b>Jettisoned</b><span>You chose to let it go.</span></button>
+            <button type="button" data-end="lost"><b>Lost at sea</b><span>It slipped away. That happens.</span></button>
+          </div>
+          <p class="meta" id="endedLine" hidden>This voyage has ended. It stays under Past voyages.</p>
+          <button class="linkbtn" id="helpBtn" type="button" aria-expanded="false" aria-controls="helpNote">Need help now?</button>
+          <p class="note" id="helpNote" hidden>In the app, this opens support and crisis lines for where you are. It's on every manifest.</p>
+        </div>
+
+        <nav class="tabs" aria-label="App sections">
+          <button id="t-today" type="button" data-go="today" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"/></svg>Today</button>
+          <button id="t-carry" type="button" data-go="carry">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Carrying</button>
+        </nav>
+      </div>
+    </div>
+
+    <div class="side">
+      <section>
+        <h2>Where it started</h2>
+        <p>At a ferry ticket booth. The attendant asked whether there were any dangerous goods on board, and the answer was "Well, only me."</p>
+        <p>That's the idea. The dangerous good isn't a thing, it's the person carrying it. The danger might be a challenge to how things are done, a social issue, or something personal that's frightening at first. The good is the intention, the new start, the benefit at the end.</p>
+        <p>Real dangerous goods rules don't ban anything. They exist so risky things can travel: declare what it is, pack it properly, and tell the people handling it what to expect. The app works the same way.</p>
+      </section>
+
+      <section>
+        <h2>Journey before outcome</h2>
+        <p>It isn't a blank diary. Each thing you carry gets its own manifest: what it is, the danger, the good, and handling notes. Then it travels. Short entries mark how it's moving, until it reaches one of three endings, shown exactly alike, because none of them is a failure.</p>
+        <div class="endings" aria-label="The three endings"><span>ARRIVED</span><span>JETTISONED · LET GO ON PURPOSE</span><span>LOST AT SEA · IT SLIPPED AWAY</span></div>
+        <p>The question is the daily nudge. Most days the answer is "Nothing to declare."</p>
+      </section>
+
+      <section>
+        <h2>Three stages</h2>
+        <ol class="steps">
+          <li><p><b>A private journal.</b> Everything stays on the phone: no accounts, no server, and it works offline, like the other bitScribbles apps.</p></li>
+          <li><p><b>Share your manifest.</b> Hand one manifest to someone you trust, as a card sent through your own messages app. The app holds nothing that's shared.</p></li>
+          <li><p><b>Recruit your crew.</b> A few people sign on for one voyage: a support crew for a hard journey, or a shared voyage for something you're doing together. This needs a server, so the promise becomes "only your crew can read it", with end-to-end encryption so bitScribbles can't read it either.</p></li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Safe by design</h2>
+        <p>People will write down what they feel most exposed about, so the safety thinking comes first, not last.</p>
+        <ul class="points">
+          <li>Social as a gesture, not a network: no feed, no followers, no likes or comments.</li>
+          <li>A crew is for one voyage. The person who declared it invites and removes, anyone can leave quietly, and there are no read receipts or "seen" marks.</li>
+          <li>Asking is gentle and can always be declined. No streaks.</li>
+          <li>A lock, a discreet name and icon, and a quick way to hide or erase, for anyone whose phone gets checked.</li>
+          <li>Help lines reachable from every manifest, and an age minimum for anything social.</li>
+        </ul>
+      </section>
+
+      <section class="cta">
+        <h2>Where you'd come in</h2>
+        <p>There's no code yet. There's the idea, these mockups and a clear direction. We're looking for a collaborator who cares about it, in whatever way suits you:</p>
+        <ul class="points">
+          <li>Shaping what makes an entry easy to write on a hard day</li>
+          <li>Design, words and voice</li>
+          <li>Building it, starting as a web app like the other bitScribbles apps</li>
+          <li>Thinking through the crew stage: syncing, encryption, and what a crew member sees</li>
+        </ul>
+        <p>Interested? <a href="/contact.html">Say hello</a>.</p>
+      </section>
+
+      <section>
+        <h2>Questions to talk through</h2>
+        <ul class="questions">
+          <li>What would make you open it on a hard day, and what would put you off?</li>
+          <li>Should the question ever come to you, or only when you open the app?</li>
+          <li>What should a crew member see, and what can they do?</li>
+          <li>When a shared voyage ends, who decides how?</li>
+          <li>Is "Dangerous Goods" the right name?</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <footer>A bitScribbles concept, October 2026. Every manifest and entry in the mockup is a made-up sample.</footer>
+</div>
+
+<script>
+(function () {
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var ENDS = { arrived: 'Arrived', jettisoned: 'Jettisoned', lost: 'Lost at sea' };
+  function D(y, m, d) { return new Date(y, m, d); }
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  function stamp(d) { return d.getDate() + ' ' + MON[d.getMonth()].toUpperCase(); }
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  // Sample manifests (months count from 0: 9 is October).
+  var goods = [
+    { no: 5, title: 'Proposing a shared tool library at the strata meeting', cls: 'Changing how things are done',
+      danger: 'Some neighbours like things as they are. I might end up the odd one out.',
+      good: 'Fewer tools bought twice, and more neighbours who know each other.',
+      notes: "Talk to Marg first. Bring a one-page plan. It's fine if it takes two meetings.",
+      declared: D(2026, 9, 25), status: 'open', entries: [] },
+    { no: 4, title: "Telling the family I won't host Christmas this year", cls: 'A conversation',
+      danger: "It's been at our place for fifteen years. Someone may feel I'm walking away from it.",
+      good: 'A quieter December for us, and room for someone else to start a tradition of their own.',
+      notes: 'Tell my sister first. Say it early, not in December. Offer to bring dessert wherever it lands.',
+      declared: D(2026, 9, 8), status: 'open', entries: [
+        { d: D(2026, 9, 12), t: 'Told my sister first. She laughed and said it was about time.' },
+        { d: D(2026, 9, 18), t: "Wrote out what I want to say to Mum. Haven't sent it." },
+        { d: D(2026, 9, 22), t: 'Said it at Sunday dinner. Quiet for a minute, then Dad offered to do the turkey.' }] },
+    { no: 3, title: 'Signing up for the evening pottery class', cls: 'Something new for me',
+      danger: "I'll be the beginner in a room of people who know what they're doing.",
+      good: 'Something with my hands that has nothing to do with a screen.',
+      notes: 'Go to the first class before deciding anything.',
+      declared: D(2026, 7, 4), status: 'arrived', ended: D(2026, 8, 15), entries: [
+        { d: D(2026, 7, 10), t: 'Signed up and paid, so no backing out.' },
+        { d: D(2026, 7, 24), t: 'First class. My bowl looked like an ashtray. Laughed about it with the woman next to me.' },
+        { d: D(2026, 8, 15), t: 'Six weeks in. I look forward to Thursdays now.' }] },
+    { no: 2, title: 'Running for the community association board', cls: 'Stepping up',
+      danger: "Time I may not have, and arguments I may not enjoy.",
+      good: 'A say in the plans for the park.',
+      notes: 'Ask a current member what it really takes.',
+      declared: D(2026, 6, 2), status: 'jettisoned', ended: D(2026, 7, 20), entries: [
+        { d: D(2026, 6, 15), t: 'Coffee with Raj from the board. Four meetings a month, not one.' },
+        { d: D(2026, 7, 20), t: "Decided not to run this year. I'll help on the park committee instead." }] },
+    { no: 1, title: 'Learning Spanish before the spring trip', cls: 'Something new for me',
+      danger: 'Feeling foolish, and another app that nags me.',
+      good: 'Being able to talk to people, not just order coffee.',
+      notes: 'Ten minutes a day. Missing a day is fine.',
+      declared: D(2026, 5, 1), status: 'lost', ended: D(2026, 6, 28), entries: [
+        { d: D(2026, 5, 8), t: 'A week of ten minutes a day. Proud of that.' },
+        { d: D(2026, 6, 28), t: "Haven't opened the book in a month. It drifted." }] }
+  ];
+  var nextNo = 6, current = null;
+
+  function isOpen(g) { return !ENDS[g.status]; }
+  function stage(g) { return isOpen(g) ? (g.entries.length ? 1 : 0) : 2; }
+  function entriesText(n) { return n === 0 ? 'NO ENTRIES YET' : n + (n === 1 ? ' ENTRY' : ' ENTRIES'); }
+  function statusLine(g) {
+    var n = g.entries.length;
+    if (!isOpen(g)) return ENDS[g.status].toUpperCase() + ' · ' + entriesText(n) + ' · ' + stamp(g.ended);
+    if (!n) return 'DECLARED ' + stamp(g.declared) + ' · ' + entriesText(n);
+    return 'IN TRANSIT · ' + entriesText(n) + ' · LAST ' + stamp(g.entries[n - 1].d);
+  }
+  function diamond(size, ended) {
+    var c = ended ? 'var(--muted)' : 'var(--rust)';
+    var s = el('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'flex';
+    s.innerHTML = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 32 32"><polygon points="16,1 31,16 16,31 1,16" fill="' + c + '"/><polygon points="16,4 28,16 16,28 4,16" fill="var(--surface)"/><polygon points="16,4 28,16 4,16" fill="' + c + '"/></svg>';
+    return s;
+  }
+  function bigLabel(ended) {
+    var c = ended ? 'var(--muted)' : 'var(--rust)', t = ended ? 'var(--manila)' : 'var(--on-rust)';
+    var s = el('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'flex';
+    s.innerHTML = '<svg viewBox="0 0 116 116"><polygon points="58,0 116,58 58,116 0,58" fill="' + c + '"/><polygon points="58,6 110,58 58,110 6,58" fill="var(--manila)"/><polygon points="58,6 110,58 6,58" fill="' + c + '"/>' +
+      '<text x="58" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="1" fill="' + t + '">DANGER</text>' +
+      '<text x="58" y="78" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="1" fill="' + c + '">GOOD</text></svg>';
+    return s;
+  }
+  function track(g) {
+    var st = stage(g), w = el('div', 'track' + (isOpen(g) ? '' : ' done'));
+    w.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 3; i++) {
+      w.appendChild(el('span', 'dot' + (i <= st ? ' on' : '')));
+      if (i < 2) w.appendChild(el('span', 'seg' + (i < st ? ' on' : '')));
+    }
+    return w;
+  }
+  function byNewest(key) { return function (a, b) { return b[key] - a[key]; }; }
+  function openGoods() { return goods.filter(isOpen).sort(byNewest('declared')); }
+
+  // --- Navigation
+  var TAB = { today: 'today', which: 'today', declare: 'today', carry: 'carry', manifest: 'carry' };
+  function go(v, focus) {
+    Object.keys(TAB).forEach(function (k) { $('v-' + k).hidden = k !== v; });
+    ['today', 'carry'].forEach(function (t) {
+      if (TAB[v] === t) $('t-' + t).setAttribute('aria-current', 'page'); else $('t-' + t).removeAttribute('aria-current');
+    });
+    if (v === 'today') renderToday();
+    if (v === 'which') renderWhich();
+    if (v === 'carry') renderCarry();
+    $('v-' + v).scrollTop = 0;
+    if (focus !== false) { var h = $('v-' + v).querySelector('h2'); if (h) h.focus(); }
+  }
+  document.querySelectorAll('[data-go]').forEach(function (b) {
+    b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+  });
+
+  // --- Today
+  $('todayDate').textContent = DOW[today.getDay()].toUpperCase() + ' ' + stamp(today);
+  function renderToday() {
+    var n = openGoods().length;
+    $('transitCard').hidden = n === 0;
+    $('transitText').textContent = n + (n === 1 ? " thing you're carrying" : " things you're carrying");
+  }
+  function onlyMe() { if (openGoods().length) go('which'); else go('declare'); }
+  $('onlyMeBtn').addEventListener('click', onlyMe);
+  $('somethingBtn').addEventListener('click', onlyMe);
+  $('nothingBtn').addEventListener('click', function () {
+    $('answers').hidden = true; $('cleared').hidden = false;
+    $('clearedStamp').textContent = 'CLEARED · ' + stamp(today);
+  });
+  $('transitCard').addEventListener('click', function () { go('carry'); });
+
+  // --- New, or one already carried?
+  function goodButton(g, onPick) {
+    var b = el('button', 'good' + (isOpen(g) ? '' : ' past')); b.type = 'button';
+    var top = el('span', 'good-top');
+    top.appendChild(diamond(isOpen(g) ? 30 : 24, !isOpen(g)));
+    top.appendChild(el('span', 'good-title', g.title));
+    b.appendChild(top);
+    if (isOpen(g)) b.appendChild(track(g));
+    b.appendChild(el('span', 'good-meta', statusLine(g)));
+    b.addEventListener('click', onPick);
+    return b;
+  }
+  function renderWhich() {
+    var list = $('whichList'); list.innerHTML = '';
+    openGoods().forEach(function (g) {
+      list.appendChild(goodButton(g, function () { openManifest(g, true); }));
+    });
+  }
+
+  // --- Declare
+  $('declareForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var title = $('fTitle').value.trim();
+    if (!title) { $('declareError').textContent = "Name what you're carrying first. A few words is plenty."; $('fTitle').focus(); return; }
+    var g = { no: nextNo++, title: title, cls: $('fCls').value.trim(), danger: $('fDanger').value.trim(),
+      good: $('fGood').value.trim(), notes: $('fNotes').value.trim(), declared: new Date(today.getTime()), status: 'open', entries: [] };
+    goods.push(g);
+    $('declareForm').reset(); $('declareError').textContent = '';
+    openManifest(g, false);
+    $('mLive').textContent = 'Declared. It travels with you now.';
+  });
+
+  // --- Carrying
+  function renderCarry() {
+    var open = openGoods(), past = goods.filter(function (g) { return !isOpen(g); }).sort(byNewest('ended'));
+    $('openCount').textContent = 'CARRYING · ' + open.length;
+    $('pastCount').textContent = 'PAST VOYAGES · ' + past.length;
+    $('openEmpty').hidden = open.length > 0;
+    [['openList', open], ['pastList', past]].forEach(function (pair) {
+      var list = $(pair[0]); list.innerHTML = '';
+      pair[1].forEach(function (g) { list.appendChild(goodButton(g, function () { openManifest(g, false); })); });
+    });
+  }
+
+  // --- One manifest
+  function field(label, text) {
+    var f = el('div', 'm-field'); f.appendChild(el('span', null, label)); f.appendChild(el('p', null, text)); return f;
+  }
+  function renderManifest() {
+    var g = current, ended = !isOpen(g), card = $('mCard');
+    card.innerHTML = '';
+    var head = el('div', 'm-head');
+    head.appendChild(el('span', 'm-id', 'No. ' + ('00' + g.no).slice(-3)));
+    head.appendChild(el('span', 'stamp' + (ended ? ' ended' : ''), (ended ? ENDS[g.status].toUpperCase() : 'DECLARED') + ' · ' + stamp(ended ? g.ended : g.declared)));
+    card.appendChild(head);
+    var t = el('div', 'm-title'); t.appendChild(bigLabel(ended));
+    var tt = el('div'); tt.appendChild(el('h3', null, g.title));
+    if (g.cls) tt.appendChild(el('span', 'm-cls', 'Class · ' + g.cls));
+    t.appendChild(tt); card.appendChild(t);
+    if (g.danger) card.appendChild(field('DANGER · TO WHOM, TO WHAT', g.danger));
+    if (g.good) card.appendChild(field('GOOD · WHAT IT COULD START', g.good));
+    if (g.notes) card.appendChild(field('HANDLING NOTES', g.notes));
+    var tr = el('div', 'm-track'); tr.appendChild(track(g));
+    var labels = el('div', 'track-labels');
+    labels.appendChild(el('span', null, 'Declared')); labels.appendChild(el('span', null, 'In transit'));
+    labels.appendChild(el('span', null, ended ? ENDS[g.status] : 'Destination'));
+    tr.appendChild(labels); card.appendChild(tr);
+
+    var j = $('mJourney'); j.innerHTML = '';
+    g.entries.forEach(function (en) {
+      var li = el('li'); var tm = el('time', null, stamp(en.d)); tm.dateTime = en.d.toISOString().slice(0, 10);
+      li.appendChild(tm); li.appendChild(el('span', null, en.t)); j.appendChild(li);
+    });
+    j.hidden = g.entries.length === 0;
+    $('mNoEntries').hidden = g.entries.length > 0;
+    $('entryBox').hidden = ended;
+    $('endBtn').hidden = ended; $('endedLine').hidden = !ended;
+    $('miniTitle').textContent = g.title;
+  }
+  function openManifest(g, focusEntry) {
+    current = g;
+    ['shareNote', 'endChoices', 'helpNote'].forEach(function (id) { $(id).hidden = true; });
+    ['shareBtn', 'endBtn', 'helpBtn'].forEach(function (id) { $(id).setAttribute('aria-expanded', 'false'); });
+    $('mLive').textContent = ''; $('entryText').value = '';
+    renderManifest();
+    go('manifest', !focusEntry);
+    if (focusEntry) $('entryText').focus();
+  }
+  $('addEntry').addEventListener('click', function () {
+    var text = $('entryText').value.trim();
+    if (!text) { $('mLive').textContent = 'Write a few words first.'; $('entryText').focus(); return; }
+    current.entries.push({ d: new Date(today.getTime()), t: text });
+    $('entryText').value = '';
+    renderManifest();
+    $('mLive').textContent = 'Added to the journey.';
+  });
+  function toggle(btnId, boxId) {
+    $(btnId).addEventListener('click', function () {
+      var show = $(boxId).hidden; $(boxId).hidden = !show; $(btnId).setAttribute('aria-expanded', String(show));
+    });
+  }
+  toggle('shareBtn', 'shareNote'); toggle('endBtn', 'endChoices'); toggle('helpBtn', 'helpNote');
+  document.querySelectorAll('#endChoices button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      current.status = b.getAttribute('data-end'); current.ended = new Date(today.getTime());
+      $('endChoices').hidden = true;
+      renderManifest();
+      $('mLive').textContent = ENDS[current.status] + '. It stays with your past voyages.';
+    });
+  });
+
+  go('today', false);
+})();
+</script>
+
+</body>
+</html>
