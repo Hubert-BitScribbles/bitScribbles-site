@@ -177,7 +177,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
               <circle class="arc" id="periodArc" cx="120" cy="120" r="100" fill="none" stroke="var(--berry)" stroke-width="16" stroke-linecap="round" transform="rotate(-90 120 120)"></circle>
               <circle id="todayDot" cx="120" cy="20" r="11" fill="var(--surface)" stroke="var(--ink)" stroke-width="4"></circle>
             </svg>
-            <div class="ring-text"><span class="ring-sub" id="ringLabel">Day</span><span class="ring-day" id="ringDay">12</span><span class="ring-sub" id="ringOf">of about 28</span></div>
+            <div class="ring-text"><span class="ring-sub" id="ringLabel">Period in about</span><span class="ring-day" id="ringDay" style="font-size:44px">18 days</span><span class="ring-sub" id="ringOf">Cycle day 12</span></div>
           </div>
           <p class="next" id="nextLine">Next period around <strong>Sat, 14 Nov</strong></p>
           <div class="ask" id="stillGoing" hidden>
@@ -187,7 +187,9 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <p class="meta">Or it ended on:</p>
             <div class="seg" id="endChoices"></div>
           </div>
-          <button class="primary" id="mainBtn" type="button">Period started</button>
+          <button class="primary" id="mainBtn" type="button">My period started today</button>
+          <button class="linkbtn" id="earlierBtn" type="button" aria-expanded="false" aria-controls="earlierChoices">It started on an earlier day</button>
+          <div class="seg" id="earlierChoices" hidden style="justify-content:center"></div>
           <p class="sample" id="mainHint">Tap it once to see the period view.</p>
           <button class="linkbtn" id="editBtn" type="button" aria-expanded="false" aria-controls="datesPanel">Change dates</button>
           <div class="dates" id="datesPanel" hidden>
@@ -347,7 +349,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
       <section class="plain">
         <h2>Forgetting to tap, and fixing dates</h2>
-        <p>If a period runs past the person's usual length without "ended" being tapped, Today asks "Still going?" and offers the likely end days, so one tap puts it right. "Change dates" moves the start or end of the latest period a day at a time, and older ones are changed from History. In the mockup, start a period, then use "skip ahead to day 7" to see it.</p>
+        <p>If a period runs past the person's usual length without its end being logged, Today asks "Still going?" and offers the likely end days, so one tap puts it right. "Change dates" moves the start or end of the latest period a day at a time, and older ones are changed from History. In the mockup, start a period, then use "skip ahead to day 7" to see it.</p>
       </section>
 
       <section class="plain">
@@ -457,8 +459,10 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       $('ringDay').style.fontSize = '44px';
       $('ringOf').textContent = 'usually 4–6 days';
       $('nextLine').innerHTML = day === 1 ? 'Started today, <strong>' + f(state.start) + '</strong>' : 'Started <strong>' + f(state.start) + '</strong>';
-      $('mainBtn').textContent = 'Period ended';
-      $('mainHint').textContent = overdue ? (state.asked ? 'OK. The app will ask again in a couple of days.' : '') : 'Forget to tap "ended"? After your usual length, the app asks "Still going?"';
+      $('mainBtn').textContent = 'My period has ended';
+      $('earlierBtn').textContent = 'It ended on an earlier day';
+      $('earlierBtn').hidden = day < 2;
+      $('mainHint').textContent = overdue ? (state.asked ? 'OK. The app will ask again in a couple of days.' : '') : 'Forget to log the end? After your usual length, the app asks "Still going?"';
       if (overdue && !state.asked) {
         $('askText').textContent = 'Your periods usually last 4–6 days, and today is day ' + day + '.';
         var box = $('endChoices'); box.innerHTML = '';
@@ -471,13 +475,17 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         }
       }
     } else {
-      $('ringLabel').textContent = 'Day';
-      $('ringDay').textContent = String(day);
-      $('ringDay').style.fontSize = '';
-      $('ringOf').textContent = 'of about ' + LEN;
-      $('nextLine').innerHTML = 'Next period around <strong>' + f(add(state.start, LEN)) + '</strong><br><span class="meta">Last period ' + f(state.start) + ' to ' + f(add(state.start, state.len - 1)) + '</span>';
-      $('mainBtn').textContent = 'Period started';
-      $('mainHint').textContent = 'Tap it once to see the period view.';
+      var until = diff(add(state.start, LEN), state.now);
+      $('ringDay').style.fontSize = '44px';
+      if (until > 1) { $('ringLabel').textContent = 'Period in about'; $('ringDay').textContent = until + ' days'; }
+      else if (until === 1) { $('ringLabel').textContent = 'Period likely'; $('ringDay').textContent = 'tomorrow'; }
+      else { $('ringLabel').textContent = 'Period likely'; $('ringDay').textContent = 'any day'; }
+      $('ringOf').textContent = 'Cycle day ' + day;
+      $('nextLine').innerHTML = 'Expected around <strong>' + f(add(state.start, LEN)) + '</strong><br><span class="meta">Last period ' + f(state.start) + ' to ' + f(add(state.start, state.len - 1)) + '</span>';
+      $('mainBtn').textContent = 'My period started today';
+      $('earlierBtn').textContent = 'It started on an earlier day';
+      $('earlierBtn').hidden = false;
+      $('mainHint').textContent = 'Mockup: tap the button to see the period view.';
     }
     renderPlan();
     renderUsual();
@@ -547,7 +555,28 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     });
   });
   document.getElementById('noteText').addEventListener('input', saved);
+  function closeEarlier() { $('earlierChoices').hidden = true; $('earlierBtn').setAttribute('aria-expanded', 'false'); }
+  $('earlierBtn').addEventListener('click', function () {
+    var box = $('earlierChoices');
+    if (!box.hidden) { closeEarlier(); return; }
+    box.innerHTML = '';
+    var day = diff(state.now, state.start) + 1;
+    for (var k = 1; k <= 3; k++) {
+      if (state.mode === 'period' && day - k < 1) break;
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.textContent = k === 1 ? 'Yesterday' : f(add(state.now, -k));
+      b.addEventListener('click', (function (k) { return function () {
+        if (state.mode === 'period') { state.mode = 'between'; state.len = day - k; }
+        else { state.mode = 'period'; state.start = add(state.now, -k); state.len = 1; state.asked = false; }
+        closeEarlier(); render();
+      }; })(k));
+      box.appendChild(b);
+    }
+    box.hidden = false; $('earlierBtn').setAttribute('aria-expanded', 'true');
+  });
   document.getElementById('mainBtn').addEventListener('click', function () {
+    closeEarlier();
     if (state.mode === 'period') {
       state.mode = 'between';
       state.len = diff(state.now, state.start) + 1;
