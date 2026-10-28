@@ -14,6 +14,8 @@ a{color:inherit;}
 .wordmark{display:inline-flex; align-items:baseline; gap:2px; text-decoration:none; white-space:nowrap;}
 .wordmark .bit{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--teal); font-size:20px;}
 .wordmark .scr{font-family:'Caveat',cursive; font-weight:700; font-size:32.4px; line-height:1;}
+.brand{display:flex; align-items:center; gap:16px; text-decoration:none;}
+.brand-symbol{width:56px; height:56px; flex:none; display:block;}
 .lockup{flex-direction:column; align-items:flex-start; gap:3px;}
 .lockup .wm{display:inline-flex; align-items:baseline; gap:2px;}
 .lockup .bit{font-size:24px;}
