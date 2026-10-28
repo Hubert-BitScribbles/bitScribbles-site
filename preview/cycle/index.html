@@ -125,6 +125,15 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .res a { color: var(--berry); font-weight: 700; text-underline-offset: 3px; }
 .res .num { font-variant-numeric: tabular-nums; }
 .region { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 14px; }
+.view input[type="search"], .addtag input { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.addtag { display: flex; gap: 8px; }
+.addtag input { flex: 1; min-width: 0; background: var(--bg); }
+.htrack.gap { background: none; border: 1.5px dashed var(--muted); }
+.years details { border-top: 1px solid var(--line); padding: 10px 0; }
+.years summary { cursor: pointer; font-weight: 700; }
+.years summary span { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+.timeline svg { width: 100%; height: auto; display: block; }
+.hnote { font-style: italic; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -199,7 +208,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           </div>
           <button class="demo" id="skipBtn" type="button" hidden>Mockup only: skip ahead to day 7</button>
           <div class="details" id="details" hidden>
-            <h3>Today's details <span class="meta" style="font-weight:400">· optional</span></h3>
+            <h3><span id="dayHead">Today</span> <span class="meta" style="font-weight:400">· optional</span></h3>
             <fieldset>
               <legend>Flow</legend>
               <div class="seg" data-group="flow"><button type="button" aria-pressed="false">Spotting</button><button type="button" aria-pressed="false">Light</button><button type="button" aria-pressed="false">Medium</button><button type="button" aria-pressed="false">Heavy</button></div>
@@ -208,13 +217,17 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
               <legend>Discomfort</legend>
               <div class="seg" data-group="pain"><button type="button" aria-pressed="false">None</button><button type="button" aria-pressed="false">Mild</button><button type="button" aria-pressed="false">Moderate</button><button type="button" aria-pressed="false">Strong</button></div>
             </fieldset>
-            <fieldset>
-              <legend>Going on this cycle</legend>
-              <div class="tags"><button type="button" aria-pressed="false">Travel</button><button type="button" aria-pressed="false">Unwell</button><button type="button" aria-pressed="false">Stressed</button><button type="button" aria-pressed="false">New medication</button><button type="button" aria-pressed="false">Big training</button><button type="button" aria-pressed="false">Moved home</button></div>
-            </fieldset>
+            <p class="meta">For today only. Skip any day and nothing is lost; History sums up the period for you.</p>
+            <p class="saved" id="savedLine" aria-live="polite"></p>
+          </div>
+          <div class="details" id="cycleCard">
+            <h3>This cycle <span class="meta" style="font-weight:400">· optional</span></h3>
+            <p class="meta">Tags and a note for the whole cycle, not just one day.</p>
+            <div class="tags" id="tagBox" role="group" aria-label="Tags for this cycle"></div>
+            <div class="addtag"><label for="newTag" class="meta" style="position:absolute;left:-9999px">New tag</label><input id="newTag" type="text" placeholder="Add your own tag" maxlength="24"><button class="quiet" id="addTagBtn" type="button">Add</button></div>
             <label for="noteText">Note</label>
             <textarea id="noteText" placeholder="Anything you want to remember, in your own words"></textarea>
-            <p class="saved" id="savedLine" aria-live="polite"></p>
+            <p class="saved" id="savedLine2" aria-live="polite"></p>
           </div>
           <div class="nudge"><span>Need pads or tampons today?</span><button type="button" data-go="find">Find free products</button></div>
           <div class="plan">
@@ -251,11 +264,25 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
         <!-- History -->
         <div class="view" id="v-hist" role="tabpanel" aria-labelledby="t-hist" hidden>
-          <h2>Your last six cycles</h2>
-          <div class="usual"><span class="meta">From your last 6 cycles</span><strong>About 29 days</strong><span>Range 27–31 days · periods 4–6 days</span><span class="meta">Steady: every cycle within 2 days of your average.</span></div>
-          <div class="hist" id="hist" aria-label="Cycle lengths"></div>
-          <div class="usual"><span class="meta">Period from 19 Sep · 5 days</span><span><b>Flow:</b> medium, heavy on day 2, then light</span><span><b>Discomfort:</b> mild on days 1–2</span><span class="meta">"Started at work, glad I had pads in my bag."</span></div>
-          <p class="meta">Berry is the period, grey the rest of the cycle. A longer or shorter cycle is just shown, never judged. Tap a period to change its dates or details.</p>
+          <h2>History</h2>
+          <div class="usual" id="summary"></div>
+          <div class="ask" id="gapAsk">
+            <h3>A gap in your record</h3>
+            <p class="meta">No period was logged between 2 Feb and 29 Apr, 86 days. Was there one in between?</p>
+            <div class="seg"><button type="button" data-gap="missed" aria-pressed="false">Yes, I didn't log it</button><button type="button" data-gap="skipped" aria-pressed="false">No, I didn't have one</button><button type="button" data-gap="unsure" aria-pressed="false">Not sure</button></div>
+          </div>
+          <label for="histSearch" class="meta">Search tags and notes</label>
+          <input type="search" id="histSearch" placeholder="Try “travel” or “work”">
+          <div class="tags" id="tagFilter" role="group" aria-label="Show cycles with a tag"></div>
+          <p class="status" id="filterStatus" aria-live="polite"></p>
+          <div class="hist" id="hist" aria-label="Cycles, newest first"></div>
+          <div class="usual"><span class="meta">Period from 19 Sep · 5 days, summed up from the days logged</span><span><b>Flow:</b> medium, heavy on day 2, then light</span><span><b>Discomfort:</b> mild on days 1–2</span></div>
+          <p class="meta">Berry is the period, grey the rest of the cycle, dashed a gap. Nothing is judged. Tap a cycle to change its dates, tags or note.</p>
+          <h3>Year by year</h3>
+          <div class="years" id="years"></div>
+          <h3>All your periods</h3>
+          <div class="timeline" id="timeline" aria-label="Timeline of periods since 2023"></div>
+          <p class="meta">One mark per period. Gaps show as dashes, a pause as a shaded band.</p>
           <div class="dates" id="usualCard">
             <h3>My usual</h3>
             <p class="meta">What you'd expect from your own experience. New here? This is used until three cycles are logged.</p>
@@ -337,14 +364,21 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
       <section class="plain">
         <h2>Details, only if you want them</h2>
-        <p>During a period, the Today screen offers flow, discomfort and a note in your own words. Each is one tap or a few words, all optional, and saved on the phone only. History shows them back for each period, which is the record someone might take to their own doctor.</p>
+        <p><b>Each day:</b> flow and discomfort change from day to day, so during a period Today offers them for that day only. Skip any day and nothing is lost. History sums up each period ("heavy on day 2, then light"), which is the record someone might take to their own doctor.</p>
+        <p><b>Each cycle:</b> tags and a note describe the whole stretch, such as travel or a new job. There are a few starter tags, and people add their own in their own words. History can search tags and notes, or show only cycles with one tag, with their typical length beside the overall one. That's how a person spots their own patterns.</p>
       </section>
 
       <section class="plain">
         <h2>What's usual, what's changing, what's ahead</h2>
-        <p><b>My usual</b> (in History) lets anyone who knows their cycle enter it by hand. It's used until three cycles are logged, and they can choose to keep predicting from it. History shows the average, the range and any cycle well off it, without judging it.</p>
+        <p><b>My usual</b> (in History) lets anyone who knows their cycle enter it by hand. It's used until three cycles are logged, and they can choose to keep predicting from it. History shows the typical length (the middle value, so one odd cycle doesn't pull it), the range and any cycle well off it, without judging it.</p>
         <p><b>Planning ahead</b> (on Today) takes a date, such as a trip or a race, and says whether a period is likely then. Ranges widen the further ahead they go.</p>
-        <p><b>Going on this cycle</b> lets people tag things like travel or illness, shown beside each cycle in History, so they can spot their own patterns. Some people wonder whether the moon or living with others affects their cycle. The evidence for syncing is weak, and for the moon it's unsettled, so the app makes no claims either way.</p>
+        <p>Some people wonder whether the moon or living with others affects their cycle. The evidence for syncing is weak, and for the moon it's unsettled, so the app makes no claims either way.</p>
+      </section>
+
+      <section class="plain">
+        <h2>Years of records, gaps included</h2>
+        <p>A missing record assumes nothing. When a period is logged after a much longer gap than usual, the app asks once whether one went unlogged. "I didn't have one" counts as a long cycle, which matters most around perimenopause. "I didn't log it" or "Not sure" leaves a marked gap that's shown but left out of the numbers. A chosen pause, such as pregnancy or hormonal contraception, is set aside.</p>
+        <p>Trends say how complete they are, and predictions use recent cycles, since cycles change with age. History shows recent cycles in detail, a row per year, and one timeline of every period across the years. Try the gap question in History.</p>
       </section>
 
       <section class="plain">
@@ -419,9 +453,10 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
   // --- Today: ring, the one button, "Still going?" and date changes
   var C = 2 * Math.PI * 100, LEN = 28, USUAL_MAX = 6, DAY = 864e5;
-  var HIST = [29, 28, 30, 28, 31, 27];
+  var HIST = [28, 29, 30, 29, 28, 27];
+  function median(a) { var s = a.slice().sort(function (x, y) { return x - y; }), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
   var usual = { cycle: 28, period: 5, src: 'history' };
-  function cycleLen() { return usual.src === 'history' ? Math.round(HIST.reduce(function (a, b) { return a + b; }) / HIST.length) : usual.cycle; }
+  function cycleLen() { return usual.src === 'history' ? Math.round(median(HIST)) : usual.cycle; }
   function spread() { return usual.src === 'history' ? Math.ceil((Math.max.apply(null, HIST) - Math.min.apply(null, HIST)) / 2) : 2; }
   var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -459,6 +494,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       $('ringDay').style.fontSize = '44px';
       $('ringOf').textContent = 'usually 4–6 days';
       $('nextLine').innerHTML = day === 1 ? 'Started today, <strong>' + f(state.start) + '</strong>' : 'Started <strong>' + f(state.start) + '</strong>';
+      $('dayHead').textContent = 'Today, period day ' + day;
       $('mainBtn').textContent = 'My period has ended';
       $('earlierBtn').textContent = 'It ended on an earlier day';
       $('earlierBtn').hidden = day < 2;
@@ -539,11 +575,32 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   });
   $('planDate').addEventListener('input', renderPlan);
   $('planDate').addEventListener('change', renderPlan);
-  document.querySelectorAll('.tags button').forEach(function (b) {
-    b.addEventListener('click', function () { b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); saved(); });
-  });
-  var savedLine = document.getElementById('savedLine');
-  function saved() { savedLine.textContent = 'Saved on this phone'; }
+
+  function saved(el) { (el || $('savedLine')).textContent = 'Saved on this phone'; }
+  // Tags: a few starters, plus the person's own
+  var tagList = ['Travel', 'Unwell', 'Stressed', 'New medication', 'Big training', 'Moved home'];
+  var tagOn = {};
+  function renderTags() {
+    var box = $('tagBox'); box.innerHTML = '';
+    tagList.forEach(function (t) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = t;
+      b.setAttribute('aria-pressed', String(!!tagOn[t]));
+      b.addEventListener('click', function () { tagOn[t] = !tagOn[t]; renderTags(); saved($('savedLine2')); });
+      box.appendChild(b);
+    });
+  }
+  function addTag() {
+    var v = $('newTag').value.trim();
+    if (!v) return;
+    var found = tagList.filter(function (t) { return t.toLowerCase() === v.toLowerCase(); })[0];
+    if (!found) { tagList.push(v); found = v; }
+    tagOn[found] = true; $('newTag').value = '';
+    renderTags(); saved($('savedLine2'));
+    if (window.renderFilter) window.renderFilter();
+  }
+  $('addTagBtn').addEventListener('click', addTag);
+  $('newTag').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); addTag(); } });
+  renderTags();
   document.querySelectorAll('.details .seg').forEach(function (g) {
     g.querySelectorAll('button').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -554,7 +611,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       });
     });
   });
-  document.getElementById('noteText').addEventListener('input', saved);
+  document.getElementById('noteText').addEventListener('input', function () { saved($('savedLine2')); });
   function closeEarlier() { $('earlierChoices').hidden = true; $('earlierBtn').setAttribute('aria-expanded', 'false'); }
   $('earlierBtn').addEventListener('click', function () {
     var box = $('earlierChoices');
@@ -656,29 +713,136 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   });
   byTown();
 
-  // --- History: sample cycles
-  var hist = [['Sep 19', 29, 5, []], ['Aug 22', 28, 5, []], ['Jul 24', 30, 6, ['Travel']], ['Jun 26', 28, 4, []], ['May 27', 31, 5, ['Unwell', 'Stressed']], ['Apr 29', 27, 5, []]];
-  var avg = HIST.reduce(function (a, b) { return a + b; }) / HIST.length;
-  var hEl = document.getElementById('hist');
-  hist.forEach(function (h) {
-    var row = document.createElement('div'); row.className = 'hrow';
-    row.innerHTML = '<span></span><span class="htrack"><span class="hfill"></span><span class="hper"></span></span><span class="hnum"></span>';
-    row.children[0].textContent = h[0];
-    row.querySelector('.hfill').style.width = (h[1] / 35 * 100) + '%';
-    row.querySelector('.hper').style.width = (h[2] / 35 * 100) + '%';
-    row.children[2].textContent = h[1];
-    row.setAttribute('aria-label', 'Started ' + h[0] + ': ' + h[1] + ' day cycle, ' + h[2] + ' day period');
-    hEl.appendChild(row);
-    var dev = Math.round(h[1] - avg);
-    if (h[3].length || Math.abs(dev) >= 2) {
-      var ex = document.createElement('div'); ex.className = 'hrow';
-      var inner = document.createElement('div'); inner.className = 'hextra';
-      if (Math.abs(dev) >= 2) { var t = document.createElement('span'); t.textContent = Math.abs(dev) + ' days ' + (dev > 0 ? 'longer' : 'shorter') + ' than your average'; inner.appendChild(t); }
-      h[3].forEach(function (tag) { var c = document.createElement('span'); c.className = 'chip tag'; c.textContent = tag; inner.appendChild(c); });
-      ex.appendChild(inner);
-      hEl.appendChild(ex);
+  // --- History: years of cycles, gaps included (sample data)
+  function D(y, m, d) { return new Date(y, m - 1, d); }
+  var starts = [D(2026, 10, 17), D(2026, 9, 19), D(2026, 8, 21), D(2026, 7, 22), D(2026, 6, 23), D(2026, 5, 26), D(2026, 4, 29), D(2026, 2, 2), D(2026, 1, 4), D(2025, 12, 6), D(2025, 11, 7), D(2025, 10, 9)];
+  var info = {
+    1: { per: 5, note: 'Started at work, glad I had pads in my bag.' },
+    3: { per: 6, tags: ['Travel'], note: 'Trip to Tofino.' },
+    5: { per: 4, tags: ['Unwell', 'Stressed'], note: 'Bad cold, big week at work.' },
+    9: { tags: ['Travel'], note: 'Holidays away.' }
+  };
+  var cycles = [];
+  for (var i = 1; i < starts.length; i++) {
+    var clen = diff(starts[i - 1], starts[i]), o = info[i] || {};
+    cycles.push({ s: starts[i], e: starts[i - 1], len: clen, per: o.per || 5, tags: o.tags || [], note: o.note || '', kind: clen > 60 ? 'ask' : 'cycle' });
+  }
+  var gapC = cycles.filter(function (c) { return c.kind === 'ask'; })[0];
+  var hEl = $('hist'), q = '', activeTag = '';
+  function typicalAll() { return Math.round(median(cycles.filter(function (c) { return c.kind === 'cycle'; }).map(function (c) { return c.len; }))); }
+  function gapWords() {
+    var span = dm(gapC.s) + ' to ' + dm(gapC.e);
+    return {
+      ask: 'One gap of ' + gapC.len + ' days (' + span + ') is waiting for your answer, so it isn’t counted yet.',
+      missed: 'One gap of ' + gapC.len + ' days (' + span + ') wasn’t logged, so it’s left out.',
+      unsure: 'One gap of ' + gapC.len + ' days (' + span + ') is left out, since you weren’t sure.',
+      skipped: 'Includes one long cycle of ' + gapC.len + ' days (' + span + ') with no period.'
+    }[gapC.kind];
+  }
+  function renderSummary() {
+    var norm = cycles.filter(function (c) { return c.kind === 'cycle'; }).map(function (c) { return c.len; });
+    var counted = norm.length + (gapC.kind === 'skipped' ? 1 : 0);
+    $('summary').innerHTML = '<span class="meta">Past 12 months · ' + counted + ' cycles counted</span><strong>Typically ' + typicalAll() + ' days</strong><span>Range ' + Math.min.apply(null, norm) + '–' + Math.max.apply(null, norm) + ' days' + (gapC.kind === 'skipped' ? ', plus one long cycle' : '') + ' · periods 4–6 days</span><span class="meta">' + gapWords() + '</span><span class="meta">“Typically” is the middle value, so one odd cycle doesn’t pull it.</span>';
+    $('gapAsk').hidden = gapC.kind !== 'ask';
+  }
+  function matches(c) {
+    if (!q && !activeTag) return true;
+    if (c.kind !== 'cycle') return false;
+    if (activeTag && c.tags.indexOf(activeTag) < 0) return false;
+    if (q && (c.tags.join(' ') + ' ' + c.note).toLowerCase().indexOf(q) < 0) return false;
+    return true;
+  }
+  function renderRows() {
+    hEl.innerHTML = '';
+    var typ = typicalAll(), shown = cycles.filter(matches);
+    shown.forEach(function (c) {
+      var row = document.createElement('div'); row.className = 'hrow';
+      var gapLike = c.kind !== 'cycle';
+      row.innerHTML = '<span></span><span class="htrack' + (gapLike && c.kind !== 'skipped' ? ' gap' : '') + '"><span class="hfill"></span><span class="hper"></span></span><span class="hnum"></span>';
+      row.children[0].textContent = dm(c.s);
+      row.querySelector('.hfill').style.width = (gapLike && c.kind !== 'skipped' ? 0 : Math.min(c.len / 35, 1) * 100) + '%';
+      row.querySelector('.hper').style.width = (c.kind === 'cycle' || c.kind === 'skipped' ? c.per / 35 * 100 : 0) + '%';
+      row.children[2].textContent = c.len;
+      row.setAttribute('aria-label', 'From ' + dm(c.s) + ': ' + c.len + ' days');
+      hEl.appendChild(row);
+      var bits = [];
+      if (c.kind === 'ask') bits.push('No period logged for ' + c.len + ' days. Answer above.');
+      if (c.kind === 'missed') bits.push('Not logged · left out of trends');
+      if (c.kind === 'unsure') bits.push('Not sure · left out of trends');
+      if (c.kind === 'skipped') bits.push('No period · counted as a long cycle');
+      var dev = c.len - typ;
+      if (c.kind === 'cycle' && Math.abs(dev) >= 2) bits.push(Math.abs(dev) + ' days ' + (dev > 0 ? 'longer' : 'shorter') + ' than typical');
+      if (bits.length || c.tags.length || c.note) {
+        var ex = document.createElement('div'); ex.className = 'hrow';
+        var inner = document.createElement('div'); inner.className = 'hextra';
+        bits.forEach(function (t) { var s = document.createElement('span'); s.textContent = t; inner.appendChild(s); });
+        c.tags.forEach(function (tag) { var ch = document.createElement('span'); ch.className = 'chip tag'; ch.textContent = tag; inner.appendChild(ch); });
+        if (c.note) { var n = document.createElement('span'); n.className = 'hnote'; n.textContent = '“' + c.note + '”'; inner.appendChild(n); }
+        ex.appendChild(inner); hEl.appendChild(ex);
+      }
+    });
+    var st = '';
+    if (q || activeTag) {
+      var n = shown.map(function (c) { return c.len; });
+      st = n.length ? n.length + (n.length === 1 ? ' cycle matches' : ' cycles match') + '. Typically ' + Math.round(median(n)) + ' days, against ' + typ + ' overall.' : 'No cycles match.';
     }
+    $('filterStatus').textContent = st;
+  }
+  window.renderFilter = function () {
+    var box = $('tagFilter'); box.innerHTML = '';
+    var all = tagList.slice();
+    cycles.forEach(function (c) { c.tags.forEach(function (t) { if (all.indexOf(t) < 0) all.push(t); }); });
+    all.forEach(function (t) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = t;
+      b.setAttribute('aria-pressed', String(activeTag === t));
+      b.addEventListener('click', function () { activeTag = activeTag === t ? '' : t; window.renderFilter(); renderRows(); });
+      box.appendChild(b);
+    });
+  };
+  $('histSearch').addEventListener('input', function () { q = this.value.trim().toLowerCase(); renderRows(); });
+  document.querySelectorAll('#gapAsk [data-gap]').forEach(function (b) {
+    b.addEventListener('click', function () { gapC.kind = b.getAttribute('data-gap'); renderHistory(); });
   });
+  function renderYears() {
+    var y26 = cycles.filter(function (c) { return c.kind === 'cycle' && c.s.getFullYear() === 2026; }).map(function (c) { return c.len; });
+    var rows = [
+      ['2026 so far', starts.filter(function (s) { return s.getFullYear() === 2026; }).length + ' periods logged', 'Typically ' + Math.round(median(y26)) + ' days · ' + (gapC.kind === 'skipped' ? 'one long cycle, February to April' : 'one gap, February to April, ' + (gapC.kind === 'ask' ? 'waiting for an answer' : 'left out'))],
+      ['2025', '13 periods logged', 'Typically 29 days · range 26–32'],
+      ['2024', '8 periods logged', 'Typically 30 days · paused March to June (hormonal contraception), set aside'],
+      ['2023', '10 periods logged', 'Typically 30 days · two gaps not logged, left out']
+    ];
+    var box = $('years'); box.innerHTML = '';
+    rows.forEach(function (r) {
+      var d = document.createElement('details');
+      d.innerHTML = '<summary></summary><p class="meta">In the app, this opens that year’s cycles, in the same rows as above.</p>';
+      d.querySelector('summary').innerHTML = r[0] + ' · ' + r[1] + '<span></span>';
+      d.querySelector('summary span').textContent = r[2];
+      box.appendChild(d);
+    });
+  }
+  function renderTimeline() {
+    var t0 = D(2023, 1, 1), t1 = D(2027, 1, 1), W = 320, H = 64;
+    function x(d) { return ((d - t0) / (t1 - t0) * (W - 8) + 4).toFixed(1); }
+    var marks = [], d;
+    for (d = D(2023, 1, 5); d < D(2024, 1, 1); d = add(d, 30)) { if (d.getMonth() !== 4 && d.getMonth() !== 8) marks.push(d); }
+    for (d = D(2024, 1, 4); d < D(2025, 1, 1); d = add(d, 30)) { if (d < D(2024, 3, 1) || d > D(2024, 6, 30)) marks.push(d); }
+    for (d = D(2025, 1, 2); d < D(2025, 10, 1); d = add(d, 29)) marks.push(d);
+    starts.forEach(function (s) { marks.push(s); });
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Periods from 2023 to 2026, with a pause in 2024 and a few gaps">';
+    svg += '<rect x="' + x(D(2024, 3, 1)) + '" y="10" width="' + (x(D(2024, 7, 1)) - x(D(2024, 3, 1))).toFixed(1) + '" height="24" fill="var(--pine-soft)"></rect>';
+    svg += '<line x1="4" x2="' + (W - 4) + '" y1="22" y2="22" stroke="var(--line)" stroke-width="1"></line>';
+    var gaps = [[D(2023, 4, 25), D(2023, 6, 24)], [D(2023, 8, 23), D(2023, 10, 22)]];
+    if (gapC.kind !== 'skipped') gaps.push([gapC.s, gapC.e]);
+    gaps.forEach(function (g) { svg += '<line x1="' + x(g[0]) + '" x2="' + x(g[1]) + '" y1="22" y2="22" stroke="var(--muted)" stroke-width="2" stroke-dasharray="2 2"></line>'; });
+    marks.forEach(function (m) { svg += '<rect x="' + (x(m) - 0.8) + '" y="14" width="1.6" height="16" rx="0.8" fill="var(--berry)"></rect>'; });
+    [2023, 2024, 2025, 2026].forEach(function (y) {
+      svg += '<line x1="' + x(D(y, 1, 1)) + '" x2="' + x(D(y, 1, 1)) + '" y1="36" y2="42" stroke="var(--muted)" stroke-width="1"></line>';
+      svg += '<text x="' + (+x(D(y, 1, 1)) + 3) + '" y="54" font-size="10" fill="var(--muted)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">' + y + '</text>';
+    });
+    $('timeline').innerHTML = svg + '</svg>';
+  }
+  function renderHistory() { renderSummary(); window.renderFilter(); renderRows(); renderYears(); renderTimeline(); }
+  renderHistory();
 })();
 </script>
 
