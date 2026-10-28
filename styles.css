@@ -85,7 +85,7 @@ footer .wrap{display:flex; justify-content:space-between; align-items:center; ga
 footer a{color:#C9CDD3; text-decoration:none; margin-left:18px; font-family:'JetBrains Mono',monospace;}
 footer a:hover{color:var(--teal);}
 .foot-meta{display:flex; align-items:center;}
-.foot-symbol{width:20px; height:20px; margin-right:10px; flex:none;}
+footer a.brand{margin-left:0;}
 
 @media (max-width:560px){
   nav a{margin-left:14px;}
