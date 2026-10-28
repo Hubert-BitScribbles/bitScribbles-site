@@ -82,6 +82,8 @@ footer{background:var(--ink); color:#9CA3AF; padding:44px 0; font-size:13px;}
 footer .wrap{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;}
 footer a{color:#C9CDD3; text-decoration:none; margin-left:18px; font-family:'JetBrains Mono',monospace;}
 footer a:hover{color:var(--teal);}
+.foot-meta{display:flex; align-items:center;}
+.foot-symbol{width:20px; height:20px; margin-right:10px; flex:none;}
 
 @media (max-width:560px){
   nav a{margin-left:14px;}
