@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Cycle App for Project AIM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
+:root {
+  --bg: #f7f4f5;
+  --surface: #ffffff;
+  --ink: #241a1f;
+  --muted: #6b5c63;
+  --line: rgba(36, 26, 31, 0.12);
+  --berry: #a3214f;        /* the app's accent: period days, main action */
+  --berry-soft: #f6dfe7;
+  --pine: #2f6b5b;         /* free-product boxes: open, stocked */
+  --pine-soft: #dcefe8;
+  --phone: #1c1418;
+  --on-berry: #ffffff;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171114; --surface: #22191d; --ink: #f3ecef; --muted: #b5a6ad; --line: rgba(243,236,239,0.14);
+  --berry: #e0668f; --berry-soft: #4a2232; --pine: #6cc4a8; --pine-soft: #1d3a31; --phone: #050304; --on-berry: #1a0b11;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #171114; --surface: #22191d; --ink: #f3ecef; --muted: #b5a6ad; --line: rgba(243,236,239,0.14);
+  --berry: #e0668f; --berry-soft: #4a2232; --pine: #6cc4a8; --pine-soft: #1d3a31; --phone: #050304; --on-berry: #1a0b11;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 56px; }
+.wrap { max-width: 1060px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 22px; font-weight: 700; }
+h3 { font-size: 17px; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--berry); font-weight: 700; }
+.lead { font-size: 18px; color: var(--muted); max-width: 62ch; }
+header { display: grid; gap: 12px; }
+
+.main { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; align-items: start; }
+@media (max-width: 820px) { .main { grid-template-columns: minmax(0, 1fr); } .phone { margin: 0 auto; } }
+
+/* Phone */
+.phone { width: 100%; max-width: 360px; background: var(--phone); border-radius: 44px; padding: 12px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+@media (max-width: 820px) { .phone { position: static; } }
+.screen { background: var(--bg); border-radius: 34px; height: 680px; display: flex; flex-direction: column; overflow: hidden; }
+.bar { display: flex; justify-content: space-between; padding: 14px 22px 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.view { flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: grid; align-content: start; gap: 16px; }
+.view[hidden] { display: none !important; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
+.tabs button { background: none; border: 0; font: 700 12px var(--body); color: var(--muted); padding: 10px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; }
+.tabs button svg { width: 22px; height: 22px; }
+.tabs button[aria-selected="true"] { color: var(--berry); }
+button:focus-visible, select:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+
+.app-name { font-family: var(--display); font-weight: 700; font-size: 15px; color: var(--muted); }
+.ring { position: relative; width: 236px; height: 236px; margin: 4px auto 0; }
+.ring svg { width: 100%; height: 100%; }
+.ring-text { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 2px; }
+.ring-day { font-family: var(--display); font-weight: 700; font-size: 54px; line-height: 1; }
+.ring-sub { font-size: 14px; color: var(--muted); }
+.next { text-align: center; font-size: 17px; }
+.next strong { color: var(--berry); }
+.primary { background: var(--berry); color: var(--on-berry); border: 0; border-radius: 999px; font: 700 18px var(--body); padding: 16px; cursor: pointer; width: 100%; }
+.quiet { background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 999px; font: 700 14px var(--body); padding: 11px 14px; cursor: pointer; }
+.nudge { background: var(--pine-soft); color: var(--ink); border-radius: 16px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; font-size: 14px; }
+.nudge button { background: none; border: 0; color: var(--pine); font: 700 14px var(--body); cursor: pointer; white-space: nowrap; padding: 4px; }
+
+.how { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.how button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 14px; padding: 10px; font: 700 14px var(--body); cursor: pointer; }
+.how button[aria-pressed="true"] { border-color: var(--pine); background: var(--pine-soft); }
+select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.status { font-size: 13px; color: var(--muted); }
+.boxes { display: grid; gap: 10px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; }
+.box-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.box-name { font-weight: 700; }
+.km { font-variant-numeric: tabular-nums; color: var(--pine); font-weight: 700; white-space: nowrap; font-size: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font-size: 12px; background: var(--pine-soft); color: var(--ink); border-radius: 999px; padding: 2px 8px; }
+.meta { font-size: 13px; color: var(--muted); }
+.box-actions { display: flex; gap: 12px; }
+.box-actions button { background: none; border: 0; padding: 4px 0; font: 700 13px var(--body); color: var(--pine); cursor: pointer; }
+.details { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 12px; }
+.details fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
+.details legend { font-weight: 700; font-size: 14px; padding: 0; margin-bottom: 6px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 7px 12px; font: 700 13px var(--body); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--berry); border-color: var(--berry); color: var(--on-berry); }
+.details textarea { width: 100%; min-height: 64px; resize: vertical; font: 15px/1.4 var(--body); padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.details label { font-weight: 700; font-size: 14px; }
+.saved { font-size: 13px; color: var(--pine); font-weight: 700; min-height: 1.2em; }
+.ask { background: var(--berry-soft); border-radius: 18px; padding: 14px; display: grid; gap: 10px; }
+.ask .quiet { background: var(--surface); }
+.linkbtn { background: none; border: 0; padding: 4px 0; font: 700 14px var(--body); color: var(--berry); cursor: pointer; justify-self: center; text-decoration: underline; text-underline-offset: 3px; }
+.dates { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; display: grid; gap: 10px; }
+.drow { display: grid; grid-template-columns: 64px 36px 1fr 36px; gap: 8px; align-items: center; font-size: 14px; }
+.drow span:nth-child(3) { text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.step { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: 700 18px var(--body); cursor: pointer; }
+.step:disabled { opacity: .35; cursor: default; }
+.demo { background: none; border: 1px dashed var(--muted); color: var(--muted); border-radius: 999px; padding: 8px 12px; font: 700 13px var(--body); cursor: pointer; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags button { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 7px 12px; font: 700 13px var(--body); cursor: pointer; }
+.tags button[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--surface); }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 10px; }
+.plan input[type="date"] { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+.upcoming { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+.upcoming li { display: flex; justify-content: space-between; gap: 8px; }
+.hextra { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 12px; color: var(--muted); margin-top: -4px; }
+.chip.tag { background: var(--berry-soft); }
+.note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
+.sample { font-size: 12px; color: var(--muted); font-style: italic; }
+
+.hist { display: grid; gap: 8px; }
+.hrow { display: grid; grid-template-columns: 64px 1fr 34px; gap: 8px; align-items: center; font-size: 13px; }
+.htrack { height: 14px; background: var(--line); border-radius: 999px; position: relative; overflow: hidden; }
+.hfill { position: absolute; inset: 0 auto 0 0; background: var(--line); border-radius: 999px; }
+.hper { position: absolute; inset: 0 auto 0 0; background: var(--berry); border-radius: 999px; }
+.hnum { font-variant-numeric: tabular-nums; text-align: right; font-weight: 700; }
+.usual { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 4px; }
+.usual strong { font-family: var(--display); font-size: 24px; }
+
+/* The reasoning column */
+.side { display: grid; gap: 36px; min-width: 0; }
+.side section { display: grid; gap: 14px; }
+.steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; counter-increment: s; }
+.steps li::before { content: counter(s); width: 32px; height: 32px; border-radius: 50%; background: var(--pine-soft); color: var(--pine); font: 700 15px var(--display); display: grid; place-items: center; }
+.steps p, .plain p { max-width: 62ch; }
+.plain { display: grid; gap: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tablewrap { overflow-x: auto; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.questions { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 16px; }
+@media (prefers-reduced-motion: no-preference) { .arc { transition: stroke-dasharray .4s ease; } }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">A concept for Project AIM · from bitScribbles</span>
+    <h1>A simple cycle app that also finds free period products nearby</h1>
+    <p class="lead">Try the phone below. It's a working sketch: tap the main button, switch to <b>Free products</b> and pick a town. The name is still to come, and every place shown is a made-up sample.</p>
+  </header>
+
+  <div class="main">
+    <div class="phone" aria-label="App mockup">
+      <div class="screen">
+        <div class="bar"><span>9:41</span><span aria-hidden="true">●●●</span></div>
+
+        <!-- Today -->
+        <div class="view" id="v-today" role="tabpanel" aria-labelledby="t-today">
+          <span class="app-name">[Working name]</span>
+          <div class="ring">
+            <svg viewBox="0 0 240 240" aria-hidden="true">
+              <circle cx="120" cy="120" r="100" fill="none" stroke="var(--line)" stroke-width="16"></circle>
+              <circle class="arc" id="periodArc" cx="120" cy="120" r="100" fill="none" stroke="var(--berry)" stroke-width="16" stroke-linecap="round" transform="rotate(-90 120 120)"></circle>
+              <circle id="todayDot" cx="120" cy="20" r="11" fill="var(--surface)" stroke="var(--ink)" stroke-width="4"></circle>
+            </svg>
+            <div class="ring-text"><span class="ring-sub" id="ringLabel">Day</span><span class="ring-day" id="ringDay">12</span><span class="ring-sub" id="ringOf">of about 28</span></div>
+          </div>
+          <p class="next" id="nextLine">Next period around <strong>Sat, 14 Nov</strong></p>
+          <div class="ask" id="stillGoing" hidden>
+            <h3>Still going?</h3>
+            <p class="meta" id="askText"></p>
+            <button class="quiet" id="yesGoing" type="button">Yes, still going</button>
+            <p class="meta">Or it ended on:</p>
+            <div class="seg" id="endChoices"></div>
+          </div>
+          <button class="primary" id="mainBtn" type="button">Period started</button>
+          <p class="sample" id="mainHint">Tap it once to see the period view.</p>
+          <button class="linkbtn" id="editBtn" type="button" aria-expanded="false" aria-controls="datesPanel">Change dates</button>
+          <div class="dates" id="datesPanel" hidden>
+            <div class="drow"><span>Started</span><button class="step" id="sMinus" type="button" aria-label="Start a day earlier">−</button><span id="startTxt"></span><button class="step" id="sPlus" type="button" aria-label="Start a day later">+</button></div>
+            <div class="drow" id="endRow"><span>Ended</span><button class="step" id="eMinus" type="button" aria-label="End a day earlier">−</button><span id="endTxt"></span><button class="step" id="ePlus" type="button" aria-label="End a day later">+</button></div>
+            <p class="meta">Older periods can be changed from History.</p>
+          </div>
+          <button class="demo" id="skipBtn" type="button" hidden>Mockup only: skip ahead to day 7</button>
+          <div class="details" id="details" hidden>
+            <h3>Today's details <span class="meta" style="font-weight:400">· optional</span></h3>
+            <fieldset>
+              <legend>Flow</legend>
+              <div class="seg" data-group="flow"><button type="button" aria-pressed="false">Spotting</button><button type="button" aria-pressed="false">Light</button><button type="button" aria-pressed="false">Medium</button><button type="button" aria-pressed="false">Heavy</button></div>
+            </fieldset>
+            <fieldset>
+              <legend>Discomfort</legend>
+              <div class="seg" data-group="pain"><button type="button" aria-pressed="false">None</button><button type="button" aria-pressed="false">Mild</button><button type="button" aria-pressed="false">Moderate</button><button type="button" aria-pressed="false">Strong</button></div>
+            </fieldset>
+            <fieldset>
+              <legend>Going on this cycle</legend>
+              <div class="tags"><button type="button" aria-pressed="false">Travel</button><button type="button" aria-pressed="false">Unwell</button><button type="button" aria-pressed="false">Stressed</button><button type="button" aria-pressed="false">New medication</button><button type="button" aria-pressed="false">Big training</button><button type="button" aria-pressed="false">Moved home</button></div>
+            </fieldset>
+            <label for="noteText">Note</label>
+            <textarea id="noteText" placeholder="Anything you want to remember, in your own words"></textarea>
+            <p class="saved" id="savedLine" aria-live="polite"></p>
+          </div>
+          <div class="nudge"><span>Need pads or tampons today?</span><button type="button" data-go="find">Find free products</button></div>
+          <div class="plan">
+            <h3>Planning ahead</h3>
+            <label for="planDate" class="meta">Something coming up? Pick the date.</label>
+            <input type="date" id="planDate" value="2026-12-12" min="2026-10-28">
+            <p id="planResult" aria-live="polite"></p>
+            <p class="meta">Next periods, most likely start</p>
+            <ul class="upcoming" id="upcoming"></ul>
+            <p class="sample">The further ahead, the wider the range.</p>
+          </div>
+        </div>
+
+        <!-- Find -->
+        <div class="view" id="v-find" role="tabpanel" aria-labelledby="t-find" hidden>
+          <h2>Free products near you</h2>
+          <p class="meta">Free boxes from Project AIM and its hosts. No sign-up, no questions.</p>
+          <div class="how" role="group" aria-label="How to find boxes">
+            <button type="button" id="useLoc" aria-pressed="false">Use my location</button>
+            <button type="button" id="useTown" aria-pressed="true">Choose a town</button>
+          </div>
+          <label for="town" class="meta">Town</label>
+          <select id="town">
+            <option value="agassiz">Agassiz</option>
+            <option value="harrison">Harrison Hot Springs</option>
+            <option value="chilliwack">Chilliwack</option>
+            <option value="hope">Hope</option>
+            <option value="mission">Mission</option>
+          </select>
+          <p class="status" id="locStatus" aria-live="polite">Closest first, worked out on this phone.</p>
+          <div class="boxes" id="boxes"></div>
+          <p class="sample">Sample places for the mockup. List updated by Project AIM.</p>
+        </div>
+
+        <!-- History -->
+        <div class="view" id="v-hist" role="tabpanel" aria-labelledby="t-hist" hidden>
+          <h2>Your last six cycles</h2>
+          <div class="usual"><span class="meta">From your last 6 cycles</span><strong>About 29 days</strong><span>Range 27–31 days · periods 4–6 days</span><span class="meta">Steady: every cycle within 2 days of your average.</span></div>
+          <div class="hist" id="hist" aria-label="Cycle lengths"></div>
+          <div class="usual"><span class="meta">Period from 19 Sep · 5 days</span><span><b>Flow:</b> medium, heavy on day 2, then light</span><span><b>Discomfort:</b> mild on days 1–2</span><span class="meta">"Started at work, glad I had pads in my bag."</span></div>
+          <p class="meta">Berry is the period, grey the rest of the cycle. A longer or shorter cycle is just shown, never judged. Tap a period to change its dates or details.</p>
+          <div class="dates" id="usualCard">
+            <h3>My usual</h3>
+            <p class="meta">What you'd expect from your own experience. New here? This is used until three cycles are logged.</p>
+            <div class="drow"><span>Cycle</span><button class="step" id="cMinus" type="button" aria-label="Shorter cycle">−</button><span id="cycTxt"></span><button class="step" id="cPlus" type="button" aria-label="Longer cycle">+</button></div>
+            <div class="drow"><span>Period</span><button class="step" id="pMinus" type="button" aria-label="Shorter period">−</button><span id="perTxt"></span><button class="step" id="pPlus" type="button" aria-label="Longer period">+</button></div>
+            <p class="meta">Predictions use</p>
+            <div class="seg" id="srcSeg"><button type="button" data-src="history" aria-pressed="true">My history</button><button type="button" data-src="entered" aria-pressed="false">What I entered</button></div>
+          </div>
+          <p class="sample">Sample data.</p>
+        </div>
+
+        <nav class="tabs" role="tablist" aria-label="App sections">
+          <button role="tab" id="t-today" aria-selected="true" aria-controls="v-today" data-go="today" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="4" r="2" fill="currentColor"></circle></svg>Today</button>
+          <button role="tab" id="t-find" aria-selected="false" aria-controls="v-find" data-go="find" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.5-6-11a6 6 0 1 1 12 0c0 5.5-6 11-6 11z"></path><circle cx="12" cy="10" r="2"></circle></svg>Free products</button>
+          <button role="tab" id="t-hist" aria-selected="false" aria-controls="v-hist" data-go="hist" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M4 12h14M4 17h8"></path></svg>History</button>
+        </nav>
+      </div>
+    </div>
+
+    <div class="side">
+      <section>
+        <h2>How "near me" stays private</h2>
+        <ol class="steps">
+          <li><p><b>Everyone gets the same list.</b> The app carries Project AIM's list of boxes, which is public and identical for every phone. When AIM updates it, phones download the new copy. Downloading it says nothing about who you are or where you are.</p></li>
+          <li><p><b>The phone does the sums.</b> With "Use my location", the phone compares its own position with the list and sorts the boxes. The location is never sent anywhere and isn't saved.</p></li>
+          <li><p><b>Or just pick a town.</b> Anyone who'd rather not share location with the app at all chooses a town instead, as in the mockup.</p></li>
+          <li><p><b>Directions only when asked.</b> Tapping Directions opens the person's own maps app. Nothing else on the page loads a map from another company.</p></li>
+          <li><p><b>Hosts choose how precise.</b> A box at a library can show its address. A box at someone's home can show the street or block, so no one's house becomes a pin on a map.</p></li>
+        </ol>
+      </section>
+
+      <section class="plain">
+        <h2>Details, only if you want them</h2>
+        <p>During a period, the Today screen offers flow, discomfort and a note in your own words. Each is one tap or a few words, all optional, and saved on the phone only. History shows them back for each period, which is the record someone might take to their own doctor.</p>
+      </section>
+
+      <section class="plain">
+        <h2>What's usual, what's changing, what's ahead</h2>
+        <p><b>My usual</b> (in History) lets someone who knows her cycle enter it by hand. It's used until three cycles are logged, and she can choose to keep predicting from it. History shows the average, the range and any cycle well off it, without judging it.</p>
+        <p><b>Planning ahead</b> (on Today) takes a date, such as a trip or a race, and says whether a period is likely then. Ranges widen the further ahead they go.</p>
+        <p><b>Going on this cycle</b> lets her tag things like travel or illness, shown beside each cycle in History, so she can spot her own patterns. Some people wonder whether the moon or living with others affects their cycle. The evidence for syncing is weak, and for the moon it's unsettled, so the app makes no claims either way.</p>
+      </section>
+
+      <section class="plain">
+        <h2>Forgetting to tap, and fixing dates</h2>
+        <p>If a period runs past the person's usual length without "ended" being tapped, Today asks "Still going?" and offers the likely end days, so one tap puts it right. "Change dates" moves the start or end of the latest period a day at a time, and older ones are changed from History. In the mockup, start a period, then use "skip ahead to day 7" to see it.</p>
+      </section>
+
+      <section class="plain">
+        <h2>The tracker and the boxes, kept apart</h2>
+        <p>Finding a box doesn't need the tracker. Someone can open the app just for <b>Free products</b> without logging anything. Nothing about a person's cycle is ever linked to the boxes they look at, and none of it leaves the phone.</p>
+        <p>"Box empty?" lets someone tell Project AIM a box needs restocking. In the app it would open a ready-made message in their own messages or email, with the box's name and nothing else. They choose whether to send it.</p>
+      </section>
+
+      <section>
+        <h2>What AIM would keep up to date</h2>
+        <p class="lead" style="font-size:16px">One simple list, which AIM could keep in a spreadsheet. bitScribbles would turn it into the app's copy.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Column</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td>Name</td><td>Library entrance box</td></tr>
+              <tr><td>Town</td><td>Agassiz</td></tr>
+              <tr><td>Where, as precise as the host wants</td><td>An address, or a street or block</td></tr>
+              <tr><td>What's usually in it</td><td>Pads, tampons, liners, incontinence pads</td></tr>
+              <tr><td>When it's open</td><td>Always, or the building's hours</td></tr>
+              <tr><td>Last restocked</td><td>Monday</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="plain">
+        <h2>The same promises as the rest of the app</h2>
+        <p>No accounts, no ads, no analytics or trackers. Records stay on the phone, backups are encrypted by the person who makes them, and the app works offline once installed. Project AIM, joni and bitScribbles never see anyone's record.</p>
+      </section>
+
+      <section>
+        <h2>Questions for Miel</h2>
+        <ul class="questions">
+          <li>Where is the list of current locations kept today, and who updates it?</li>
+          <li>How precise should each kind of host's location be?</li>
+          <li>Would restock messages be useful, and where should they go?</li>
+          <li>Should the boxes cover all of BC from the start, or begin in the Fraser Valley?</li>
+          <li>Are there other places to list, such as schools, clinics or food banks with free products?</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <footer>A bitScribbles concept, October 2026. All places, numbers and cycles in the mockup are samples.</footer>
+</div>
+
+<script>
+(function () {
+  // --- Tabs
+  var views = { today: 'v-today', find: 'v-find', hist: 'v-hist' };
+  function go(name) {
+    Object.keys(views).forEach(function (k) {
+      document.getElementById(views[k]).hidden = k !== name;
+      document.getElementById('t-' + k).setAttribute('aria-selected', String(k === name));
+    });
+  }
+  document.querySelectorAll('[data-go]').forEach(function (b) {
+    b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+  });
+
+  // --- Today: ring, the one button, "Still going?" and date changes
+  var C = 2 * Math.PI * 100, LEN = 28, USUAL_MAX = 6, DAY = 864e5;
+  var HIST = [29, 28, 30, 28, 31, 27];
+  var usual = { cycle: 28, period: 5, src: 'history' };
+  function cycleLen() { return usual.src === 'history' ? Math.round(HIST.reduce(function (a, b) { return a + b; }) / HIST.length) : usual.cycle; }
+  function spread() { return usual.src === 'history' ? Math.ceil((Math.max.apply(null, HIST) - Math.min.apply(null, HIST)) / 2) : 2; }
+  var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function f(d) { return DOW[d.getDay()] + ', ' + d.getDate() + ' ' + MON[d.getMonth()]; }
+  function add(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+  function diff(a, b) { return Math.round((a - b) / DAY); }
+  var state = { mode: 'between', start: new Date(2026, 9, 17), len: 5, now: new Date(2026, 9, 28), asked: false };
+  function $(id) { return document.getElementById(id); }
+  function placeDot(day) {
+    var d = Math.min(day, LEN);
+    var a = ((d - 0.5) / LEN) * 2 * Math.PI - Math.PI / 2;
+    $('todayDot').setAttribute('cx', (120 + 100 * Math.cos(a)).toFixed(1));
+    $('todayDot').setAttribute('cy', (120 + 100 * Math.sin(a)).toFixed(1));
+  }
+  function render() {
+    LEN = cycleLen();
+    var day = diff(state.now, state.start) + 1;
+    var period = state.mode === 'period';
+    var shown = Math.min(period ? day : state.len, LEN);
+    $('periodArc').setAttribute('stroke-dasharray', (C * shown / LEN).toFixed(1) + ' ' + C.toFixed(1));
+    placeDot(day);
+    $('details').hidden = !period;
+    $('endRow').hidden = period;
+    $('startTxt').textContent = f(state.start);
+    $('endTxt').textContent = f(add(state.start, state.len - 1));
+    $('sPlus').disabled = add(state.start, 1) > state.now || (!period && add(state.start, state.len) > state.now);
+    $('eMinus').disabled = state.len <= 1;
+    $('ePlus').disabled = state.len >= 10 || add(state.start, state.len) > state.now;
+    var overdue = period && day > USUAL_MAX;
+    $('stillGoing').hidden = !overdue || state.asked;
+    $('skipBtn').hidden = !period || day >= 7;
+    if (period) {
+      $('ringLabel').textContent = 'Period';
+      $('ringDay').textContent = 'Day ' + day;
+      $('ringDay').style.fontSize = '44px';
+      $('ringOf').textContent = 'usually 4–6 days';
+      $('nextLine').innerHTML = day === 1 ? 'Started today, <strong>' + f(state.start) + '</strong>' : 'Started <strong>' + f(state.start) + '</strong>';
+      $('mainBtn').textContent = 'Period ended';
+      $('mainHint').textContent = overdue ? (state.asked ? 'OK. The app will ask again in a couple of days.' : '') : 'Forget to tap "ended"? After your usual length, the app asks "Still going?"';
+      if (overdue && !state.asked) {
+        $('askText').textContent = 'Your periods usually last 4–6 days, and today is day ' + day + '.';
+        var box = $('endChoices'); box.innerHTML = '';
+        for (var k = Math.max(4, day - 3); k <= day; k++) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+          b.textContent = k === day ? 'Today' : f(add(state.start, k - 1)).split(', ')[1] + ' (day ' + k + ')';
+          b.addEventListener('click', (function (len) { return function () { state.mode = 'between'; state.len = len; render(); }; })(k));
+          box.appendChild(b);
+        }
+      }
+    } else {
+      $('ringLabel').textContent = 'Day';
+      $('ringDay').textContent = String(day);
+      $('ringDay').style.fontSize = '';
+      $('ringOf').textContent = 'of about ' + LEN;
+      $('nextLine').innerHTML = 'Next period around <strong>' + f(add(state.start, LEN)) + '</strong><br><span class="meta">Last period ' + f(state.start) + ' to ' + f(add(state.start, state.len - 1)) + '</span>';
+      $('mainBtn').textContent = 'Period started';
+      $('mainHint').textContent = 'Tap it once to see the period view.';
+    }
+    renderPlan();
+    renderUsual();
+  }
+  function dm(d) { return d.getDate() + ' ' + MON[d.getMonth()]; }
+  function span(a, b) { return a.getMonth() === b.getMonth() ? a.getDate() + '–' + dm(b) : dm(a) + ' – ' + dm(b); }
+  function renderPlan() {
+    var w0 = spread(), pl = usual.src === 'history' ? 5 : usual.period, k, s, w;
+    var ul = $('upcoming'); ul.innerHTML = '';
+    for (k = 1; k <= 3; k++) {
+      s = add(state.start, k * LEN); w = w0 + k - 1;
+      var li = document.createElement('li');
+      li.innerHTML = '<b>' + dm(s) + '</b><span class="meta">likely ' + span(add(s, -w), add(s, w)) + '</span>';
+      ul.appendChild(li);
+    }
+    var v = $('planDate').value, out = $('planResult');
+    if (!v) { out.textContent = ''; return; }
+    var p = v.split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+    if (d < state.now) { out.textContent = 'Pick a date from today on.'; return; }
+    if (state.mode === 'period' && d <= add(state.start, USUAL_MAX - 1)) { out.innerHTML = '<b>' + f(d) + ':</b> you may still be on your current period then.'; return; }
+    for (k = 1; k <= 6; k++) {
+      s = add(state.start, k * LEN); w = w0 + k - 1;
+      var a = add(s, -w), b = add(s, w + pl - 1);
+      if (d >= a && d <= b) { out.innerHTML = '<b>' + f(d) + ':</b> a period is likely around then. It would most likely start ' + span(a, add(s, w)) + '.'; return; }
+      if (d < a) { out.innerHTML = '<b>' + f(d) + ':</b> a period is unlikely then. The next one most likely starts ' + span(a, add(s, w)) + '.'; return; }
+    }
+    out.innerHTML = '<b>' + f(d) + ':</b> more than six cycles away, too far ahead to say.';
+  }
+  function renderUsual() {
+    $('cycTxt').textContent = usual.cycle + ' days';
+    $('perTxt').textContent = usual.period + ' days';
+    document.querySelectorAll('#srcSeg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-src') === usual.src)); });
+  }
+  $('editBtn').addEventListener('click', function () {
+    var open = $('datesPanel').hidden;
+    $('datesPanel').hidden = !open;
+    $('editBtn').setAttribute('aria-expanded', String(open));
+  });
+  $('sMinus').addEventListener('click', function () { state.start = add(state.start, -1); render(); });
+  $('sPlus').addEventListener('click', function () { state.start = add(state.start, 1); render(); });
+  $('eMinus').addEventListener('click', function () { state.len -= 1; render(); });
+  $('ePlus').addEventListener('click', function () { state.len += 1; render(); });
+  $('yesGoing').addEventListener('click', function () { state.asked = true; render(); });
+  $('skipBtn').addEventListener('click', function () { state.now = add(state.start, 6); render(); });
+  $('cMinus').addEventListener('click', function () { if (usual.cycle > 21) usual.cycle--; render(); });
+  $('cPlus').addEventListener('click', function () { if (usual.cycle < 45) usual.cycle++; render(); });
+  $('pMinus').addEventListener('click', function () { if (usual.period > 2) usual.period--; render(); });
+  $('pPlus').addEventListener('click', function () { if (usual.period < 10) usual.period++; render(); });
+  document.querySelectorAll('#srcSeg button').forEach(function (b) {
+    b.addEventListener('click', function () { usual.src = b.getAttribute('data-src'); render(); });
+  });
+  $('planDate').addEventListener('input', renderPlan);
+  $('planDate').addEventListener('change', renderPlan);
+  document.querySelectorAll('.tags button').forEach(function (b) {
+    b.addEventListener('click', function () { b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); saved(); });
+  });
+  var savedLine = document.getElementById('savedLine');
+  function saved() { savedLine.textContent = 'Saved on this phone'; }
+  document.querySelectorAll('.details .seg').forEach(function (g) {
+    g.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var on = b.getAttribute('aria-pressed') !== 'true';
+        g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', String(on));
+        saved();
+      });
+    });
+  });
+  document.getElementById('noteText').addEventListener('input', saved);
+  document.getElementById('mainBtn').addEventListener('click', function () {
+    if (state.mode === 'period') {
+      state.mode = 'between';
+      state.len = diff(state.now, state.start) + 1;
+    } else {
+      state.mode = 'period'; state.start = new Date(state.now); state.len = 1; state.asked = false;
+    }
+    render();
+  });
+  render();
+
+  // --- Free products: sample boxes, sorted on the device
+  var towns = {
+    agassiz: [49.2385, -121.7694], harrison: [49.3001, -121.7856], chilliwack: [49.1579, -121.9515],
+    hope: [49.3800, -121.4419], mission: [49.1337, -122.3112]
+  };
+  var boxes = [
+    { name: 'Library entrance box', town: 'Agassiz', at: [49.2392, -121.7681], where: 'Address shown', items: ['Pads', 'Tampons', 'Liners'], open: 'Library hours', stocked: 'Restocked Monday' },
+    { name: 'Community hall porch', town: 'Agassiz', at: [49.2351, -121.7742], where: 'Address shown', items: ['Pads', 'Incontinence pads'], open: 'Always open', stocked: 'Restocked last week' },
+    { name: 'Lakeside washrooms', town: 'Harrison Hot Springs', at: [49.3022, -121.7849], where: 'Address shown', items: ['Pads', 'Tampons'], open: 'Always open', stocked: 'Restocked Saturday' },
+    { name: "A neighbour's front-yard box", town: 'Chilliwack', at: [49.1610, -121.9440], where: 'Street shown, not the house', items: ['Pads', 'Liners'], open: 'Always open', stocked: 'Restocked Sunday' },
+    { name: 'Rec centre lobby', town: 'Chilliwack', at: [49.1540, -121.9580], where: 'Address shown', items: ['Pads', 'Tampons', 'Incontinence pads'], open: 'Centre hours', stocked: 'Restocked Tuesday' },
+    { name: 'Friendship centre', town: 'Hope', at: [49.3815, -121.4430], where: 'Address shown', items: ['Pads', 'Tampons'], open: 'Weekdays 9–4', stocked: 'Restocked last week' },
+    { name: 'Church hall door', town: 'Mission', at: [49.1350, -122.3060], where: 'Address shown', items: ['Pads', 'Liners'], open: 'Always open', stocked: 'Restocked Thursday' }
+  ];
+  function km(a, b) {
+    var R = 6371, r = Math.PI / 180;
+    var dLat = (b[0] - a[0]) * r, dLon = (b[1] - a[1]) * r;
+    var h = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function fmt(d) { return d < 1 ? Math.round(d * 1000 / 50) * 50 + ' m' : (d < 10 ? d.toFixed(1) : Math.round(d)) + ' km'; }
+  var listEl = document.getElementById('boxes');
+  function showBoxes(from) {
+    var sorted = boxes.map(function (b) { return { b: b, d: km(from, b.at) }; })
+      .sort(function (x, y) { return x.d - y.d; }).slice(0, 5);
+    listEl.innerHTML = '';
+    sorted.forEach(function (s, i) {
+      var b = s.b, el = document.createElement('div');
+      el.className = 'box';
+      el.innerHTML =
+        '<div class="box-top"><span class="box-name"></span><span class="km"></span></div>' +
+        '<div class="meta"></div><div class="chips"></div><div class="meta"></div>' +
+        '<div class="box-actions"><button type="button" data-act="dir">Directions</button><button type="button" data-act="empty">Box empty?</button></div>' +
+        '<div class="note" hidden></div>';
+      el.querySelector('.box-name').textContent = b.name;
+      el.querySelector('.km').textContent = fmt(s.d);
+      var metas = el.querySelectorAll('.meta');
+      metas[0].textContent = b.town + ' · ' + b.where;
+      metas[1].textContent = b.open + ' · ' + b.stocked;
+      var chips = el.querySelector('.chips');
+      b.items.forEach(function (t) { var c = document.createElement('span'); c.className = 'chip'; c.textContent = t; chips.appendChild(c); });
+      var note = el.querySelector('.note');
+      el.querySelector('[data-act="dir"]').addEventListener('click', function () {
+        note.hidden = false; note.textContent = 'In the app, this opens your own maps app with directions.';
+      });
+      el.querySelector('[data-act="empty"]').addEventListener('click', function () {
+        note.hidden = false; note.textContent = 'In the app, this opens a message to Project AIM: "' + b.name + ', ' + b.town + ' looks empty." Nothing else is included, and you choose whether to send it.';
+      });
+      listEl.appendChild(el);
+    });
+  }
+  var townSel = document.getElementById('town'), status = document.getElementById('locStatus');
+  var useLoc = document.getElementById('useLoc'), useTown = document.getElementById('useTown');
+  function byTown() {
+    useTown.setAttribute('aria-pressed', 'true'); useLoc.setAttribute('aria-pressed', 'false');
+    townSel.disabled = false;
+    status.textContent = 'Closest to ' + townSel.options[townSel.selectedIndex].text + ', worked out on this phone.';
+    showBoxes(towns[townSel.value]);
+  }
+  townSel.addEventListener('change', byTown);
+  useTown.addEventListener('click', byTown);
+  useLoc.addEventListener('click', function () {
+    useLoc.setAttribute('aria-pressed', 'true'); useTown.setAttribute('aria-pressed', 'false');
+    townSel.disabled = true;
+    status.textContent = 'Mockup: pretending you are in Agassiz. In the app, your location is used on the phone only and never sent or saved.';
+    showBoxes([49.2370, -121.7710]);
+  });
+  byTown();
+
+  // --- History: sample cycles
+  var hist = [['Sep 19', 29, 5, []], ['Aug 22', 28, 5, []], ['Jul 24', 30, 6, ['Travel']], ['Jun 26', 28, 4, []], ['May 27', 31, 5, ['Unwell', 'Stressed']], ['Apr 29', 27, 5, []]];
+  var avg = HIST.reduce(function (a, b) { return a + b; }) / HIST.length;
+  var hEl = document.getElementById('hist');
+  hist.forEach(function (h) {
+    var row = document.createElement('div'); row.className = 'hrow';
+    row.innerHTML = '<span></span><span class="htrack"><span class="hfill"></span><span class="hper"></span></span><span class="hnum"></span>';
+    row.children[0].textContent = h[0];
+    row.querySelector('.hfill').style.width = (h[1] / 35 * 100) + '%';
+    row.querySelector('.hper').style.width = (h[2] / 35 * 100) + '%';
+    row.children[2].textContent = h[1];
+    row.setAttribute('aria-label', 'Started ' + h[0] + ': ' + h[1] + ' day cycle, ' + h[2] + ' day period');
+    hEl.appendChild(row);
+    var dev = Math.round(h[1] - avg);
+    if (h[3].length || Math.abs(dev) >= 2) {
+      var ex = document.createElement('div'); ex.className = 'hrow';
+      var inner = document.createElement('div'); inner.className = 'hextra';
+      if (Math.abs(dev) >= 2) { var t = document.createElement('span'); t.textContent = Math.abs(dev) + ' days ' + (dev > 0 ? 'longer' : 'shorter') + ' than your average'; inner.appendChild(t); }
+      h[3].forEach(function (tag) { var c = document.createElement('span'); c.className = 'chip tag'; c.textContent = tag; inner.appendChild(c); });
+      ex.appendChild(inner);
+      hEl.appendChild(ex);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
