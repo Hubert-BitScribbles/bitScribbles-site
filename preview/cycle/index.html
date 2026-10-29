@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Cycle App for Project AIM</title>
+<title>A cycle app — a concept from bitScribbles</title>
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
@@ -134,6 +135,13 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .years summary span { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
 .timeline svg { width: 100%; height: auto; display: block; }
 .hnote { font-style: italic; }
+.conf { display: inline-block; font-size: 13px; font-weight: 700; color: var(--pine); background: var(--pine-soft); border-radius: 999px; padding: 1px 9px; }
+.stagebar { display: grid; gap: 6px; justify-items: center; border: 1px dashed var(--muted); border-radius: 16px; padding: 8px; }
+.stack { display: grid; gap: 16px; }
+.chchart svg { width: 100%; height: auto; display: block; }
+.chrow { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; border-top: 1px solid var(--line); padding-top: 6px; }
+.chrow b { font-variant-numeric: tabular-nums; }
+.say { color: var(--berry); font-weight: 700; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -167,9 +175,9 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 <body>
 <div class="wrap">
   <header>
-    <span class="eyebrow">A concept for Project AIM · from bitScribbles</span>
-    <h1>A simple cycle app that also finds free period products nearby</h1>
-    <p class="lead">Try the phone below. It's a working sketch: tap the main button, switch to <b>Free products</b> and pick a town. The name is still to come, and every place shown is a made-up sample.</p>
+    <span class="eyebrow">[Working name] · a concept from bitScribbles</span>
+    <h1>As simple as a paper calendar</h1>
+    <p class="lead">A private cycle app for every stage, from first periods to menopause. It's an early sketch, and we're looking for people to help shape it. Try the phone below: log a period, check a forecast, switch to <b>Changing cycles</b> and look through History. Everything in it is a made-up sample, and nothing you type is saved or sent.</p>
   </header>
 
   <div class="main">
@@ -179,6 +187,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
         <!-- Today -->
         <div class="view" id="v-today" role="tabpanel" aria-labelledby="t-today">
+          <div class="stagebar"><span class="meta">Mockup: try a stage</span><div class="seg" role="group" aria-label="Stage"><button type="button" data-stage="regular" aria-pressed="true">Regular cycles</button><button type="button" data-stage="changing" aria-pressed="false">Changing cycles</button></div></div>
           <span class="app-name">[Working name]</span>
           <div class="ring">
             <svg viewBox="0 0 240 240" aria-hidden="true">
@@ -199,6 +208,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <button class="primary" id="mainBtn" type="button">My period started today</button>
           <button class="linkbtn" id="earlierBtn" type="button" aria-expanded="false" aria-controls="earlierChoices">It started on an earlier day</button>
           <div class="seg" id="earlierChoices" hidden style="justify-content:center"></div>
+          <button class="quiet" id="spotBtn" type="button" hidden>Log spotting today</button>
           <p class="sample" id="mainHint">Tap it once to see the period view.</p>
           <button class="linkbtn" id="editBtn" type="button" aria-expanded="false" aria-controls="datesPanel">Change dates</button>
           <div class="dates" id="datesPanel" hidden>
@@ -207,6 +217,12 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <p class="meta">Older periods can be changed from History.</p>
           </div>
           <button class="demo" id="skipBtn" type="button" hidden>Mockup only: skip ahead to day 7</button>
+          <button class="demo" id="twelveBtn" type="button" hidden>Mockup only: a period after 13 months</button>
+          <div class="ask" id="twelveCard" hidden>
+            <h3>13 months since your last period</h3>
+            <p>Logged. Doctors advise having any bleeding after 12 months without a period checked soon. The cause may well be harmless, but it's worth a look.</p>
+            <button class="linkbtn" type="button" data-go="support" style="justify-self:start">Health lines and clinics</button>
+          </div>
           <div class="details" id="details" hidden>
             <h3><span id="dayHead">Today</span> <span class="meta" style="font-weight:400">· optional</span></h3>
             <fieldset>
@@ -229,22 +245,24 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <textarea id="noteText" placeholder="Anything you want to remember, in your own words"></textarea>
             <p class="saved" id="savedLine2" aria-live="polite"></p>
           </div>
-          <div class="nudge"><span>Need pads or tampons today?</span><button type="button" data-go="find">Find free products</button></div>
+          <div class="nudge"><span id="nudgeText">Need pads or tampons today?</span><button type="button" data-go="find">Find free products</button></div>
           <div class="plan">
             <h3>Planning ahead</h3>
             <label for="planDate" class="meta">Something coming up? Pick the date.</label>
             <input type="date" id="planDate" value="2026-12-12" min="2026-10-28">
             <p id="planResult" aria-live="polite"></p>
-            <p class="meta">Next periods, most likely start</p>
-            <ul class="upcoming" id="upcoming"></ul>
-            <p class="sample">The further ahead, the wider the range.</p>
+            <div id="upWrap" class="stack" style="gap:8px">
+              <p class="meta">Next periods, most likely start</p>
+              <ul class="upcoming" id="upcoming"></ul>
+              <p class="sample">The further ahead, the wider the range and the less sure.</p>
+            </div>
           </div>
         </div>
 
         <!-- Find -->
         <div class="view" id="v-find" role="tabpanel" aria-labelledby="t-find" hidden>
           <h2>Free products near you</h2>
-          <p class="meta">Free boxes from Project AIM and its hosts. No sign-up, no questions.</p>
+          <p class="meta">Free boxes run by community groups and their hosts. No sign-up, no questions.</p>
           <div class="how" role="group" aria-label="How to find boxes">
             <button type="button" id="useLoc" aria-pressed="false">Use my location</button>
             <button type="button" id="useTown" aria-pressed="true">Choose a town</button>
@@ -259,12 +277,13 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           </select>
           <p class="status" id="locStatus" aria-live="polite">Closest first, worked out on this phone.</p>
           <div class="boxes" id="boxes"></div>
-          <p class="sample">Sample places for the mockup. List updated by Project AIM.</p>
+          <p class="sample">Sample places. In the app, local groups keep their own lists up to date.</p>
         </div>
 
         <!-- History -->
         <div class="view" id="v-hist" role="tabpanel" aria-labelledby="t-hist" hidden>
           <h2>History</h2>
+          <div class="stack" id="histRegular">
           <div class="usual" id="summary"></div>
           <div class="ask" id="gapAsk">
             <h3>A gap in your record</h3>
@@ -283,6 +302,26 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <h3>All your periods</h3>
           <div class="timeline" id="timeline" aria-label="Timeline of periods since 2023"></div>
           <p class="meta">One mark per period. Gaps show as dashes, a pause as a shaded band.</p>
+          </div>
+          <div class="stack" id="histChanging" hidden>
+            <div class="usual" id="chSummary"></div>
+            <h3>Cycle length over time</h3>
+            <div class="chchart" id="chChart"></div>
+            <p class="meta">Each dot is one cycle. The band is your old usual; the open dot is the cycle you're in now.</p>
+            <div id="chRows"></div>
+            <div class="usual"><span><b>Periods:</b> usually 3–6 days</span><span class="meta">From the 4 of your last 12 periods with an end logged. Logging the end is optional.</span></div>
+            <button class="quiet" id="docBtn" type="button">Make a summary for my doctor</button>
+            <p class="note" id="docNote" hidden>In the app, this makes a one-page summary: cycle lengths over time, the longest gaps, and any notes you choose to include. You decide who sees it.</p>
+          </div>
+          <div class="dates" id="settingsCard">
+            <h3>Settings</h3>
+            <p class="meta">My cycles are</p>
+            <div class="seg" role="group" aria-label="My cycles are"><button type="button" data-stage="regular" aria-pressed="true">Fairly regular</button><button type="button" data-stage="changing" aria-pressed="false">Changing</button></div>
+            <p class="meta">"Changing" is for perimenopause, or any time cycles get hard to predict: less forecasting, more record.</p>
+            <p class="meta">Ask when a period ends</p>
+            <div class="seg" id="endSeg" role="group" aria-label="Ask when a period ends"><button type="button" data-end="yes" aria-pressed="true">Yes</button><button type="button" data-end="no" aria-pressed="false">No</button></div>
+            <p class="meta">Forecasts only need the day a period starts, so logging the end is optional.</p>
+          </div>
           <div class="dates" id="usualCard">
             <h3>My usual</h3>
             <p class="meta">What you'd expect from your own experience. New here? This is used until three cycles are logged.</p>
@@ -324,7 +363,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
           <div class="rgroup">
             <h3>Free products</h3>
-            <div class="res"><span class="res-name">Project AIM</span><span>Free period and incontinence products, barrier-free.</span><a href="https://www.projectaimcommunity.com/" target="_blank" rel="noopener">projectaimcommunity.com</a><button class="linkbtn" type="button" data-go="find" style="justify-self:start">Find boxes near you</button></div>
+            <div class="res"><span class="res-name">Community boxes</span><span>Free pads, tampons and more from local groups, no questions asked.</span><button class="linkbtn" type="button" data-go="find" style="justify-self:start">Find boxes near you</button></div>
           </div>
 
           <div class="rgroup">
@@ -351,89 +390,79 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     </div>
 
     <div class="side">
-      <section>
-        <h2>How "near me" stays private</h2>
-        <ol class="steps">
-          <li><p><b>Everyone gets the same list.</b> The app carries Project AIM's list of boxes, which is public and identical for every phone. When AIM updates it, phones download the new copy. Downloading it says nothing about who you are or where you are.</p></li>
-          <li><p><b>The phone does the sums.</b> With "Use my location", the phone compares its own position with the list and sorts the boxes. The location is never sent anywhere and isn't saved.</p></li>
-          <li><p><b>Or just pick a town.</b> Anyone who'd rather not share location with the app at all chooses a town instead, as in the mockup.</p></li>
-          <li><p><b>Directions only when asked.</b> Tapping Directions opens the person's own maps app. Nothing else on the page loads a map from another company.</p></li>
-          <li><p><b>Hosts choose how precise.</b> A box at a library can show its address. A box at someone's home can show the street or block, so no one's house becomes a pin on a map.</p></li>
-        </ol>
+      <section class="plain">
+        <h2>Where it started</h2>
+        <p>With a simple request: something easier than the popular period apps, which can feel like a research project. When we asked around, we heard the same thing again and again. Period apps aren't good, so most people use a paper calendar. And almost everyone still wanted a tool.</p>
+        <p>Research says much the same. The popular apps are built around pregnancy, assume a textbook 28-day cycle, make a wrong guess hard to correct, and treat perimenopause as an exception. Some have shared what users logged with advertisers.</p>
+      </section>
+
+      <section class="plain">
+        <h2>What paper does well</h2>
+        <p>A paper calendar never guesses wrong, never judges a long cycle, keeps everything private, and shows the whole year at a glance. The app keeps those qualities and adds what paper can't: the pattern over months and years, a fair forecast that says how sure it is, and a heads-up.</p>
+        <p>So the main screen does one job. It shows where you are and offers one button, "My period started today", with "an earlier day" one tap away. Every date can be changed later.</p>
+      </section>
+
+      <section class="plain">
+        <h2>Forecasts that say how sure they are</h2>
+        <p>Every forecast comes with a word: <span class="conf">Fairly sure</span>, <span class="conf">Likely</span>, <span class="conf">Rough guess</span> or <span class="conf">Can't say</span>, and a range that widens to match. It depends on how many recent periods are logged, how much they vary, any unanswered gaps, and how far ahead the date is.</p>
+        <p>Forecasts only need the day a period starts, so logging the end is optional, and the "Still going?" reminder can be switched off in Settings. Try switching History's "Predictions use" to "What I entered".</p>
+      </section>
+
+      <section class="plain">
+        <h2>For changing cycles</h2>
+        <p>Around perimenopause, two things matter most. One is seeing how cycles change over time. History shows each cycle's length against your old usual, and notes cycles more than 7 days off it and gaps longer than 60 days, the changes doctors look at. It shows them; it doesn't diagnose.</p>
+        <p>The other is long gaps, then a surprise. No app can predict that, so Today shows the days since your last period, your longest recent gap, and a nudge to keep products handy. After 12 months without a period, a period comes with a plain note to have it checked, as doctors advise. Try <b>Changing cycles</b> at the top of Today.</p>
       </section>
 
       <section class="plain">
         <h2>Details, only if you want them</h2>
-        <p><b>Each day:</b> flow and discomfort change from day to day, so during a period Today offers them for that day only. Skip any day and nothing is lost. History sums up each period ("heavy on day 2, then light"), which is the record someone might take to their own doctor.</p>
-        <p><b>Each cycle:</b> tags and a note describe the whole stretch, such as travel or a new job. There are a few starter tags, and people add their own in their own words. History can search tags and notes, or show only cycles with one tag, with their typical length beside the overall one. That's how a person spots their own patterns.</p>
-      </section>
-
-      <section class="plain">
-        <h2>What's usual, what's changing, what's ahead</h2>
-        <p><b>My usual</b> (in History) lets anyone who knows their cycle enter it by hand. It's used until three cycles are logged, and they can choose to keep predicting from it. History shows the typical length (the middle value, so one odd cycle doesn't pull it), the range and any cycle well off it, without judging it.</p>
-        <p><b>Planning ahead</b> (on Today) takes a date, such as a trip or a race, and says whether a period is likely then. Ranges widen the further ahead they go.</p>
+        <p>Flow and discomfort are for a single day; skip any day and nothing is lost. Tags and a note are for the whole cycle, such as travel or a new job. There are a few starter tags, and you add your own. History can search them, or show only the cycles with one tag, so you can spot your own patterns.</p>
         <p>Some people wonder whether the moon or living with others affects their cycle. The evidence for syncing is weak, and for the moon it's unsettled, so the app makes no claims either way.</p>
       </section>
 
       <section class="plain">
         <h2>Years of records, gaps included</h2>
-        <p>A missing record assumes nothing. When a period is logged after a much longer gap than usual, the app asks once whether one went unlogged. "I didn't have one" counts as a long cycle, which matters most around perimenopause. "I didn't log it" or "Not sure" leaves a marked gap that's shown but left out of the numbers. A chosen pause, such as pregnancy or hormonal contraception, is set aside.</p>
-        <p>Trends say how complete they are, and predictions use recent cycles, since cycles change with age. History shows recent cycles in detail, a row per year, and one timeline of every period across the years. Try the gap question in History.</p>
+        <p>A missing record assumes nothing. After a much longer gap than usual, the app asks once whether a period went unlogged. "I didn't have one" counts as a long cycle; "I didn't log it" or "Not sure" leaves a marked gap that's shown but left out of the numbers. History shows recent cycles, a row per year and a timeline of every period.</p>
       </section>
 
       <section class="plain">
-        <h2>Forgetting to tap, and fixing dates</h2>
-        <p>If a period runs past the person's usual length without its end being logged, Today asks "Still going?" and offers the likely end days, so one tap puts it right. "Change dates" moves the start or end of the latest period a day at a time, and older ones are changed from History. In the mockup, start a period, then use "skip ahead to day 7" to see it.</p>
+        <h2>Help where you live</h2>
+        <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for your own province or country, each checked against the service's own site and dated.</p>
+        <p>Where community groups run free product boxes, the app can show the nearest. Every phone gets the same list and sorts it itself, so your location is never sent; or you just pick a town. Hosts choose how precise to be, so no one's home becomes a pin on a map.</p>
       </section>
 
       <section class="plain">
-        <h2>Support where you live</h2>
-        <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for the person's own province or country. Every number and link is checked against the service's own site, dated, and rechecked before each release, as in Clear Tracker. They're links and phone numbers only, so nothing is shared by opening them. Project AIM and joni could suggest what belongs there.</p>
+        <h2>Private by design</h2>
+        <p>No accounts, no ads, no analytics or trackers. Your record stays on your phone, backups are encrypted with a passphrase only you know, and it works offline. It's not a medical app and it never marks "safe days". Nobody else sees your record: not partners, not us.</p>
       </section>
 
       <section class="plain">
-        <h2>The tracker and the boxes, kept apart</h2>
-        <p>Finding a box doesn't need the tracker. Someone can open the app just for <b>Free products</b> without logging anything. Nothing about a person's cycle is ever linked to the boxes they look at, and none of it leaves the phone.</p>
-        <p>"Box empty?" lets someone tell Project AIM a box needs restocking. In the app it would open a ready-made message in their own messages or email, with the box's name and nothing else. They choose whether to send it.</p>
-      </section>
-
-      <section>
-        <h2>What AIM would keep up to date</h2>
-        <p class="lead" style="font-size:16px">One simple list, which AIM could keep in a spreadsheet. bitScribbles would turn it into the app's copy.</p>
-        <div class="tablewrap">
-          <table>
-            <thead><tr><th>Column</th><th>Example</th></tr></thead>
-            <tbody>
-              <tr><td>Name</td><td>Library entrance box</td></tr>
-              <tr><td>Town</td><td>Agassiz</td></tr>
-              <tr><td>Where, as precise as the host wants</td><td>An address, or a street or block</td></tr>
-              <tr><td>What's usually in it</td><td>Pads, tampons, liners, incontinence pads</td></tr>
-              <tr><td>When it's open</td><td>Always, or the building's hours</td></tr>
-              <tr><td>Last restocked</td><td>Monday</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="plain">
-        <h2>The same promises as the rest of the app</h2>
-        <p>No accounts, no ads, no analytics or trackers. Records stay on the phone, backups are encrypted by the person who makes them, and the app works offline once installed. Project AIM, joni and bitScribbles never see anyone's record.</p>
-      </section>
-
-      <section>
-        <h2>Questions for Miel</h2>
+        <h2>Where you'd come in</h2>
+        <p>There's no app yet. There's the idea, this mockup and a clear direction. We'd love help from people who care about it, in whatever way suits you:</p>
         <ul class="questions">
-          <li>Where is the list of current locations kept today, and who updates it?</li>
-          <li>How precise should each kind of host's location be?</li>
-          <li>Would restock messages be useful, and where should they go?</li>
-          <li>Should the boxes cover all of BC from the start, or begin in the Fraser Valley?</li>
-          <li>Are there other places to list, such as schools, clinics or food banks with free products?</li>
+          <li>Telling us what you mark on your calendar now, and what you wish it told you</li>
+          <li>Trying the mockup and saying what's confusing or missing</li>
+          <li>Reviewing the words for a stage you know, from first periods to menopause</li>
+          <li>Local knowledge: support services and free product boxes where you live</li>
+          <li>Testing it on your own phone when there's something to test</li>
+        </ul>
+        <p>Interested? <a href="/contact.html">Say hello</a>.</p>
+      </section>
+
+      <section>
+        <h2>Questions to talk through</h2>
+        <ul class="questions">
+          <li>What do you mark on your calendar now?</li>
+          <li>On the main screen, which matters more to you: how long until your next period, or which day of your cycle it is?</li>
+          <li>How much logging is too much?</li>
+          <li>Would a one-page summary for your doctor be useful?</li>
+          <li>What should it be called?</li>
         </ul>
       </section>
     </div>
   </div>
 
-  <footer>A bitScribbles concept, October 2026. All places, numbers and cycles in the mockup are samples.</footer>
+  <footer>A bitScribbles concept, October 2026. Every date, place and cycle in the mockup is a made-up sample, and nothing you type is saved or sent.</footer>
 </div>
 
 <script>
@@ -464,6 +493,27 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   function add(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
   function diff(a, b) { return Math.round((a - b) / DAY); }
   var state = { mode: 'between', start: new Date(2026, 9, 17), len: 5, now: new Date(2026, 9, 28), asked: false };
+  var stage = 'regular', askEnd = true;
+  // Changing cycles: sample record of someone entering perimenopause
+  var chLens = [28, 29, 27, 30, 28, 29, 28, 30, 29, 28, 27, 29, 26, 33, 24, 38, 29, 45, 23, 64, 31, 112];
+  var chLast = new Date(2026, 7, 15), chStarts = [], s0 = chLast;
+  for (var ci = chLens.length - 1; ci >= 0; ci--) { s0 = add(s0, -chLens[ci]); chStarts.unshift(s0); }
+  var chOld = chLens.slice(0, 12), oldTyp = median(chOld), yearAgo = add(state.now, -365);
+  var chYear = chLens.filter(function (l, i) { return chStarts[i] >= yearAgo; });
+  var CH = {
+    oldMin: Math.min.apply(null, chOld), oldMax: Math.max.apply(null, chOld),
+    min: Math.min.apply(null, chYear), max: Math.max.apply(null, chYear), longest: Math.max.apply(null, chYear),
+    off: chYear.filter(function (l) { return Math.abs(l - oldTyp) > 7; }).length,
+    long: chYear.filter(function (l) { return l > 60; }).length
+  };
+  function conf(k) {
+    if (usual.src === 'entered') return { w: 'Rough guess', why: 'based on what you entered; it firms up as you log' };
+    var sp = Math.max.apply(null, HIST) - Math.min.apply(null, HIST);
+    var base = sp <= 4 ? 0 : sp <= 8 ? 1 : 2;
+    var words = ['Fairly sure', 'Likely', 'Rough guess', "Can't say"];
+    return { w: words[Math.min(base + k - 1, 3)], why: 'your last ' + HIST.length + ' cycles were all within ' + sp + ' days of each other' };
+  }
+  function chip(w) { return '<span class="conf">' + w + '</span>'; }
   function $(id) { return document.getElementById(id); }
   function placeDot(day) {
     var d = Math.min(day, LEN);
@@ -486,8 +536,13 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     $('eMinus').disabled = state.len <= 1;
     $('ePlus').disabled = state.len >= 10 || add(state.start, state.len) > state.now;
     var overdue = period && day > USUAL_MAX;
-    $('stillGoing').hidden = !overdue || state.asked;
-    $('skipBtn').hidden = !period || day >= 7;
+    var changing = stage === 'changing';
+    $('stillGoing').hidden = !overdue || state.asked || !askEnd;
+    $('skipBtn').hidden = !period || day >= 7 || !askEnd;
+    $('spotBtn').hidden = !changing || period;
+    $('twelveBtn').hidden = !changing || period || !$('twelveCard').hidden;
+    $('upWrap').hidden = changing;
+    $('nudgeText').textContent = changing && !period ? 'Could come any time. Keep a few pads or period underwear in your bag.' : 'Need pads or tampons today?';
     if (period) {
       $('ringLabel').textContent = 'Period';
       $('ringDay').textContent = 'Day ' + day;
@@ -498,7 +553,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       $('mainBtn').textContent = 'My period has ended';
       $('earlierBtn').textContent = 'It ended on an earlier day';
       $('earlierBtn').hidden = day < 2;
-      $('mainHint').textContent = overdue ? (state.asked ? 'OK. The app will ask again in a couple of days.' : '') : 'Forget to log the end? After your usual length, the app asks "Still going?"';
+      $('mainHint').textContent = !askEnd ? 'Logging the end is optional. Forecasts only need the day it started.' : overdue ? (state.asked ? 'OK. The app will ask again in a couple of days.' : '') : 'Forget to log the end? After your usual length, the app asks "Still going?"';
       if (overdue && !state.asked) {
         $('askText').textContent = 'Your periods usually last 4–6 days, and today is day ' + day + '.';
         var box = $('endChoices'); box.innerHTML = '';
@@ -510,6 +565,21 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           box.appendChild(b);
         }
       }
+    } else if (changing) {
+      var since = diff(state.now, state.start), frac = Math.min(since / CH.longest, 1);
+      $('periodArc').setAttribute('stroke-dasharray', (C * frac).toFixed(1) + ' ' + C.toFixed(1));
+      var ang = frac * 2 * Math.PI - Math.PI / 2;
+      $('todayDot').setAttribute('cx', (120 + 100 * Math.cos(ang)).toFixed(1));
+      $('todayDot').setAttribute('cy', (120 + 100 * Math.sin(ang)).toFixed(1));
+      $('ringDay').style.fontSize = '44px';
+      $('ringLabel').textContent = 'Since your last period';
+      $('ringDay').textContent = since + (since === 1 ? ' day' : ' days');
+      $('ringOf').textContent = 'Longest gap: ' + CH.longest + ' days';
+      $('nextLine').innerHTML = '<strong>Could come any time</strong><br>' + chip("Can't say") + ' <span class="meta">your cycles this year ran ' + CH.min + ' to ' + CH.max + ' days</span>';
+      $('mainBtn').textContent = 'My period started today';
+      $('earlierBtn').textContent = 'It started on an earlier day';
+      $('earlierBtn').hidden = false;
+      $('mainHint').textContent = '';
     } else {
       var until = diff(add(state.start, LEN), state.now);
       $('ringDay').style.fontSize = '44px';
@@ -517,7 +587,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       else if (until === 1) { $('ringLabel').textContent = 'Period likely'; $('ringDay').textContent = 'tomorrow'; }
       else { $('ringLabel').textContent = 'Period likely'; $('ringDay').textContent = 'any day'; }
       $('ringOf').textContent = 'Cycle day ' + day;
-      $('nextLine').innerHTML = 'Expected around <strong>' + f(add(state.start, LEN)) + '</strong><br><span class="meta">Last period ' + f(state.start) + ' to ' + f(add(state.start, state.len - 1)) + '</span>';
+      var c1 = conf(1);
+      $('nextLine').innerHTML = 'Expected around <strong>' + f(add(state.start, LEN)) + '</strong><br>' + chip(c1.w) + ' <span class="meta">' + c1.why + '</span><br><span class="meta">Last period ' + f(state.start) + ' to ' + f(add(state.start, state.len - 1)) + '</span>';
       $('mainBtn').textContent = 'My period started today';
       $('earlierBtn').textContent = 'It started on an earlier day';
       $('earlierBtn').hidden = false;
@@ -534,19 +605,20 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     for (k = 1; k <= 3; k++) {
       s = add(state.start, k * LEN); w = w0 + k - 1;
       var li = document.createElement('li');
-      li.innerHTML = '<b>' + dm(s) + '</b><span class="meta">likely ' + span(add(s, -w), add(s, w)) + '</span>';
+      li.innerHTML = '<b>' + dm(s) + '</b><span class="meta">' + span(add(s, -w), add(s, w)) + ' \u00b7 ' + conf(k).w + '</span>';
       ul.appendChild(li);
     }
     var v = $('planDate').value, out = $('planResult');
     if (!v) { out.textContent = ''; return; }
     var p = v.split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
     if (d < state.now) { out.textContent = 'Pick a date from today on.'; return; }
+    if (stage === 'changing') { out.innerHTML = '<b>' + f(d) + ':</b> your cycles are changing, so the app won\u2019t pick a date. This year they ran ' + CH.min + ' to ' + CH.max + ' days, so a period could come any time. ' + chip("Can't say"); return; }
     if (state.mode === 'period' && d <= add(state.start, USUAL_MAX - 1)) { out.innerHTML = '<b>' + f(d) + ':</b> you may still be on your current period then.'; return; }
     for (k = 1; k <= 6; k++) {
       s = add(state.start, k * LEN); w = w0 + k - 1;
       var a = add(s, -w), b = add(s, w + pl - 1);
-      if (d >= a && d <= b) { out.innerHTML = '<b>' + f(d) + ':</b> a period is likely around then. It would most likely start ' + span(a, add(s, w)) + '.'; return; }
-      if (d < a) { out.innerHTML = '<b>' + f(d) + ':</b> a period is unlikely then. The next one most likely starts ' + span(a, add(s, w)) + '.'; return; }
+      if (d >= a && d <= b) { out.innerHTML = '<b>' + f(d) + ':</b> a period is likely around then. It would most likely start ' + span(a, add(s, w)) + '. ' + chip(conf(k).w); return; }
+      if (d < a) { out.innerHTML = '<b>' + f(d) + ':</b> a period is unlikely then. The next one most likely starts ' + span(a, add(s, w)) + '. ' + chip(conf(k).w); return; }
     }
     out.innerHTML = '<b>' + f(d) + ':</b> more than six cycles away, too far ahead to say.';
   }
@@ -632,6 +704,63 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     }
     box.hidden = false; $('earlierBtn').setAttribute('aria-expanded', 'true');
   });
+  function setStage(st) {
+    stage = st; askEnd = st === 'regular';
+    state.mode = 'between'; state.asked = false; state.now = new Date(2026, 9, 28);
+    if (st === 'changing') { state.start = new Date(chLast); state.len = 4; } else { state.start = new Date(2026, 9, 17); state.len = 5; }
+    closeEarlier(); $('twelveCard').hidden = true;
+    render(); renderStageHistory();
+  }
+  function renderStageHistory() {
+    document.querySelectorAll('[data-stage]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-stage') === stage)); });
+    document.querySelectorAll('#endSeg [data-end]').forEach(function (b) { b.setAttribute('aria-pressed', String((b.getAttribute('data-end') === 'yes') === askEnd)); });
+    var ch = stage === 'changing';
+    $('histRegular').hidden = ch; $('histChanging').hidden = !ch; $('usualCard').hidden = ch;
+    if (ch) renderChanging();
+  }
+  document.querySelectorAll('[data-stage]').forEach(function (b) {
+    b.addEventListener('click', function () { setStage(b.getAttribute('data-stage')); });
+  });
+  document.querySelectorAll('#endSeg [data-end]').forEach(function (b) {
+    b.addEventListener('click', function () { askEnd = b.getAttribute('data-end') === 'yes'; render(); renderStageHistory(); });
+  });
+  $('spotBtn').addEventListener('click', function () { $('mainHint').textContent = 'Spotting noted for today. It doesn\u2019t start a period.'; });
+  $('twelveBtn').addEventListener('click', function () { $('twelveCard').hidden = false; $('twelveBtn').hidden = true; });
+  $('docBtn').addEventListener('click', function () { $('docNote').hidden = false; });
+  function ym(d) { return MON[d.getMonth()] + ' ' + d.getFullYear(); }
+  function renderChanging() {
+    $('chSummary').innerHTML = '<span class="meta">' + chLens.length + ' cycles logged since ' + ym(chStarts[0]) + '</span><strong>Changing</strong>' +
+      '<span>Your cycles used to be ' + CH.oldMin + '\u2013' + CH.oldMax + ' days. In the past year they ran ' + CH.min + ' to ' + CH.max + ' days.</span>' +
+      '<span>' + CH.off + ' cycles in the past year were more than 7 days from your old usual.</span>' +
+      '<span>' + CH.long + (CH.long === 1 ? ' gap was' : ' gaps were') + ' longer than 60 days.</span>' +
+      '<span class="meta">These are the changes doctors look at when cycles start to shift. The app shows them; it doesn\u2019t say what they mean.</span>';
+    var W = 320, H = 200, L = 30, R = 10, T = 10, B = 26, x0 = chStarts[0], x1 = state.now;
+    function X(d) { return (L + (d - x0) / (x1 - x0) * (W - L - R)).toFixed(1); }
+    function Y(v) { return (T + (1 - v / 120) * (H - T - B)).toFixed(1); }
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cycle lengths from ' + ym(x0) + ' to now: steady around ' + CH.oldMin + ' to ' + CH.oldMax + ' days, then varying from ' + CH.min + ' to ' + CH.max + ' days">';
+    svg += '<rect x="' + L + '" y="' + Y(CH.oldMax) + '" width="' + (W - L - R) + '" height="' + (Y(CH.oldMin) - Y(CH.oldMax)).toFixed(1) + '" fill="var(--pine-soft)"></rect>';
+    [30, 60, 90, 120].forEach(function (v) {
+      svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="var(--line)" stroke-width="1"' + (v === 60 ? ' stroke-dasharray="3 3"' : '') + '></line>';
+      svg += '<text x="' + (L - 6) + '" y="' + (+Y(v) + 4) + '" font-size="10" text-anchor="end" fill="var(--muted)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">' + v + '</text>';
+    });
+    [2025, 2026].forEach(function (yr) {
+      var d = new Date(yr, 0, 1);
+      svg += '<line x1="' + X(d) + '" x2="' + X(d) + '" y1="' + (H - B) + '" y2="' + (H - B + 5) + '" stroke="var(--muted)" stroke-width="1"></line>';
+      svg += '<text x="' + (+X(d) + 3) + '" y="' + (H - 6) + '" font-size="10" fill="var(--muted)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">' + yr + '</text>';
+    });
+    svg += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + (H - B) + '" y2="' + (H - B) + '" stroke="var(--muted)" stroke-width="1"></line>';
+    chLens.forEach(function (l, i) { svg += '<circle cx="' + X(chStarts[i]) + '" cy="' + Y(Math.min(l, 120)) + '" r="3.5" fill="var(--berry)"></circle>'; });
+    var since = diff(state.now, chLast);
+    svg += '<circle cx="' + X(chLast) + '" cy="' + Y(since) + '" r="3.5" fill="var(--surface)" stroke="var(--berry)" stroke-width="1.5"></circle>';
+    svg += '<text x="' + (+X(chLast) - 7) + '" y="' + (+Y(since) + 4) + '" text-anchor="end" font-size="10" fill="var(--ink)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">' + since + ' so far</text>';
+    $('chChart').innerHTML = svg + '</svg>';
+    var rows = '<h3 style="margin-bottom:6px">Recent cycles</h3>';
+    for (var i = chLens.length - 1; i >= chLens.length - 8; i--) {
+      var l = chLens[i], flag = l > 60 ? 'gap over 60 days' : Math.abs(l - oldTyp) > 7 ? 'more than 7 days off your old usual' : '';
+      rows += '<div class="chrow"><span>' + dm(chStarts[i]) + ' ' + chStarts[i].getFullYear() + (flag ? ' <span class="meta">\u00b7 ' + flag + '</span>' : '') + '</span><b>' + l + '</b></div>';
+    }
+    $('chRows').innerHTML = rows;
+  }
   document.getElementById('mainBtn').addEventListener('click', function () {
     closeEarlier();
     if (state.mode === 'period') {
@@ -690,7 +819,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         note.hidden = false; note.textContent = 'In the app, this opens your own maps app with directions.';
       });
       el.querySelector('[data-act="empty"]').addEventListener('click', function () {
-        note.hidden = false; note.textContent = 'In the app, this opens a message to Project AIM: "' + b.name + ', ' + b.town + ' looks empty." Nothing else is included, and you choose whether to send it.';
+        note.hidden = false; note.textContent = 'In the app, this opens a message to the group that looks after this box: "' + b.name + ', ' + b.town + ' looks empty." Nothing else is included, and you choose whether to send it.';
       });
       listEl.appendChild(el);
     });
