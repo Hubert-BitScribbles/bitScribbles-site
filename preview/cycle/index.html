@@ -18,7 +18,7 @@
   --line: rgba(36, 26, 31, 0.12);
   --berry: #a3214f;        /* the app's accent: period days, main action */
   --berry-soft: #f6dfe7;
-  --pine: #2f6b5b;         /* free-product boxes: open, stocked */
+  --pine: #2f6b5b;         /* calm second accent: confidence words, readiness */
   --pine-soft: #dcefe8;
   --phone: #1c1418;
   --on-berry: #ffffff;
@@ -58,7 +58,7 @@ header { display: grid; gap: 12px; }
 .bar { display: flex; justify-content: space-between; padding: 14px 22px 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
 .view { flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: grid; align-content: start; gap: 16px; }
 .view[hidden] { display: none !important; }
-.tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); background: var(--surface); padding-bottom: 10px; }
 .tabs button { background: none; border: 0; font: 700 12px var(--body); color: var(--muted); padding: 10px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; }
 .tabs button svg { width: 22px; height: 22px; }
 .tabs button[aria-selected="true"] { color: var(--berry); }
@@ -77,21 +77,11 @@ button:focus-visible, select:focus-visible { outline: 3px solid var(--berry); ou
 .nudge { background: var(--pine-soft); color: var(--ink); border-radius: 16px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; font-size: 14px; }
 .nudge button { background: none; border: 0; color: var(--pine); font: 700 14px var(--body); cursor: pointer; white-space: nowrap; padding: 4px; }
 
-.how { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.how button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 14px; padding: 10px; font: 700 14px var(--body); cursor: pointer; }
-.how button[aria-pressed="true"] { border-color: var(--pine); background: var(--pine-soft); }
 select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
 .status { font-size: 13px; color: var(--muted); }
-.boxes { display: grid; gap: 10px; }
-.box { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; }
-.box-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
-.box-name { font-weight: 700; }
-.km { font-variant-numeric: tabular-nums; color: var(--pine); font-weight: 700; white-space: nowrap; font-size: 14px; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip { font-size: 12px; background: var(--pine-soft); color: var(--ink); border-radius: 999px; padding: 2px 8px; }
 .meta { font-size: 13px; color: var(--muted); }
-.box-actions { display: flex; gap: 12px; }
-.box-actions button { background: none; border: 0; padding: 4px 0; font: 700 13px var(--body); color: var(--pine); cursor: pointer; }
 .details { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 12px; }
 .details fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
 .details legend { font-weight: 700; font-size: 14px; padding: 0; margin-bottom: 6px; }
@@ -245,7 +235,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <textarea id="noteText" placeholder="Anything you want to remember, in your own words"></textarea>
             <p class="saved" id="savedLine2" aria-live="polite"></p>
           </div>
-          <div class="nudge"><span id="nudgeText">Need pads or tampons today?</span><button type="button" data-go="find">Find free products</button></div>
+          <div class="nudge" id="nudge" hidden><span id="nudgeText">Could come any time. Keep a few pads or period underwear in your bag.</span></div>
           <div class="plan">
             <h3>Planning ahead</h3>
             <label for="planDate" class="meta">Something coming up? Pick the date.</label>
@@ -257,27 +247,6 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
               <p class="sample">The further ahead, the wider the range and the less sure.</p>
             </div>
           </div>
-        </div>
-
-        <!-- Find -->
-        <div class="view" id="v-find" role="tabpanel" aria-labelledby="t-find" hidden>
-          <h2>Free products near you</h2>
-          <p class="meta">Free boxes run by community groups and their hosts. No sign-up, no questions.</p>
-          <div class="how" role="group" aria-label="How to find boxes">
-            <button type="button" id="useLoc" aria-pressed="false">Use my location</button>
-            <button type="button" id="useTown" aria-pressed="true">Choose a town</button>
-          </div>
-          <label for="town" class="meta">Town</label>
-          <select id="town">
-            <option value="agassiz">Agassiz</option>
-            <option value="harrison">Harrison Hot Springs</option>
-            <option value="chilliwack">Chilliwack</option>
-            <option value="hope">Hope</option>
-            <option value="mission">Mission</option>
-          </select>
-          <p class="status" id="locStatus" aria-live="polite">Closest first, worked out on this phone.</p>
-          <div class="boxes" id="boxes"></div>
-          <p class="sample">Sample places. In the app, local groups keep their own lists up to date.</p>
         </div>
 
         <!-- History -->
@@ -362,8 +331,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           </div>
 
           <div class="rgroup">
-            <h3>Free products</h3>
-            <div class="res"><span class="res-name">Community boxes</span><span>Free pads, tampons and more from local groups, no questions asked.</span><button class="linkbtn" type="button" data-go="find" style="justify-self:start">Find boxes near you</button></div>
+            <h3>Need products now?</h3>
+            <div class="res"><span class="res-name">Free period products near you</span><span>From community groups, no questions asked.</span><button class="linkbtn" type="button" id="finderBtn" style="justify-self:start">Find free products</button><p class="note" id="finderNote" hidden>In the app, this opens a free-product finder for where you live, where one exists. It's a separate tool, so nothing from your record goes with you.</p></div>
           </div>
 
           <div class="rgroup">
@@ -379,8 +348,6 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <nav class="tabs" role="tablist" aria-label="App sections">
           <button role="tab" id="t-today" aria-selected="true" aria-controls="v-today" data-go="today" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="4" r="2" fill="currentColor"></circle></svg>Today</button>
-          <button role="tab" id="t-find" aria-selected="false" aria-controls="v-find" data-go="find" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.5-6-11a6 6 0 1 1 12 0c0 5.5-6 11-6 11z"></path><circle cx="12" cy="10" r="2"></circle></svg>Free products</button>
           <button role="tab" id="t-hist" aria-selected="false" aria-controls="v-hist" data-go="hist" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M4 12h14M4 17h8"></path></svg>History</button>
           <button role="tab" id="t-support" aria-selected="false" aria-controls="v-support" data-go="support" type="button">
@@ -428,7 +395,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <section class="plain">
         <h2>Help where you live</h2>
         <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for your own province or country, each checked against the service's own site and dated.</p>
-        <p>Where community groups run free product boxes, the app can show the nearest. Every phone gets the same list and sorts it itself, so your location is never sent; or you just pick a town. Hosts choose how precise to be, so no one's home becomes a pin on a map.</p>
+        <p>Finding free period products in the moment is a different job, for a different moment, so it belongs to its own tool, run by the community groups who know their area. Support links to one where it exists, and nothing from your record goes with you.</p>
       </section>
 
       <section class="plain">
@@ -440,16 +407,16 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <h2>The name</h2>
         <p>The working name is <b>Tender</b>. It means sore, and it means gentle and kind: the body, and going easy on yourself, in one plain word.</p>
         <p><i>About 450 periods in a lifetime. Go easy on yourself.</i></p>
-        <p>Names we looked at and set aside, from quick searches in October 2026 (not a trademark search):</p>
+        <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
-          <li><b>Circa</b>: a registered US trademark for an anxiety app, plus other health and sleep apps.</li>
-          <li><b>Ebb</b>: already a privacy-first period tracker on Android.</li>
-          <li><b>Ritual</b>: a women's vitamin brand, a Canadian food-ordering app and a cosmetics brand.</li>
-          <li><b>Ritu</b>: already an offline period app for girls and women in rural Nepal, among similar-sounding apps.</li>
-          <li><b>Rtu</b>: reads as an acronym, and in buildings it means a rooftop unit.</li>
-          <li><b>Moon names and Phases</b>: the most crowded names among period apps, and the app makes no claims about the moon.</li>
-          <li><b>Red-something</b>: RedCalendar, RedBird, RedMode and Ruby are already taken.</li>
-          <li><b>Flow</b>: too close to Flo, the biggest app in the category.</li>
+          <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
+          <li><b>Ebb</b>, as in ebb and flow. Already the name of a privacy-first period tracker.</li>
+          <li><b>Ritual</b>, for something repeated and cared for across a life. Already a women's vitamin brand, a Canadian food-ordering app and a cosmetics brand.</li>
+          <li><b>Ritu</b>, Sanskrit for season and the right time, and an old word for a period. Already an offline period app in Nepal, among several similar-sounding apps.</li>
+          <li><b>Rtu</b>, the same word without its vowel. It reads as an acronym, and in buildings it means a rooftop unit.</li>
+          <li><b>Moon names and Phases</b>, for the lunar month and life's phases. The most crowded names among period apps, and the app makes no claims about the moon.</li>
+          <li><b>Red Letter</b> and other red names, for the days you mark on a calendar. Red names are already common among period apps: RedCalendar, RedBird, RedMode and Ruby.</li>
+          <li><b>Flow</b>, for a period and for a calm, absorbed state. Too close to Flo, the biggest app in the category.</li>
         </ul>
       </section>
 
@@ -460,7 +427,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li>Telling us what you mark on your calendar now, and what you wish it told you</li>
           <li>Trying the mockup and saying what's confusing or missing</li>
           <li>Reviewing the words for a stage you know, from first periods to menopause</li>
-          <li>Local knowledge: support services and free product boxes where you live</li>
+          <li>Local knowledge: the support services where you live</li>
           <li>Testing it on your own phone when there's something to test</li>
         </ul>
         <p>Interested? <a href="/contact.html">Say hello</a>.</p>
@@ -479,14 +446,15 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     </div>
   </div>
 
-  <footer>A bitScribbles concept, October 2026. Every date, place and cycle in the mockup is a made-up sample, and nothing you type is saved or sent.</footer>
+  <footer>A bitScribbles concept, October 2026. Every date and cycle in the mockup is a made-up sample, and nothing you type is saved or sent.</footer>
 </div>
 
 <script>
 (function () {
   // --- Tabs
-  var views = { today: 'v-today', find: 'v-find', hist: 'v-hist', support: 'v-support' };
+  var views = { today: 'v-today', hist: 'v-hist', support: 'v-support' };
   document.getElementById('regionBtn').addEventListener('click', function () { document.getElementById('regionNote').hidden = false; });
+  document.getElementById('finderBtn').addEventListener('click', function () { document.getElementById('finderNote').hidden = false; });
   function go(name) {
     Object.keys(views).forEach(function (k) {
       document.getElementById(views[k]).hidden = k !== name;
@@ -559,7 +527,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     $('spotBtn').hidden = !changing || period;
     $('twelveBtn').hidden = !changing || period || !$('twelveCard').hidden;
     $('upWrap').hidden = changing;
-    $('nudgeText').textContent = changing && !period ? 'Could come any time. Keep a few pads or period underwear in your bag.' : 'Need pads or tampons today?';
+    $('nudge').hidden = !(changing && !period);
     if (period) {
       $('ringLabel').textContent = 'Period';
       $('ringDay').textContent = 'Day ' + day;
@@ -789,75 +757,6 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     render();
   });
   render();
-
-  // --- Free products: sample boxes, sorted on the device
-  var towns = {
-    agassiz: [49.2385, -121.7694], harrison: [49.3001, -121.7856], chilliwack: [49.1579, -121.9515],
-    hope: [49.3800, -121.4419], mission: [49.1337, -122.3112]
-  };
-  var boxes = [
-    { name: 'Library entrance box', town: 'Agassiz', at: [49.2392, -121.7681], where: 'Address shown', items: ['Pads', 'Tampons', 'Liners'], open: 'Library hours', stocked: 'Restocked Monday' },
-    { name: 'Community hall porch', town: 'Agassiz', at: [49.2351, -121.7742], where: 'Address shown', items: ['Pads', 'Incontinence pads'], open: 'Always open', stocked: 'Restocked last week' },
-    { name: 'Lakeside washrooms', town: 'Harrison Hot Springs', at: [49.3022, -121.7849], where: 'Address shown', items: ['Pads', 'Tampons'], open: 'Always open', stocked: 'Restocked Saturday' },
-    { name: "A neighbour's front-yard box", town: 'Chilliwack', at: [49.1610, -121.9440], where: 'Street shown, not the house', items: ['Pads', 'Liners'], open: 'Always open', stocked: 'Restocked Sunday' },
-    { name: 'Rec centre lobby', town: 'Chilliwack', at: [49.1540, -121.9580], where: 'Address shown', items: ['Pads', 'Tampons', 'Incontinence pads'], open: 'Centre hours', stocked: 'Restocked Tuesday' },
-    { name: 'Friendship centre', town: 'Hope', at: [49.3815, -121.4430], where: 'Address shown', items: ['Pads', 'Tampons'], open: 'Weekdays 9–4', stocked: 'Restocked last week' },
-    { name: 'Church hall door', town: 'Mission', at: [49.1350, -122.3060], where: 'Address shown', items: ['Pads', 'Liners'], open: 'Always open', stocked: 'Restocked Thursday' }
-  ];
-  function km(a, b) {
-    var R = 6371, r = Math.PI / 180;
-    var dLat = (b[0] - a[0]) * r, dLon = (b[1] - a[1]) * r;
-    var h = Math.sin(dLat / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLon / 2) ** 2;
-    return 2 * R * Math.asin(Math.sqrt(h));
-  }
-  function fmt(d) { return d < 1 ? Math.round(d * 1000 / 50) * 50 + ' m' : (d < 10 ? d.toFixed(1) : Math.round(d)) + ' km'; }
-  var listEl = document.getElementById('boxes');
-  function showBoxes(from) {
-    var sorted = boxes.map(function (b) { return { b: b, d: km(from, b.at) }; })
-      .sort(function (x, y) { return x.d - y.d; }).slice(0, 5);
-    listEl.innerHTML = '';
-    sorted.forEach(function (s, i) {
-      var b = s.b, el = document.createElement('div');
-      el.className = 'box';
-      el.innerHTML =
-        '<div class="box-top"><span class="box-name"></span><span class="km"></span></div>' +
-        '<div class="meta"></div><div class="chips"></div><div class="meta"></div>' +
-        '<div class="box-actions"><button type="button" data-act="dir">Directions</button><button type="button" data-act="empty">Box empty?</button></div>' +
-        '<div class="note" hidden></div>';
-      el.querySelector('.box-name').textContent = b.name;
-      el.querySelector('.km').textContent = fmt(s.d);
-      var metas = el.querySelectorAll('.meta');
-      metas[0].textContent = b.town + ' · ' + b.where;
-      metas[1].textContent = b.open + ' · ' + b.stocked;
-      var chips = el.querySelector('.chips');
-      b.items.forEach(function (t) { var c = document.createElement('span'); c.className = 'chip'; c.textContent = t; chips.appendChild(c); });
-      var note = el.querySelector('.note');
-      el.querySelector('[data-act="dir"]').addEventListener('click', function () {
-        note.hidden = false; note.textContent = 'In the app, this opens your own maps app with directions.';
-      });
-      el.querySelector('[data-act="empty"]').addEventListener('click', function () {
-        note.hidden = false; note.textContent = 'In the app, this opens a message to the group that looks after this box: "' + b.name + ', ' + b.town + ' looks empty." Nothing else is included, and you choose whether to send it.';
-      });
-      listEl.appendChild(el);
-    });
-  }
-  var townSel = document.getElementById('town'), status = document.getElementById('locStatus');
-  var useLoc = document.getElementById('useLoc'), useTown = document.getElementById('useTown');
-  function byTown() {
-    useTown.setAttribute('aria-pressed', 'true'); useLoc.setAttribute('aria-pressed', 'false');
-    townSel.disabled = false;
-    status.textContent = 'Closest to ' + townSel.options[townSel.selectedIndex].text + ', worked out on this phone.';
-    showBoxes(towns[townSel.value]);
-  }
-  townSel.addEventListener('change', byTown);
-  useTown.addEventListener('click', byTown);
-  useLoc.addEventListener('click', function () {
-    useLoc.setAttribute('aria-pressed', 'true'); useTown.setAttribute('aria-pressed', 'false');
-    townSel.disabled = true;
-    status.textContent = 'Mockup: pretending you are in Agassiz. In the app, your location is used on the phone only and never sent or saved.';
-    showBoxes([49.2370, -121.7710]);
-  });
-  byTown();
 
   // --- History: years of cycles, gaps included (sample data)
   function D(y, m, d) { return new Date(y, m - 1, d); }
