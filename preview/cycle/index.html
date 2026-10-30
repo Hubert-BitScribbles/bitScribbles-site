@@ -7,7 +7,7 @@
 <title>Tender (working name) — a concept from bitScribbles</title>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
 :root {
@@ -177,6 +177,68 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .screen[data-skin="pixel"] #ringBase, .screen[data-skin="pixel"] #periodArc { display: none; }
 .screen[data-skin="pixel"] .app-name { font-size: 11px; }
 .screen[data-skin="pixel"] h2, .screen[data-skin="pixel"] h3 { font-size: 12px; line-height: 1.6; }
+/* Vinyl: a record on the turntable */
+.screen[data-skin="vinyl"] { --bg: #17161b; --surface: #222128; --ink: #f2efe8; --muted: #b4afa6; --line: rgba(242,239,232,0.16); --berry: #e5535f; --berry-soft: #3b1d23; --pine: #e8b04a; --pine-soft: #322813; --on-berry: #17161b; --display: "Shrikhand", Georgia, serif; color-scheme: dark; }
+.screen[data-skin="vinyl"] { background: repeating-radial-gradient(circle at 50% 34%, rgba(255,255,255,0.035) 0 1px, transparent 1px 5px), #17161b; }
+.screen[data-skin="vinyl"] #ringBase { stroke: #050507; stroke-width: 24; }
+.screen[data-skin="vinyl"] .primary { font-family: "Shrikhand", Georgia, serif; font-weight: 400; letter-spacing: 0.02em; box-shadow: inset 0 0 0 3px #e5535f, inset 0 0 0 5px #17161b; }
+.screen[data-skin="vinyl"] .ring-day, .screen[data-skin="vinyl"] .app-name, .screen[data-skin="vinyl"] h2, .screen[data-skin="vinyl"] h3 { font-weight: 400; }
+.screen[data-skin="vinyl"] .tabs { background: #1d1c22; }
+/* Film: a strip of film */
+.screen[data-skin="film"] { --bg: #15130f; --surface: #211e19; --ink: #f3ead8; --muted: #b8ab93; --line: rgba(243,234,216,0.16); --berry: #e2553f; --berry-soft: #3a1c15; --pine: #e9c36a; --pine-soft: #33291a; --on-berry: #15130f; --display: "Bebas Neue", "Arial Narrow", sans-serif; color-scheme: dark; }
+.screen[data-skin="film"] { background: repeating-linear-gradient(180deg, rgba(243,234,216,0.3) 0 9px, transparent 9px 20px) 5px 0 / 8px 100% no-repeat, repeating-linear-gradient(180deg, rgba(243,234,216,0.3) 0 9px, transparent 9px 20px) calc(100% - 5px) 0 / 8px 100% no-repeat, #15130f; }
+.screen[data-skin="film"] #ringBase { stroke: #000000; stroke-width: 28; }
+.screen[data-skin="film"] #periodArc { display: none; }
+.screen[data-skin="film"] .primary { font-family: "Bebas Neue", "Arial Narrow", sans-serif; font-weight: 400; font-size: 24px; letter-spacing: 0.08em; padding: 10px 16px 12px; border-radius: 6px; border-top: 8px solid #f3ead8; border-image: repeating-linear-gradient(120deg, #f3ead8 0 12px, #15130f 12px 24px) 8 0 0 0; }
+.screen[data-skin="film"] .ring-day { letter-spacing: 0.04em; }
+.screen[data-skin="film"] .ring-day, .screen[data-skin="film"] .app-name, .screen[data-skin="film"] h2, .screen[data-skin="film"] h3 { font-weight: 400; letter-spacing: 0.05em; }
+.screen[data-skin="film"] .app-name { font-size: 18px; }
+.screen[data-skin="film"] .tabs { background: #1c1915; }
+/* Quilt: patchwork */
+.screen[data-skin="quilt"] { --bg: #f7f0e3; --surface: #fffaf1; --ink: #3a2e28; --muted: #6d5d52; --line: rgba(58,46,40,0.15); --berry: #b23a48; --berry-soft: #f4dadd; --pine: #2f6f6a; --pine-soft: #dcece9; --on-berry: #fffaf1; --display: "Patrick Hand", "Comic Sans MS", cursive; color-scheme: light; }
+.screen[data-skin="quilt"] { background: repeating-linear-gradient(0deg, rgba(178,58,72,0.05) 0 12px, transparent 12px 24px), repeating-linear-gradient(90deg, rgba(178,58,72,0.05) 0 12px, transparent 12px 24px), #f7f0e3; }
+.screen[data-skin="quilt"] #ringBase, .screen[data-skin="quilt"] #periodArc { display: none; }
+.screen[data-skin="quilt"] .primary { font-family: "Patrick Hand", "Comic Sans MS", cursive; font-weight: 400; font-size: 22px; padding: 14px; outline: 2px dashed rgba(255,250,241,0.85); outline-offset: -7px; }
+.screen[data-skin="quilt"] .dates, .screen[data-skin="quilt"] .usual, .screen[data-skin="quilt"] .plan { border: 1.5px dashed rgba(58,46,40,0.35); }
+.screen[data-skin="quilt"] .ring-day, .screen[data-skin="quilt"] .app-name, .screen[data-skin="quilt"] h2, .screen[data-skin="quilt"] h3 { font-weight: 400; }
+.screen[data-skin="quilt"] .app-name { font-size: 19px; }
+.screen[data-skin="quilt"] .tabs { background: #fffaf1; }
+/* Mosaic: a tile a day */
+.screen[data-skin="mosaic"] { --bg: #f0eee8; --surface: #fbfaf7; --ink: #1f2b36; --muted: #56616c; --line: rgba(31,43,54,0.14); --berry: #b5432c; --berry-soft: #f3ddd5; --pine: #23688a; --pine-soft: #dce9f0; --on-berry: #fbfaf7; --display: "Marcellus", Georgia, serif; color-scheme: light; }
+.screen[data-skin="mosaic"] { background: repeating-linear-gradient(0deg, rgba(31,43,54,0.05) 0 1px, transparent 1px 14px), repeating-linear-gradient(90deg, rgba(31,43,54,0.05) 0 1px, transparent 1px 14px), #f0eee8; }
+.screen[data-skin="mosaic"] #ringBase, .screen[data-skin="mosaic"] #periodArc { display: none; }
+.screen[data-skin="mosaic"] .primary { font-family: "Marcellus", Georgia, serif; font-weight: 400; letter-spacing: 0.03em; border-radius: 4px; box-shadow: 0 0 0 3px #f0eee8, 0 0 0 6px #23688a; }
+.screen[data-skin="mosaic"] .ring-day, .screen[data-skin="mosaic"] .app-name, .screen[data-skin="mosaic"] h2, .screen[data-skin="mosaic"] h3 { font-weight: 400; }
+.screen[data-skin="mosaic"] .tabs { background: #fbfaf7; }
+/* Looks gallery */
+.headbtns { display: flex; gap: 8px; }
+.looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.look { display: grid; grid-template-rows: auto 1fr; text-align: left; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 16px; padding: 0; overflow: hidden; font: 13px/1.35 var(--body); cursor: pointer; }
+.look[aria-pressed="true"] { border-color: var(--berry); box-shadow: 0 0 0 2px var(--berry); }
+.look[aria-pressed="true"] .look-body b::after { content: " \2713"; color: var(--berry); }
+.look-art { height: 64px; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+.look-art svg { height: 30px; width: auto; }
+.look-body { padding: 8px 10px 10px; display: grid; gap: 3px; align-content: start; }
+.look-body b { font-size: 15px; }
+.look-body .meta { font-size: 12px; }
+.look-body .say { font-size: 13px; color: var(--ink); font-weight: 400; }
+.look.more { grid-column: 1 / -1; cursor: default; border-style: dashed; background: transparent; }
+.look-art[data-art="plain"] { background: #f7f4f5; }
+.look-art[data-art="ritual"] { --berry: #e0584f; background: radial-gradient(120% 90% at 50% 0%, #3a1a28, #140d12 70%); }
+.look-art[data-art="garden"] { background: radial-gradient(circle at 15% 30%, #e3ecd9 0 12px, transparent 13px), radial-gradient(circle at 85% 70%, #e3ecd9 0 16px, transparent 17px), #f3f6ef; }
+.look-art[data-art="book"] { background: linear-gradient(90deg, transparent 14px, rgba(179,38,30,0.4) 14px 15.5px, transparent 15.5px), repeating-linear-gradient(0deg, rgba(47,79,122,0.15) 0 1px, transparent 1px 12px), #f7f3ea; }
+.look-art[data-art="pixel"] { --berry: #ff4d6d; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 4px), #10142a; }
+.look-art[data-art="vinyl"] { background: repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0 1px, transparent 1px 4px), #17161b; }
+.look-art[data-art="film"] { background: repeating-linear-gradient(90deg, rgba(243,234,216,0.4) 0 7px, transparent 7px 14px) 0 4px / 100% 5px no-repeat, repeating-linear-gradient(90deg, rgba(243,234,216,0.4) 0 7px, transparent 7px 14px) 0 calc(100% - 4px) / 100% 5px no-repeat, #15130f; }
+.look-art[data-art="quilt"] { background: repeating-linear-gradient(0deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), repeating-linear-gradient(90deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), #f7f0e3; }
+.look-art[data-art="mosaic"] { background: repeating-linear-gradient(0deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), repeating-linear-gradient(90deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), #f0eee8; }
+.look-art[data-art="discreet"] { background: #f4f5f7; }
+@media (prefers-reduced-motion: no-preference) {
+  .spin { transform-origin: 120px 120px; animation: spin 9s linear infinite; }
+  .flick { animation: flick 1.4s ease-in-out infinite alternate; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes flick { from { opacity: 1; } to { opacity: 0.55; } }
 @media (prefers-reduced-motion: no-preference) {
   .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flicker 1.6s ease-in-out infinite alternate; }
   .flame:nth-of-type(3n) { animation-duration: 1.1s; }
@@ -253,7 +315,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <!-- Today -->
         <div class="view" id="v-today" role="tabpanel" aria-labelledby="t-today">
           <div class="stagebar"><span class="meta">Mockup: try a stage</span><div class="seg" role="group" aria-label="Stage"><button type="button" data-stage="regular" aria-pressed="true">Regular cycles</button><button type="button" data-stage="changing" aria-pressed="false">Changing cycles</button></div></div>
-          <div class="apphead"><span class="app-name" id="appName">Tender</span><button class="gear" type="button" data-go="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button></div>
+          <div class="apphead"><span class="app-name" id="appName">Tender</span><span class="headbtns"><button class="gear" type="button" data-go="looks" aria-label="Looks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-4-4-7.4-9-7.4z"></path><circle cx="7.5" cy="11" r="1.2" fill="currentColor"></circle><circle cx="10.5" cy="7.3" r="1.2" fill="currentColor"></circle><circle cx="15" cy="7.3" r="1.2" fill="currentColor"></circle></svg></button><button class="gear" type="button" data-go="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button></span></div>
           <div class="ring">
             <svg viewBox="0 0 240 240" aria-hidden="true">
               <circle id="ringBase" cx="120" cy="120" r="100" fill="none" stroke="var(--line)" stroke-width="16"></circle>
@@ -401,17 +463,17 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           </div>
           <div class="dates" id="lookCard">
             <h3>Look</h3>
-            <p class="meta">Make it yours. A look changes the colours, the artwork and some of the words. Your record, the safety notes and Support stay exactly the same.</p>
-            <div class="skins" role="group" aria-label="Look">
-              <button class="skin" type="button" data-skin="plain" aria-pressed="true"><span class="swatch" style="background: linear-gradient(135deg, #f7f4f5 50%, #a3214f 50%)"></span><span><b>Plain</b><span class="meta">Calm and clear. The default.</span></span></button>
-              <button class="skin" type="button" data-skin="ritual" aria-pressed="false"><span class="swatch" style="background: radial-gradient(circle at 50% 35%, #ffcf7a 0 5px, #e0584f 6px 9px, #140d12 10px)"></span><span><b>Ritual</b><span class="meta">Candlelight and ceremony. Candles light one by one through your cycle.</span><span class="say" style="font-family: Cinzel, Georgia, serif">“The rite begins”</span></span></button>
-              <button class="skin" type="button" data-skin="garden" aria-pressed="false"><span class="swatch" style="background: radial-gradient(circle at 50% 50%, #f2a7b8 0 6px, #3f6b3a 7px 12px, #f3f6ef 13px)"></span><span><b>Garden</b><span class="meta">A garden that grows through your cycle, and blooms.</span><span class="say">“Next bloom in about 18 days”</span></span></button>
-              <button class="skin" type="button" data-skin="book" aria-pressed="false"><span class="swatch" style="background: linear-gradient(90deg, #f7f3ea 40%, #b3261e 40% 46%, #f7f3ea 46%), repeating-linear-gradient(0deg, #c9d3e3 0 1px, #f7f3ea 1px 6px)"></span><span><b>Book</b><span class="meta">Ruled paper and red ink. Every cycle a page, every stage a chapter.</span><span class="say" style="font-family: 'Special Elite', 'Courier New', monospace">“Turn the page”</span></span></button>
-              <button class="skin" type="button" data-skin="pixel" aria-pressed="false"><span class="swatch" style="background: repeating-linear-gradient(90deg, #ff4d6d 0 6px, #10142a 6px 9px), #10142a"></span><span><b>Pixel</b><span class="meta">An old game screen. Each day is a block.</span><span class="say" style="font-family: 'Press Start 2P', monospace; font-size: 10px">QUEST COMPLETE</span></span></button>
-              <button class="skin" type="button" data-skin="discreet" aria-pressed="false"><span class="swatch" style="background: linear-gradient(135deg, #f4f5f7 50%, #2f5fa8 50%)"></span><span><b>Discreet</b><span class="meta">Looks like an ordinary calendar, if others see your phone.</span><span class="say">“Mark today”</span></span></button>
-            </div>
-            <p class="sample">Try one, then go back to Today.</p>
+            <button class="rec" type="button" data-go="looks"><b>Look: <span id="lookNow">Plain</span></b><span class="meta">Browse the gallery. A look never changes your record.</span></button>
           </div>
+        </div>
+
+        <!-- Looks gallery -->
+        <div class="view" id="v-looks" role="region" aria-label="Looks" hidden>
+          <button class="linkbtn" type="button" data-go="today" style="justify-self:start">← Today</button>
+          <h2>Looks</h2>
+          <p class="meta">Make it yours. A look changes the colours, the artwork and some of the words. Your record, the safety notes, Support and the doctor's summary stay exactly the same.</p>
+          <div class="looks" id="looksGrid" role="group" aria-label="Looks"></div>
+          <p class="sample">Try one, then go back to Today.</p>
         </div>
 
         <!-- Report -->
@@ -542,15 +604,19 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
       <section class="plain">
         <h2>Make it yours</h2>
-        <p>Accurate matters, but so does wanting to open it. Settings offers a few looks, and each one has some fun with the same record:</p>
+        <p>Accurate matters, but so does wanting to open it. Looks are a main feature, with their own gallery one tap from Today (the palette button), and Settings stays short. Each look has some fun with the same record:</p>
         <ul class="questions">
           <li><b>Ritual</b>: candlelight and ceremony. Candles light one by one through the cycle, and a period is "the rite".</li>
           <li><b>Garden</b>: leaves grow through the cycle, and period days bloom.</li>
+          <li><b>Book</b>: ruled paper and red ink, under the name Chapters. Every cycle a page, and a period is "turn the page".</li>
           <li><b>Pixel</b>: an old game screen, where each day is a block and a period is a quest.</li>
-          <li><b>Book</b>: ruled paper and red ink, under the name Chapters. Every cycle a page, every stage a chapter, and a period is "turn the page".</li>
+          <li><b>Vinyl</b>: a record on the turntable. The needle moves round through the cycle, and a period is "now playing".</li>
+          <li><b>Film</b>: a strip of film, one frame a day. A period is "now showing", and it ends with "that's a wrap".</li>
+          <li><b>Quilt</b>: patchwork, sewn a square a day, with red patches for period days. Every cycle a row.</li>
+          <li><b>Mosaic</b>: a tile set each day, red for period days. Over the years, your own pattern.</li>
           <li><b>Discreet</b>: looks like an ordinary calendar app, for anyone whose phone gets seen by others.</li>
         </ul>
-        <p>Plain stays the default. A look never changes the record, the safety notes, Support or the doctor's summary. Looks could one day be shared as simple files of colours, pictures and words, never code, so a shared look can't touch anyone's data. Try them from the gear on Today.</p>
+        <p>Plain stays the default, and choosing a look could be the first thing you do when you open the app. A look never changes the record, the safety notes, Support or the doctor's summary. One day, looks could be made by artists and credited by name, shared as simple files of colours, pictures and words, never code, so a look can't touch anyone's data.</p>
       </section>
 
       <section class="plain">
@@ -568,6 +634,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <h2>The name</h2>
         <p>The working name is <b>Tender</b>. It means sore, and it means gentle and kind: the body, and going easy on yourself, in one plain word.</p>
         <p><i>About 450 periods in a lifetime. Go easy on yourself.</i><br>And reach out when you need to: a friend, someone you trust, or the help lines in <button class="inline-link" type="button" data-go="support" data-scroll="phone">Support</button>, there any time.</p>
+        <p>Also in the running: <b>Chapters</b>. Every cycle a page, every stage a chapter. It's the name the Book look shows, so you can try it on in <button class="inline-link" type="button" data-go="looks" data-scroll="phone">Looks</button>.</p>
         <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
           <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
@@ -601,7 +668,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li>On the main screen, which matters more to you: how long until your next period, or which day of your cycle it is?</li>
           <li>How much logging is too much?</li>
           <li>Would a one-page summary for your doctor be useful?</li>
-          <li>Does “Tender” feel right to you?</li>
+          <li>Which look would you pick first, and what look would you love to see?</li>
+          <li>Tender or Chapters: which feels right to you?</li>
         </ul>
       </section>
     </div>
@@ -613,7 +681,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 <script>
 (function () {
   // --- Tabs
-  var views = { today: 'v-today', hist: 'v-hist', support: 'v-support', settings: 'v-settings', report: 'v-report' };
+  var views = { today: 'v-today', hist: 'v-hist', support: 'v-support', settings: 'v-settings', report: 'v-report', looks: 'v-looks' };
   document.getElementById('regionBtn').addEventListener('click', function () { document.getElementById('regionNote').hidden = false; });
   document.getElementById('finderBtn').addEventListener('click', function () { document.getElementById('finderNote').hidden = false; });
   function go(name) {
@@ -651,9 +719,13 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   var WORDS = {
     plain: {},
     garden: { start: 'My bloom started today', end: 'My bloom has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next bloom in about', likely: 'Bloom likely', cycleDay: 'Day {n} of the season', periodLabel: 'In bloom', since: 'Since the last bloom', last: 'Last bloom', dayHead: 'Today, bloom day {n}' },
-    book: { name: 'Chapters', start: 'Turn the page', end: 'The page is turned', earlierStart: 'It turned on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next page in about', likely: 'The page turns soon', cycleDay: 'Day {n} on this page', periodLabel: 'New page', since: 'Since the last page', last: 'Last page', dayHead: 'Today, day {n} of the new page' },
+    book: { name: 'Chapters', start: 'Turn the page', end: 'The page is turned', earlierStart: 'It turned on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next page in about', likely: 'Next page likely', cycleDay: 'Day {n} on this page', periodLabel: 'New page', since: 'Since the last page', last: 'Last page', dayHead: 'Today, day {n} of the new page' },
     pixel: { start: 'Press start: period', end: 'Quest complete', earlierStart: 'It started earlier', earlierEnd: 'It ended earlier', inAbout: 'Next quest in', likely: 'Quest incoming', cycleDay: 'Day {n}', periodLabel: 'Quest', since: 'Since last quest', last: 'Last quest', dayHead: 'Today, quest day {n}' },
     ritual: { name: 'Tender', start: 'The rite begins', end: 'The rite is complete', earlierStart: 'It began on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next rite in about', likely: 'The rite draws near', cycleDay: 'Day {n} of the cycle', periodLabel: 'The rite', since: 'Since the last rite', last: 'Last rite', dayHead: 'Today, day {n} of the rite' },
+    vinyl: { start: 'Drop the needle', end: 'The track has ended', inAbout: 'Next track in about', likely: 'Next track likely', cycleDay: 'Day {n} on this side', periodLabel: 'Now playing', since: 'Since the last track', last: 'Last track', dayHead: 'Today, track day {n}' },
+    film: { start: 'And\u2026 action', end: 'That\u2019s a wrap', inAbout: 'Next showing in about', likely: 'Coming', cycleDay: 'Day {n} of this reel', periodLabel: 'Now showing', since: 'Since the last showing', last: 'Last showing', dayHead: 'Today, take {n}' },
+    quilt: { start: 'Start a red patch', end: 'Patch finished', inAbout: 'Next patch in about', likely: 'Next patch likely', cycleDay: 'Day {n} of this row', periodLabel: 'Red patch', since: 'Since the last patch', last: 'Last patch', dayHead: 'Today, patch day {n}' },
+    mosaic: { start: 'Red tiles start today', end: 'Back to blue', inAbout: 'Red tiles in about', likely: 'Red tiles likely', cycleDay: 'Tile {n}', periodLabel: 'Red tiles', since: 'Since the last red', last: 'Last red', dayHead: 'Today, red tile {n}' },
     discreet: { name: 'Calendar', start: 'Mark today', end: 'Mark as done', earlierStart: 'Another day', earlierEnd: 'It ended another day', inAbout: 'Next in about', likely: 'Next likely', cycleDay: 'Day {n}', periodLabel: 'Marked', since: 'Since last mark', last: 'Last mark', dayHead: 'Today, day {n}' }
   };
   var PLAIN = { name: 'Tender', start: 'My period started today', end: 'My period has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Period in about', likely: 'Period likely', cycleDay: 'Cycle day {n}', periodLabel: 'Period', since: 'Since your last period', last: 'Last period', dayHead: 'Today, period day {n}' };
@@ -905,8 +977,19 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     ritual: '<svg viewBox="0 0 20 26"><path d="M10 1 C10 1 2 11 2 17 a8 8 0 0 0 16 0 C18 11 10 1 10 1 Z" fill="var(--berry)"></path><ellipse cx="7" cy="16" rx="1.6" ry="3" fill="#ffffff" opacity="0.45"></ellipse></svg>',
     garden: '<svg viewBox="0 0 26 26"><g fill="#f2a7b8"><circle cx="13" cy="6" r="5"></circle><circle cx="20" cy="12" r="5"></circle><circle cx="17" cy="20" r="5"></circle><circle cx="9" cy="20" r="5"></circle><circle cx="6" cy="12" r="5"></circle></g><circle cx="13" cy="13" r="3.5" fill="#e9b949"></circle></svg>',
     book: '<svg viewBox="0 0 30 22"><path d="M15 4 C11 1 5 1 1 3 V20 C5 18 11 18 15 21 C19 18 25 18 29 20 V3 C25 1 19 1 15 4 Z" fill="#fffdf7" stroke="#2b2620" stroke-width="1.4"></path><path d="M15 4 V21" stroke="#2b2620" stroke-width="1.2"></path><path d="M20 2 V12 L22 10 L24 12 V1.6" fill="#b3261e"></path></svg>',
-    pixel: '<svg viewBox="0 0 13 11" shape-rendering="crispEdges"><path d="M1 0h4v1h1v1h1V1h1V0h4v1h1v4h-1v1h-1v1h-1v1h-1v1h-1v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V1h1z" fill="var(--berry)"></path><path d="M2 1h2v1H2zM1 2h1v2H1z" fill="#ffffff" opacity="0.7"></path></svg>'
+    pixel: '<svg viewBox="0 0 13 11" shape-rendering="crispEdges"><path d="M1 0h4v1h1v1h1V1h1V0h4v1h1v4h-1v1h-1v1h-1v1h-1v1h-1v1H6v-1H5V9H4V8H3V7H2V6H1V5H0V1h1z" fill="var(--berry)"></path><path d="M2 1h2v1H2zM1 2h1v2H1z" fill="#ffffff" opacity="0.7"></path></svg>',
+    vinyl: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="12.5" fill="#050507"></circle><circle cx="13" cy="13" r="10" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="0.6"></circle><circle cx="13" cy="13" r="7.5" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="0.6"></circle><circle cx="13" cy="13" r="4.6" fill="#e5535f"></circle><circle cx="13" cy="13" r="1" fill="#17161b"></circle></svg>',
+    film: '<svg viewBox="0 0 28 24"><rect x="1" y="9" width="26" height="14" rx="1.5" fill="#f3ead8"></rect><rect x="1" y="9" width="26" height="3" fill="#e2553f"></rect><path d="M1.5 3.6 L26 0.6 L26.8 5.6 L2.3 8.6 Z" fill="#15130f" stroke="#f3ead8" stroke-width="1"></path><path d="M7 2.9 l3 5 M13 2.2 l3 5 M19 1.5 l3 5" stroke="#f3ead8" stroke-width="2"></path></svg>',
+    quilt: '<svg viewBox="0 0 26 26"><rect x="1" y="1" width="12" height="12" fill="#e9c46a"></rect><rect x="13" y="1" width="12" height="12" fill="#b23a48"></rect><rect x="1" y="13" width="12" height="12" fill="#7fb3ad"></rect><rect x="13" y="13" width="12" height="12" fill="#f4a261"></rect><rect x="3" y="3" width="20" height="20" fill="none" stroke="#fffaf1" stroke-width="1" stroke-dasharray="2 2"></rect></svg>',
+    mosaic: '<svg viewBox="0 0 26 26"><g><rect x="1" y="1" width="7" height="7" fill="#23688a"></rect><rect x="9.5" y="1.5" width="7" height="7" fill="#e0b44c" transform="rotate(6 13 5)"></rect><rect x="18" y="1" width="7" height="7" fill="#3f8fb0"></rect><rect x="1.5" y="9.5" width="7" height="7" fill="#2f7d75" transform="rotate(-5 5 13)"></rect><rect x="9.5" y="9.5" width="7" height="7" fill="#b5432c"></rect><rect x="18" y="9.5" width="7" height="7" fill="#1f4e6b" transform="rotate(4 21 13)"></rect><rect x="1" y="18" width="7" height="7" fill="#e0b44c"></rect><rect x="9.5" y="18" width="7" height="7" fill="#23688a" transform="rotate(-6 13 21)"></rect><rect x="18" y="18" width="7" height="7" fill="#d0623f"></rect></g></svg>'
   };
+  var ART = {
+    plain: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="none" stroke="#e8dde1" stroke-width="4"></circle><path d="M13 3 a10 10 0 0 1 9.5 6.9" fill="none" stroke="#a3214f" stroke-width="4" stroke-linecap="round"></path></svg>',
+    discreet: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="18" rx="3" fill="#ffffff" stroke="#2f5fa8" stroke-width="2"></rect><rect x="2" y="4" width="20" height="5" rx="2" fill="#2f5fa8"></rect><path d="M7 2v4M17 2v4" stroke="#2f5fa8" stroke-width="2"></path></svg>'
+  };
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return x - Math.floor(x); }
+  function at(r, a) { return [120 + r * Math.cos(a), 120 + r * Math.sin(a)]; }
+  function arcPath(r, a0, a1) { var s0 = at(r, a0), s1 = at(r, a1); return 'M' + s0[0].toFixed(1) + ' ' + s0[1].toFixed(1) + ' A' + r + ' ' + r + ' 0 0 1 ' + s1[0].toFixed(1) + ' ' + s1[1].toFixed(1); }
   function drawMarks(p, pf) {
     var g = $('skinMarks'), out = '', i, a, x, y, n;
     $('ringGlyph').innerHTML = GLYPH[skin] || '';
@@ -944,18 +1027,72 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         var filled = i < today, red = (i + 0.5) / n <= pf && filled;
         out += '<rect' + (i === today - 1 ? ' class="blink"' : '') + ' x="' + (x - 6).toFixed(1) + '" y="' + (y - 6).toFixed(1) + '" width="12" height="12" fill="' + (red ? 'var(--berry)' : filled ? 'var(--pine)' : 'none') + '" stroke="' + (filled ? '#000' : 'var(--muted)') + '" stroke-width="2"></rect>';
       }
+    } else if (skin === 'vinyl') {
+      for (i = 0; i < 7; i++) out += '<circle cx="120" cy="120" r="' + (91 + i * 3) + '" fill="none" stroke="#ffffff" stroke-opacity="0.09" stroke-width="0.7"></circle>';
+      out += '<g class="spin"><path d="' + arcPath(100, -2.2, -1.6) + '" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="22"></path><path d="' + arcPath(100, 0.94, 1.54) + '" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="22"></path></g>';
+      out += '<circle cx="120" cy="120" r="82" fill="none" stroke="var(--pine)" stroke-opacity="0.55" stroke-width="1.5"></circle>';
+      a = p * 2 * Math.PI - Math.PI / 2; x = at(100, a); y = at(126, a);
+      out += '<line x1="' + x[0].toFixed(1) + '" y1="' + x[1].toFixed(1) + '" x2="' + y[0].toFixed(1) + '" y2="' + y[1].toFixed(1) + '" stroke="#d7d7dc" stroke-width="3" stroke-linecap="round"></line>';
+      out += '<rect x="-4" y="-7" width="8" height="14" rx="2" fill="#d7d7dc" stroke="#050507" stroke-width="1.5" transform="translate(' + x[0].toFixed(1) + ' ' + x[1].toFixed(1) + ') rotate(' + (a * 180 / Math.PI).toFixed(0) + ')"></rect>';
+    } else if (skin === 'film') {
+      n = 24;
+      var take = Math.min(Math.ceil(p * n), n);
+      for (i = 0; i < n; i++) {
+        a = (i + 0.5) / n * 2 * Math.PI - Math.PI / 2; x = at(100, a);
+        var shot = i < take, red = (i + 0.5) / n <= pf && shot;
+        out += '<rect' + (i === take - 1 ? ' class="flick"' : '') + ' x="-6" y="-7" width="12" height="14" rx="1" transform="translate(' + x[0].toFixed(1) + ' ' + x[1].toFixed(1) + ') rotate(' + (a * 180 / Math.PI + 90).toFixed(0) + ')" fill="' + (red ? '#e2553f' : shot ? '#d9c08a' : '#3a342b') + '"' + (i === take - 1 ? ' stroke="#ffffff" stroke-width="2"' : '') + '></rect>';
+        var h = (i + 1) / n * 2 * Math.PI - Math.PI / 2, o = at(110.5, h), q = at(89.5, h);
+        out += '<rect x="' + (o[0] - 1.6).toFixed(1) + '" y="' + (o[1] - 1.6).toFixed(1) + '" width="3.2" height="3.2" fill="#f3ead8" opacity="0.75"></rect><rect x="' + (q[0] - 1.6).toFixed(1) + '" y="' + (q[1] - 1.6).toFixed(1) + '" width="3.2" height="3.2" fill="#f3ead8" opacity="0.75"></rect>';
+      }
+    } else if (skin === 'quilt') {
+      n = 28;
+      var cloth = ['#e9c46a', '#7fb3ad', '#f4a261', '#a7c4a0', '#d8a7b1', '#8fb8de'];
+      out += '<circle cx="120" cy="120" r="111" fill="none" stroke="#6d5d52" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="3 3"></circle><circle cx="120" cy="120" r="89" fill="none" stroke="#6d5d52" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="3 3"></circle>';
+      for (i = 0; i < n; i++) {
+        a = (i + 0.5) / n * 2 * Math.PI - Math.PI / 2; x = at(100, a);
+        var sewn = (i + 0.5) / n <= p, patch = (i + 0.5) / n <= pf && sewn, tr = ' transform="translate(' + x[0].toFixed(1) + ' ' + x[1].toFixed(1) + ') rotate(' + (a * 180 / Math.PI + 90).toFixed(0) + ')"';
+        if (sewn) {
+          out += '<g' + tr + '><rect x="-10" y="-9" width="20" height="18" fill="' + (patch ? '#b23a48' : cloth[i % cloth.length]) + '"></rect><rect x="-7.5" y="-6.5" width="15" height="13" fill="none" stroke="#fffaf1" stroke-opacity="0.9" stroke-width="1" stroke-dasharray="2 2"></rect>' + (patch ? '<circle r="1.6" fill="#fffaf1"></circle>' : '') + '</g>';
+        } else out += '<rect x="-9" y="-8" width="18" height="16" fill="none" stroke="#6d5d52" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="2 2"' + tr + '></rect>';
+      }
+    } else if (skin === 'mosaic') {
+      n = 30;
+      var sea = ['#23688a', '#3f8fb0', '#e0b44c', '#2f7d75', '#1f4e6b', '#5aa3c2'], fire = ['#b5432c', '#d0623f', '#9c2f22'];
+      [93, 107].forEach(function (r, row) {
+        for (i = 0; i < n; i++) {
+          var t = (i + 0.5 + row * 0.5) / n, k = i + row * n, aa = t * 2 * Math.PI - Math.PI / 2, pt = at(r + (rnd(k) - 0.5) * 2, aa);
+          var set = t <= p, red = t <= pf && set;
+          out += '<rect x="-4.6" y="-4.6" width="9.2" height="9.2" rx="1" transform="translate(' + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1) + ') rotate(' + (aa * 180 / Math.PI + (rnd(k + 99) - 0.5) * 24).toFixed(0) + ')" fill="' + (red ? fire[k % 3] : set ? sea[Math.floor(rnd(k + 7) * sea.length)] : '#dedad1') + '"></rect>';
+        }
+      });
     }
     g.innerHTML = out;
-    $('todayDot').style.display = skin === 'pixel' ? 'none' : '';
+    $('todayDot').style.display = (skin === 'pixel' || skin === 'vinyl' || skin === 'film') ? 'none' : '';
   }
   function setSkin(k) {
     skin = k;
     document.querySelector('.screen').setAttribute('data-skin', k);
-    document.querySelectorAll('.skin[data-skin]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-skin') === k)); });
+    document.querySelectorAll('.look[data-skin]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-skin') === k)); });
     $('appName').textContent = T('name');
+    LOOKS.forEach(function (L) { if (L.k === k) $('lookNow').textContent = L.name; });
     render();
   }
-  document.querySelectorAll('.skin[data-skin]').forEach(function (b) {
+  var LOOKS = [
+    { k: 'plain', name: 'Plain', meta: 'Calm and clear. The default.', say: '\u201cPeriod in about 18 days\u201d' },
+    { k: 'ritual', name: 'Ritual', meta: 'Candlelight and ceremony. Candles light through your cycle.', say: '\u201cThe rite begins\u201d', font: 'Cinzel, Georgia, serif' },
+    { k: 'garden', name: 'Garden', meta: 'Leaves grow through your cycle, and period days bloom.', say: '\u201cNext bloom in about 18 days\u201d' },
+    { k: 'book', name: 'Book', meta: 'Ruled paper and red ink, under the name Chapters.', say: '\u201cTurn the page\u201d', font: '\'Special Elite\', \'Courier New\', monospace' },
+    { k: 'pixel', name: 'Pixel', meta: 'An old game screen. Each day is a block.', say: 'QUEST COMPLETE', font: '\'Press Start 2P\', monospace', size: '9px' },
+    { k: 'vinyl', name: 'Vinyl', meta: 'A record on the turntable. Your period is the track.', say: '\u201cNow playing\u201d', font: 'Shrikhand, Georgia, serif' },
+    { k: 'film', name: 'Film', meta: 'A strip of film, one frame a day.', say: '\u201cThat\u2019s a wrap\u201d', font: '\'Bebas Neue\', \'Arial Narrow\', sans-serif', size: '17px' },
+    { k: 'quilt', name: 'Quilt', meta: 'Patchwork, a square a day. Every cycle a row.', say: '\u201cStart a red patch\u201d', font: '\'Patrick Hand\', cursive', size: '16px' },
+    { k: 'mosaic', name: 'Mosaic', meta: 'A tile a day. Over the years, your own pattern.', say: '\u201cRed tiles in about 18 days\u201d', font: 'Marcellus, Georgia, serif' },
+    { k: 'discreet', name: 'Discreet', meta: 'Looks like an ordinary calendar, if others see your phone.', say: '\u201cMark today\u201d' }
+  ];
+  $('looksGrid').innerHTML = LOOKS.map(function (L) {
+    return '<button class="look" type="button" data-skin="' + L.k + '" aria-pressed="' + (L.k === skin) + '"><span class="look-art" data-art="' + L.k + '" aria-hidden="true">' + (GLYPH[L.k] || ART[L.k]) + '</span><span class="look-body"><b>' + L.name + '</b><span class="meta">' + L.meta + '</span><span class="say"' + (L.font ? ' style="font-family: ' + L.font + (L.size ? '; font-size: ' + L.size : '') + '"' : '') + '>' + L.say + '</span></span></button>';
+  }).join('') + '<div class="look more"><span class="look-body"><b>More to come</b><span class="meta">Looks made by artists, with their names on them. Shared as simple files of colours, pictures and words, never code, so a look can\u2019t touch anyone\u2019s record.</span></span></div>';
+  document.querySelectorAll('.look[data-skin]').forEach(function (b) {
     b.addEventListener('click', function () { setSkin(b.getAttribute('data-skin')); });
   });
   $('spotBtn').addEventListener('click', function () { $('mainHint').textContent = 'Spotting noted for today. It doesn\u2019t start a period.'; });
