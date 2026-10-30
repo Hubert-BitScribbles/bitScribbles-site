@@ -132,6 +132,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .chrow { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; border-top: 1px solid var(--line); padding-top: 6px; }
 .chrow b { font-variant-numeric: tabular-nums; }
 .say { color: var(--berry); font-weight: 700; }
+.plain a, .questions a { color: var(--berry); text-underline-offset: 3px; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -286,7 +287,11 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
             <h3>Settings</h3>
             <p class="meta">My cycles are</p>
             <div class="seg" role="group" aria-label="My cycles are"><button type="button" data-stage="regular" aria-pressed="true">Fairly regular</button><button type="button" data-stage="changing" aria-pressed="false">Changing</button></div>
-            <p class="meta">"Changing" is for perimenopause, or any time cycles get hard to predict: less forecasting, more record.</p>
+            <p class="meta">"Changing" is for any time cycles get hard to predict: first periods, after a pregnancy, coming off hormonal contraception, perimenopause. Less forecasting, more record.</p>
+            <div id="whyWrap" class="stack" style="gap:6px" hidden>
+              <p class="meta">If you like, say why. It only changes the wording and the help you see, and stays on this phone.</p>
+              <div class="seg" id="whySeg" role="group" aria-label="Why cycles might be changing"><button type="button" data-why="first" aria-pressed="false">First periods</button><button type="button" data-why="baby" aria-pressed="false">After a pregnancy</button><button type="button" data-why="bc" aria-pressed="false">Coming off contraception</button><button type="button" data-why="peri" aria-pressed="true">Perimenopause</button><button type="button" data-why="" aria-pressed="false">Not sure</button></div>
+            </div>
             <p class="meta">Ask when a period ends</p>
             <div class="seg" id="endSeg" role="group" aria-label="Ask when a period ends"><button type="button" data-end="yes" aria-pressed="true">Yes</button><button type="button" data-end="no" aria-pressed="false">No</button></div>
             <p class="meta">Forecasts only need the day a period starts, so logging the end is optional.</p>
@@ -376,9 +381,26 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       </section>
 
       <section class="plain">
-        <h2>For changing cycles</h2>
-        <p>Around perimenopause, two things matter most. One is seeing how cycles change over time. History shows each cycle's length against your old usual, and notes cycles more than 7 days off it and gaps longer than 60 days, the changes doctors look at. It shows them; it doesn't diagnose.</p>
-        <p>The other is long gaps, then a surprise. No app can predict that, so Today shows the days since your last period, your longest recent gap, and a nudge to keep products handy. After 12 months without a period, a period comes with a plain note to have it checked, as doctors advise. Try <b>Changing cycles</b> at the top of Today.</p>
+        <h2>When cycles change</h2>
+        <p>Cycles change at both ends of the years with periods, and at times in between. The app isn't for trying to conceive, but it should feel right through all of these:</p>
+        <ul class="questions">
+          <li><b>First periods.</b> Cycles are often irregular for the first few years. About 90% fall between 21 and 45 days, and by the third year most are 21 to 34 days (<a href="https://mdedge.com/obgyn/article/104579/gynecology/acog-think-menses-vital-sign-adolescents" target="_blank" rel="noopener">ACOG, 2015</a>).</li>
+          <li><b>After a pregnancy.</b> Without breastfeeding, periods usually return six to eight weeks after birth. With it, most within six months, some up to a year (<a href="https://www.1177.se/en/barn--gravid/forlossning/efter-forlossningen/mens-efter-du-har-fott-barn/" target="_blank" rel="noopener">1177, Sweden's health service</a>).</li>
+          <li><b>Coming off hormonal contraception.</b> A first normal period usually comes about a month after the withdrawal bleed, and it can take longer after the injection (<a href="https://www.tommys.org/pregnancy-information/planning-pregnancy/how-get-pregnant/stopping-contraception" target="_blank" rel="noopener">Tommy's</a>).</li>
+          <li><b>Perimenopause.</b> Cycles start to vary by 7 days or more, then gaps grow past 60 days (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10009143" target="_blank" rel="noopener">STRAW+10 staging</a>). Menopause is usually counted from 12 months without a period.</li>
+        </ul>
+        <p>People also link changes to illness, stress or travel, which tags can record. A chosen pause, such as pregnancy or hormonal contraception, is set aside rather than counted as a gap.</p>
+        <p>One setting, <b>Changing cycles</b>, covers all of these: less forecasting, more record. Today shows the days since your last period and your longest recent gap instead of a countdown. History shows each cycle against your old usual. If you like, you can say why things are changing; it only changes the wording and the help you see, and nothing leaves the phone. Around perimenopause, a period after 12 months without one comes with a plain note to have it checked, as doctors advise. Try <b>Changing cycles</b> at the top of Today, then Settings in History.</p>
+      </section>
+
+      <section class="plain">
+        <h2>Research worth following</h2>
+        <ul class="questions">
+          <li><a href="https://www.massey.ac.nz/about/news/do-hugely-popular-menstruation-tracking-apps-help-their-users/" target="_blank" rel="noopener">Massey University's study of tracking apps</a> across three life stages: teens starting their periods, people after birth, and perimenopause. A three-year project, reported in August 2025.</li>
+          <li><a href="https://washington.edu/news/2017/05/02/period-tracking-apps-failing-users-in-basic-ways-study-finds" target="_blank" rel="noopener">University of Washington, 2017</a>: what users found missing in period apps.</li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8504278/" target="_blank" rel="noopener">Women's Health, 2021</a>: how far app predictions drift from real cycles.</li>
+          <li><a href="https://www.jmir.org/2026/1/e106205/PDF" target="_blank" rel="noopener">JMIR, 2026</a>: menopause apps, their promise and their gaps.</li>
+        </ul>
       </section>
 
       <section class="plain">
@@ -478,7 +500,14 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   function add(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
   function diff(a, b) { return Math.round((a - b) / DAY); }
   var state = { mode: 'between', start: new Date(2026, 9, 17), len: 5, now: new Date(2026, 9, 28), asked: false };
-  var stage = 'regular', askEnd = true;
+  var stage = 'regular', askEnd = true, why = 'peri';
+  var WHY_NOTE = {
+    first: 'In the first few years after periods start, cycles are often irregular. That\u2019s common.',
+    baby: 'After a pregnancy, periods can take weeks or months to come back, often longer while breastfeeding.',
+    bc: 'After stopping hormonal contraception, cycles can take a while to settle, longer after the injection.',
+    peri: 'These are the changes doctors look at when cycles shift around perimenopause.',
+    '': 'The app shows the changes; it doesn\u2019t say what they mean.'
+  };
   // Changing cycles: sample record of someone entering perimenopause
   var chLens = [28, 29, 27, 30, 28, 29, 28, 30, 29, 28, 27, 29, 26, 33, 24, 38, 29, 45, 23, 64, 31, 112];
   var chLast = new Date(2026, 7, 15), chStarts = [], s0 = chLast;
@@ -525,7 +554,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     $('stillGoing').hidden = !overdue || state.asked || !askEnd;
     $('skipBtn').hidden = !period || day >= 7 || !askEnd;
     $('spotBtn').hidden = !changing || period;
-    $('twelveBtn').hidden = !changing || period || !$('twelveCard').hidden;
+    $('twelveBtn').hidden = !changing || period || !$('twelveCard').hidden || !(why === 'peri' || why === '');
     $('upWrap').hidden = changing;
     $('nudge').hidden = !(changing && !period);
     if (period) {
@@ -700,7 +729,8 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     document.querySelectorAll('[data-stage]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-stage') === stage)); });
     document.querySelectorAll('#endSeg [data-end]').forEach(function (b) { b.setAttribute('aria-pressed', String((b.getAttribute('data-end') === 'yes') === askEnd)); });
     var ch = stage === 'changing';
-    $('histRegular').hidden = ch; $('histChanging').hidden = !ch; $('usualCard').hidden = ch;
+    $('histRegular').hidden = ch; $('histChanging').hidden = !ch; $('usualCard').hidden = ch; $('whyWrap').hidden = !ch;
+    document.querySelectorAll('#whySeg [data-why]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-why') === why)); });
     if (ch) renderChanging();
   }
   document.querySelectorAll('[data-stage]').forEach(function (b) {
@@ -708,6 +738,9 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   });
   document.querySelectorAll('#endSeg [data-end]').forEach(function (b) {
     b.addEventListener('click', function () { askEnd = b.getAttribute('data-end') === 'yes'; render(); renderStageHistory(); });
+  });
+  document.querySelectorAll('#whySeg [data-why]').forEach(function (b) {
+    b.addEventListener('click', function () { why = b.getAttribute('data-why'); if (!(why === 'peri' || why === '')) $('twelveCard').hidden = true; render(); renderStageHistory(); });
   });
   $('spotBtn').addEventListener('click', function () { $('mainHint').textContent = 'Spotting noted for today. It doesn\u2019t start a period.'; });
   $('twelveBtn').addEventListener('click', function () { $('twelveCard').hidden = false; $('twelveBtn').hidden = true; });
@@ -718,7 +751,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       '<span>Your cycles used to be ' + CH.oldMin + '\u2013' + CH.oldMax + ' days. In the past year they ran ' + CH.min + ' to ' + CH.max + ' days.</span>' +
       '<span>' + CH.off + ' cycles in the past year were more than 7 days from your old usual.</span>' +
       '<span>' + CH.long + (CH.long === 1 ? ' gap was' : ' gaps were') + ' longer than 60 days.</span>' +
-      '<span class="meta">These are the changes doctors look at when cycles start to shift. The app shows them; it doesn\u2019t say what they mean.</span>';
+      '<span class="meta">' + WHY_NOTE[why] + (why ? ' The app shows the changes; it doesn\u2019t say what they mean.' : '') + '</span>';
     var W = 320, H = 200, L = 30, R = 10, T = 10, B = 26, x0 = chStarts[0], x1 = state.now;
     function X(d) { return (L + (d - x0) / (x1 - x0) * (W - L - R)).toFixed(1); }
     function Y(v) { return (T + (1 - v / 120) * (H - T - B)).toFixed(1); }
