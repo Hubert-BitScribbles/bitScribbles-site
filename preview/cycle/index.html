@@ -133,6 +133,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .chrow b { font-variant-numeric: tabular-nums; }
 .say { color: var(--berry); font-weight: 700; }
 .plain a, .questions a { color: var(--berry); text-underline-offset: 3px; }
+.inline-link { background: none; border: 0; padding: 0; font: inherit; color: var(--berry); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -428,7 +429,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <section class="plain">
         <h2>The name</h2>
         <p>The working name is <b>Tender</b>. It means sore, and it means gentle and kind: the body, and going easy on yourself, in one plain word.</p>
-        <p><i>About 450 periods in a lifetime. Go easy on yourself.</i></p>
+        <p><i>About 450 periods in a lifetime. Go easy on yourself.</i><br>And reach out when you need to: a friend, someone you trust, or the help lines in <button class="inline-link" type="button" data-go="support" data-scroll="phone">Support</button>, there any time.</p>
         <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
           <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
@@ -485,6 +486,12 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   }
   document.querySelectorAll('[data-go]').forEach(function (b) {
     b.addEventListener('click', function () { go(b.getAttribute('data-go')); });
+  });
+  document.querySelectorAll('[data-scroll="phone"]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelector('.phone').scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+    });
   });
 
   // --- Today: ring, the one button, "Still going?" and date changes
