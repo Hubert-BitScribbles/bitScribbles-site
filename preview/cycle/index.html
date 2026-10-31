@@ -7,7 +7,7 @@
 <title>Tender (working name) — a concept from bitScribbles</title>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
 :root {
@@ -216,6 +216,13 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .screen[data-skin="pomegranate"] #ringBase, .screen[data-skin="pomegranate"] #periodArc { display: none; }
 .screen[data-skin="pomegranate"] .primary { background: linear-gradient(#b8323f, #8e1b2e); font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: 0.01em; box-shadow: 0 3px 0 #6a1222; }
 .screen[data-skin="pomegranate"] .tabs { background: #fffaf7; }
+/* Cards: a playing card */
+.screen[data-skin="cards"] { --bg: #fbfaf6; --surface: #ffffff; --ink: #1d1d1f; --muted: #5c5c62; --line: rgba(29,29,31,0.14); --berry: #c8102e; --berry-soft: #f8dadf; --pine: #2a5d3f; --pine-soft: #dfeee4; --on-berry: #ffffff; --display: "Playfair Display", Georgia, serif; color-scheme: light; }
+.screen[data-skin="cards"] { background: #fbfaf6; box-shadow: inset 0 0 0 7px #fbfaf6, inset 0 0 0 8.5px rgba(200,16,46,0.45); }
+.screen[data-skin="cards"] #ringBase, .screen[data-skin="cards"] #periodArc { display: none; }
+.screen[data-skin="cards"] .primary { font-family: "Playfair Display", Georgia, serif; border-radius: 10px; box-shadow: inset 0 0 0 3px #c8102e, inset 0 0 0 4.5px #ffffff; }
+.screen[data-skin="cards"] .dates, .screen[data-skin="cards"] .usual, .screen[data-skin="cards"] .plan, .screen[data-skin="cards"] .res { border-radius: 10px; }
+.screen[data-skin="cards"] .tabs { background: #ffffff; }
 /* Looks gallery */
 .headbtns { display: flex; gap: 8px; }
 .looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -239,6 +246,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .look-art[data-art="quilt"] { background: repeating-linear-gradient(0deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), repeating-linear-gradient(90deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), #f7f0e3; }
 .look-art[data-art="mosaic"] { background: repeating-linear-gradient(0deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), repeating-linear-gradient(90deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), #f0eee8; }
 .look-art[data-art="pomegranate"] { background: radial-gradient(rgba(184,50,63,0.12) 2px, transparent 3px) 0 0 / 14px 14px, #fbf3ee; }
+.look-art[data-art="cards"] { background: #fbfaf6; box-shadow: inset 0 0 0 5px #fbfaf6, inset 0 0 0 6px rgba(200,16,46,0.45); }
 .look-art[data-art="discreet"] { background: #f4f5f7; }
 @media (prefers-reduced-motion: no-preference) {
   .spin { transform-origin: 120px 120px; animation: spin 9s linear infinite; }
@@ -277,6 +285,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .checks input { width: 18px; height: 18px; accent-color: var(--berry); }
 .screen[data-skin="ritual"] .app-name { letter-spacing: 0.12em; text-transform: uppercase; }
 .aril { display: flex; gap: 12px; align-items: center; }
+.aril > svg { flex: none; width: 56px; height: 56px; }
 .aril-icon { flex: none; width: 56px; height: 56px; border-radius: 14px; background: #fbf3ee; border: 1px solid var(--line); display: grid; place-items: center; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
@@ -667,6 +676,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li><b>Film</b>: a strip of film, one frame a day. A period is "now showing", and it ends with "that's a wrap".</li>
           <li><b>Quilt</b>: patchwork, sewn a square a day, with red patches for period days. Every cycle a row.</li>
           <li><b>Mosaic</b>: a tile set each day, red for period days. Over the years, your own pattern.</li>
+          <li><b>Cards</b>: a playing card, under the name Pips. Each day is a pip, spades and clubs, with hearts and diamonds for period days, the "red suit".</li>
           <li><b>Discreet</b>: looks like an ordinary calendar app, for anyone whose phone gets seen by others.</li>
         </ul>
         <p>Plain stays the default, and choosing a look could be the first thing you do when you open the app. A look never changes the record, the safety notes, Support or the doctor's summary. One day, looks could be made by artists and credited by name, shared as simple files of colours, pictures and words, never code, so a look can't touch anyone's data.</p>
@@ -689,6 +699,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <p><i>About 450 periods in a lifetime. Go easy on yourself.</i><br>And reach out when you need to: a friend, someone you trust, or the help lines in <button class="inline-link" type="button" data-go="support" data-scroll="phone">Support</button>, there any time.</p>
         <p>Also in the running: <b>Chapters</b>. Every cycle a page, every stage a chapter. It's the name the Book look shows, so you can try it on in <button class="inline-link" type="button" data-go="looks" data-scroll="phone">Looks</button>.</p>
         <p class="aril"><span class="aril-icon" aria-hidden="true"><svg width="34" height="36" viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg></span><span>And a new one: <b>Aril</b>, the jewel-like seed inside a pomegranate, with a pomegranate for its logo. Short and soft, and the Pomegranate look shows it on Today.</span></p>
+        <p class="aril"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="56" height="56"><rect width="512" height="512" rx="115" fill="#A3214F"/><circle cx="256" cy="256" r="170" fill="#FAFAF9"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#B5432C" transform="translate(282.3 141.0) rotate(-77)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#D0623F" transform="translate(329.6 163.7) rotate(-53)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#9C2F22" transform="translate(362.3 204.8) rotate(-22)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#E0B44C" transform="translate(374.0 256.0) rotate(-3)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#E0B44C" transform="translate(362.3 307.2) rotate(27)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#3F8FB0" transform="translate(329.6 348.3) rotate(55)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#2F7D75" transform="translate(282.3 371.0) rotate(71)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#2F7D75" transform="translate(229.7 371.0) rotate(91)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#E0B44C" transform="translate(182.4 348.3) rotate(133)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#5AA3C2" transform="translate(149.7 307.2) rotate(151)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#E0B44C" transform="translate(138.0 256.0) rotate(190)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#E0B44C" transform="translate(149.7 204.8) rotate(212)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#3F8FB0" transform="translate(182.4 163.7) rotate(227)"/><rect x="-19" y="-19" width="38" height="38" rx="6" fill="#23688A" transform="translate(229.7 141.0) rotate(255)"/></svg><span>And another: <b>Pips</b>. Seeds, the dots on dice and cards, the beeps that mark the hour, and Gladys Knight's backing singers. Small things that count and keep time. The icon sketch is a circle of pips like the ring on Today, and the Cards look shows the name.</span></p>
         <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
           <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
@@ -723,7 +734,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li>How much logging is too much?</li>
           <li>Would a one-page summary for your doctor be useful?</li>
           <li>Which look would you pick first, and what look would you love to see?</li>
-          <li>Tender, Chapters or Aril: which feels right to you?</li>
+          <li>Tender, Chapters, Aril or Pips: which feels right to you?</li>
         </ul>
       </section>
     </div>
@@ -791,6 +802,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     quilt: { start: 'Start a red patch', end: 'Patch finished', inAbout: 'Next patch in about', likely: 'Next patch likely', cycleDay: 'Day {n} of this row', periodLabel: 'Red patch', since: 'Since the last patch', last: 'Last patch', dayHead: 'Today, patch day {n}' },
     mosaic: { start: 'Red tiles start today', end: 'Back to blue', inAbout: 'Red tiles in about', likely: 'Red tiles likely', cycleDay: 'Tile {n}', periodLabel: 'Red tiles', since: 'Since the last red', last: 'Last red', dayHead: 'Today, red tile {n}' },
     pomegranate: { name: 'Aril', start: 'Red season starts today', end: 'Red season is over', inAbout: 'Red season in about', likely: 'Red season likely', cycleDay: 'Seed {n}', periodLabel: 'Red season', since: 'Since the last red season', last: 'Last red season', dayHead: 'Today, red season day {n}' },
+    cards: { name: 'Pips', start: 'Red suit starts today', end: 'Red suit is done', inAbout: 'Red suit in about', likely: 'Red suit likely', cycleDay: 'Card {n}', periodLabel: 'Red suit', since: 'Since the last red suit', last: 'Last red suit', dayHead: 'Today, red suit day {n}' },
     discreet: { name: 'Calendar', start: 'Mark today', end: 'Mark as done', earlierStart: 'Another day', earlierEnd: 'It ended another day', inAbout: 'Next in about', likely: 'Next likely', cycleDay: 'Day {n}', periodLabel: 'Marked', since: 'Since last mark', last: 'Last mark', dayHead: 'Today, day {n}' }
   };
   var PLAIN = { name: 'Tender', start: 'My period started today', end: 'My period has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Period in about', likely: 'Period likely', cycleDay: 'Cycle day {n}', periodLabel: 'Period', since: 'Since your last period', last: 'Last period', dayHead: 'Today, period day {n}' };
@@ -1049,6 +1061,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     mosaic: '<svg viewBox="0 0 26 26"><g><rect x="1" y="1" width="7" height="7" fill="#23688a"></rect><rect x="9.5" y="1.5" width="7" height="7" fill="#e0b44c" transform="rotate(6 13 5)"></rect><rect x="18" y="1" width="7" height="7" fill="#3f8fb0"></rect><rect x="1.5" y="9.5" width="7" height="7" fill="#2f7d75" transform="rotate(-5 5 13)"></rect><rect x="9.5" y="9.5" width="7" height="7" fill="#b5432c"></rect><rect x="18" y="9.5" width="7" height="7" fill="#1f4e6b" transform="rotate(4 21 13)"></rect><rect x="1" y="18" width="7" height="7" fill="#e0b44c"></rect><rect x="9.5" y="18" width="7" height="7" fill="#23688a" transform="rotate(-6 13 21)"></rect><rect x="18" y="18" width="7" height="7" fill="#d0623f"></rect></g></svg>'
   };
   GLYPH.pomegranate = '<svg viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg>';
+  GLYPH.cards = '<svg viewBox="0 0 22 28"><rect x="1" y="1" width="20" height="26" rx="3" fill="#ffffff" stroke="#1d1d1f" stroke-width="1.4"></rect><path d="M11 20.5 C5.5 16.5 4.5 13.8 4.5 11.9 A3.3 3.3 0 0 1 11 10.9 A3.3 3.3 0 0 1 17.5 11.9 C17.5 13.8 16.5 16.5 11 20.5 Z" fill="#c8102e"></path></svg>';
   var ART = {
     plain: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="none" stroke="#e8dde1" stroke-width="4"></circle><path d="M13 3 a10 10 0 0 1 9.5 6.9" fill="none" stroke="#a3214f" stroke-width="4" stroke-linecap="round"></path></svg>',
     discreet: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="18" rx="3" fill="#ffffff" stroke="#2f5fa8" stroke-width="2"></rect><rect x="2" y="4" width="20" height="5" rx="2" fill="#2f5fa8"></rect><path d="M7 2v4M17 2v4" stroke="#2f5fa8" stroke-width="2"></path></svg>'
@@ -1131,6 +1144,22 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           out += '<g transform="translate(' + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1) + ') rotate(' + (aa * 180 / Math.PI + 90).toFixed(0) + ') scale(' + sc + ')"><path d="M0 -5.6 C3.6 -3.4 3.8 2.6 0 5 C-3.8 2.6 -3.6 -3.4 0 -5.6 Z" fill="' + (red ? '#8e0f26' : ripe ? '#e0566a' : '#f3dcd6') + '"' + (ripe ? '' : ' stroke="#e6c2bd" stroke-width="0.8"') + '></path>' + (ripe ? '<ellipse cx="-1.2" cy="-1.6" rx="0.9" ry="1.5" fill="#ffffff" opacity="0.55"></ellipse>' : '') + '</g>';
         }
       });
+    } else if (skin === 'cards') {
+      var SUIT = {
+        heart: 'M10 18 C2 12 0 8 0 5 A5 5 0 0 1 10 4 A5 5 0 0 1 20 5 C20 8 18 12 10 18 Z',
+        diamond: 'M10 0 L17.5 10 L10 20 L2.5 10 Z',
+        spade: 'M10 0 C14 5 20 8 20 12 A4.5 4.5 0 0 1 11.5 14 L13 19.5 H7 L8.5 14 A4.5 4.5 0 0 1 0 12 C0 8 6 5 10 0 Z',
+        club: 'M10 1 A4.6 4.6 0 0 1 13.6 8.4 A4.6 4.6 0 1 1 11.6 14.2 L13 19.5 H7 L8.4 14.2 A4.6 4.6 0 1 1 6.4 8.4 A4.6 4.6 0 0 1 10 1 Z'
+      };
+      n = 28;
+      out += '<circle cx="120" cy="120" r="113" fill="none" stroke="rgba(200,16,46,0.35)" stroke-width="1"></circle><circle cx="120" cy="120" r="87" fill="none" stroke="rgba(200,16,46,0.35)" stroke-width="1"></circle>';
+      for (i = 0; i < n; i++) {
+        var t2 = (i + 0.5) / n, a2 = t2 * 2 * Math.PI - Math.PI / 2, q2 = at(100, a2), dealt = t2 <= p, redS = t2 <= pf && dealt;
+        if (dealt) {
+          var suit = redS ? (i % 2 ? 'diamond' : 'heart') : (i % 2 ? 'club' : 'spade');
+          out += '<path d="' + SUIT[suit] + '" transform="translate(' + (q2[0] - 6).toFixed(1) + ' ' + (q2[1] - 6).toFixed(1) + ') scale(0.6)" fill="' + (redS ? '#c8102e' : '#1d1d1f') + '"></path>';
+        } else out += '<circle cx="' + q2[0].toFixed(1) + '" cy="' + q2[1].toFixed(1) + '" r="2.4" fill="#c9c6bd"></circle>';
+      }
     } else if (skin === 'mosaic') {
       n = 30;
       var sea = ['#23688a', '#3f8fb0', '#e0b44c', '#2f7d75', '#1f4e6b', '#5aa3c2'], fire = ['#b5432c', '#d0623f', '#9c2f22'];
@@ -1164,6 +1193,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     { k: 'film', name: 'Film', meta: 'A strip of film, one frame a day.', say: '\u201cThat\u2019s a wrap\u201d', font: '\'Bebas Neue\', \'Arial Narrow\', sans-serif', size: '17px' },
     { k: 'quilt', name: 'Quilt', meta: 'Patchwork, a square a day. Every cycle a row.', say: '\u201cStart a red patch\u201d', font: '\'Patrick Hand\', cursive', size: '16px' },
     { k: 'mosaic', name: 'Mosaic', meta: 'A tile a day. Over the years, your own pattern.', say: '\u201cRed tiles in about 18 days\u201d', font: 'Marcellus, Georgia, serif' },
+    { k: 'cards', name: 'Cards', meta: 'A playing card. Each day a pip, red suits for period days. Under the name Pips.', say: '\u201cRed suit in about 18 days\u201d', font: '\'Playfair Display\', Georgia, serif' },
     { k: 'discreet', name: 'Discreet', meta: 'Looks like an ordinary calendar, if others see your phone.', say: '\u201cMark today\u201d' }
   ];
   $('looksGrid').innerHTML = LOOKS.map(function (L) {
