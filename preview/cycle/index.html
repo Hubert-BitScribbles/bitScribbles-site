@@ -7,7 +7,7 @@
 <title>Tender (working name) — a concept from bitScribbles</title>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
 :root {
@@ -216,6 +216,26 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .screen[data-skin="pomegranate"] #ringBase, .screen[data-skin="pomegranate"] #periodArc { display: none; }
 .screen[data-skin="pomegranate"] .primary { background: linear-gradient(#b8323f, #8e1b2e); font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: 0.01em; box-shadow: 0 3px 0 #6a1222; }
 .screen[data-skin="pomegranate"] .tabs { background: #fffaf7; }
+/* Cards: a playing card */
+.screen[data-skin="cards"] { --bg: #fbfaf6; --surface: #ffffff; --ink: #1d1d1f; --muted: #5c5c62; --line: rgba(29,29,31,0.14); --berry: #c8102e; --berry-soft: #f8dadf; --pine: #2a5d3f; --pine-soft: #dfeee4; --on-berry: #ffffff; --display: "Playfair Display", Georgia, serif; color-scheme: light; }
+.screen[data-skin="cards"] { background: #fbfaf6; box-shadow: inset 0 0 0 7px #fbfaf6, inset 0 0 0 8.5px rgba(200,16,46,0.45); }
+.screen[data-skin="cards"] #ringBase, .screen[data-skin="cards"] #periodArc { display: none; }
+.screen[data-skin="cards"] .primary { font-family: "Playfair Display", Georgia, serif; border-radius: 10px; box-shadow: inset 0 0 0 3px #c8102e, inset 0 0 0 4.5px #ffffff; }
+.screen[data-skin="cards"] .dates, .screen[data-skin="cards"] .usual, .screen[data-skin="cards"] .plan, .screen[data-skin="cards"] .res { border-radius: 10px; }
+.screen[data-skin="cards"] .tabs { background: #ffffff; }
+/* App name and look subtitle: the name stays plain, the look adds its own line */
+.titles { display: grid; gap: 1px; min-width: 0; }
+.screen .app-name { font-family: var(--body) !important; font-weight: 700 !important; font-size: 14px !important; letter-spacing: 0.02em !important; text-transform: none !important; color: var(--muted); }
+.look-sub { font-family: var(--display); font-size: 21px; line-height: 1.15; color: var(--ink); }
+.screen[data-skin="pixel"] .look-sub { font-size: 12px; line-height: 1.6; color: var(--pine); }
+.screen[data-skin="ritual"] .look-sub { font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--berry); }
+.screen[data-skin="film"] .look-sub { font-size: 26px; letter-spacing: 0.06em; }
+.screen[data-skin="vinyl"] .look-sub { color: var(--pine); }
+.screen[data-skin="book"] .look-sub { color: var(--berry); }
+.screen[data-skin="cards"] .look-sub { color: var(--berry); }
+.screen[data-skin="garden"] .look-sub, .screen[data-skin="pomegranate"] .look-sub { color: var(--berry); }
+.look-subline { display: block; font-size: 13px; color: var(--berry); }
+.namepick { display: grid; gap: 8px; justify-items: start; }
 /* Looks gallery */
 .headbtns { display: flex; gap: 8px; }
 .looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -239,6 +259,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .look-art[data-art="quilt"] { background: repeating-linear-gradient(0deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), repeating-linear-gradient(90deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), #f7f0e3; }
 .look-art[data-art="mosaic"] { background: repeating-linear-gradient(0deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), repeating-linear-gradient(90deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), #f0eee8; }
 .look-art[data-art="pomegranate"] { background: radial-gradient(rgba(184,50,63,0.12) 2px, transparent 3px) 0 0 / 14px 14px, #fbf3ee; }
+.look-art[data-art="cards"] { background: #fbfaf6; box-shadow: inset 0 0 0 5px #fbfaf6, inset 0 0 0 6px rgba(200,16,46,0.45); }
 .look-art[data-art="discreet"] { background: #f4f5f7; }
 @media (prefers-reduced-motion: no-preference) {
   .spin { transform-origin: 120px 120px; animation: spin 9s linear infinite; }
@@ -277,6 +298,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .checks input { width: 18px; height: 18px; accent-color: var(--berry); }
 .screen[data-skin="ritual"] .app-name { letter-spacing: 0.12em; text-transform: uppercase; }
 .aril { display: flex; gap: 12px; align-items: center; }
+.aril > svg { flex: none; width: 56px; height: 56px; }
 .aril-icon { flex: none; width: 56px; height: 56px; border-radius: 14px; background: #fbf3ee; border: 1px solid var(--line); display: grid; place-items: center; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
@@ -324,7 +346,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <!-- Today -->
         <div class="view" id="v-today" role="tabpanel" aria-labelledby="t-today">
           <div class="stagebar"><span class="meta">Mockup: try a stage</span><div class="seg" role="group" aria-label="Stage"><button type="button" data-stage="regular" aria-pressed="true">Regular cycles</button><button type="button" data-stage="changing" aria-pressed="false">Changing cycles</button></div></div>
-          <div class="apphead"><span class="app-name" id="appName">Tender</span><span class="headbtns"><button class="gear" type="button" data-go="looks" aria-label="Looks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-4-4-7.4-9-7.4z"></path><circle cx="7.5" cy="11" r="1.2" fill="currentColor"></circle><circle cx="10.5" cy="7.3" r="1.2" fill="currentColor"></circle><circle cx="15" cy="7.3" r="1.2" fill="currentColor"></circle></svg></button><button class="gear" type="button" data-go="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button></span></div>
+          <div class="apphead"><span class="titles"><span class="app-name" id="appName">Tender</span><span class="look-sub" id="lookSub" hidden></span></span><span class="headbtns"><button class="gear" type="button" data-go="looks" aria-label="Looks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-4-4-7.4-9-7.4z"></path><circle cx="7.5" cy="11" r="1.2" fill="currentColor"></circle><circle cx="10.5" cy="7.3" r="1.2" fill="currentColor"></circle><circle cx="15" cy="7.3" r="1.2" fill="currentColor"></circle></svg></button><button class="gear" type="button" data-go="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></button></span></div>
           <div class="ring">
             <svg viewBox="0 0 240 240" aria-hidden="true">
               <circle id="ringBase" cx="120" cy="120" r="100" fill="none" stroke="var(--line)" stroke-width="16"></circle>
@@ -619,7 +641,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <p>Cycles change at both ends of the years with periods, and at times in between. The app isn't for trying to conceive, but it should feel right through all of these:</p>
         <ul class="questions">
           <li><b>First periods.</b> Cycles are often irregular for the first few years. About 90% fall between 21 and 45 days, and by the third year most are 21 to 34 days (<a href="https://mdedge.com/obgyn/article/104579/gynecology/acog-think-menses-vital-sign-adolescents" target="_blank" rel="noopener">ACOG, 2015</a>).</li>
-          <li><b>After a pregnancy.</b> Without breastfeeding, periods usually return six to eight weeks after birth. With it, most within six months, some up to a year (<a href="https://www.1177.se/en/barn--gravid/forlossning/efter-forlossningen/mens-efter-du-har-fott-barn/" target="_blank" rel="noopener">1177, Sweden's health service</a>).</li>
+          <li><b>After a pregnancy.</b> Without breastfeeding, periods usually return six to eight weeks after giving birth. With it, most within six months, some up to a year (<a href="https://www.1177.se/en/barn--gravid/forlossning/efter-forlossningen/mens-efter-du-har-fott-barn/" target="_blank" rel="noopener">1177, Sweden's health service</a>).</li>
           <li><b>Coming off hormonal contraception.</b> A first normal period usually comes about a month after the withdrawal bleed, and it can take longer after the injection (<a href="https://www.tommys.org/pregnancy-information/planning-pregnancy/how-get-pregnant/stopping-contraception" target="_blank" rel="noopener">Tommy's</a>).</li>
           <li><b>Perimenopause.</b> Cycles start to vary by 7 days or more, then gaps grow past 60 days (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10009143" target="_blank" rel="noopener">STRAW+10 staging</a>). Menopause is usually counted from 12 months without a period.</li>
         </ul>
@@ -630,7 +652,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
       <section class="plain">
         <h2>Research worth following</h2>
         <ul class="questions">
-          <li><a href="https://www.massey.ac.nz/about/news/do-hugely-popular-menstruation-tracking-apps-help-their-users/" target="_blank" rel="noopener">Massey University's study of tracking apps</a> across three life stages: teens starting their periods, people after birth, and perimenopause. A three-year project, reported in August 2025.</li>
+          <li><a href="https://www.massey.ac.nz/about/news/do-hugely-popular-menstruation-tracking-apps-help-their-users/" target="_blank" rel="noopener">Massey University's study of tracking apps</a> across three life stages: first periods, the months after having a baby, and perimenopause. A three-year project, reported in August 2025.</li>
           <li><a href="https://washington.edu/news/2017/05/02/period-tracking-apps-failing-users-in-basic-ways-study-finds" target="_blank" rel="noopener">University of Washington, 2017</a>: what users found missing in period apps.</li>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8504278/" target="_blank" rel="noopener">Women's Health, 2021</a>: how far app predictions drift from real cycles.</li>
           <li><a href="https://www.jmir.org/2026/1/e106205/PDF" target="_blank" rel="noopener">JMIR, 2026</a>: menopause apps, their promise and their gaps.</li>
@@ -656,18 +678,19 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
       <section class="plain">
         <h2>Make it yours</h2>
-        <p>Accurate matters, but so does wanting to open it. Looks are a main feature, with their own gallery one tap from Today (the palette button), and Settings stays short. Each look has some fun with the same record:</p>
+        <p>Accurate matters, but so does wanting to open it. Looks are a main feature, with their own gallery one tap from Today (the palette button), and Settings stays short. Each look has some fun with the same record, and its own subtitle under the app's name, which stays the same whatever the look:</p>
         <ul class="questions">
-          <li><b>Ritual</b>: candlelight and ceremony. Candles light one by one through the cycle, and a period is "the rite".</li>
-          <li><b>Garden</b>: leaves grow through the cycle, and period days bloom.</li>
-          <li><b>Pomegranate</b>: a cut-open fruit, a seed a day, with deep red seeds for period days, under the name Aril. A period is "red season".</li>
-          <li><b>Book</b>: ruled paper and red ink, under the name Chapters. Every cycle a page, and a period is "turn the page".</li>
-          <li><b>Pixel</b>: an old game screen, where each day is a block and a period is a quest.</li>
-          <li><b>Vinyl</b>: a record on the turntable. The needle moves round through the cycle, and a period is "now playing".</li>
-          <li><b>Film</b>: a strip of film, one frame a day. A period is "now showing", and it ends with "that's a wrap".</li>
-          <li><b>Quilt</b>: patchwork, sewn a square a day, with red patches for period days. Every cycle a row.</li>
-          <li><b>Mosaic</b>: a tile set each day, red for period days. Over the years, your own pattern.</li>
-          <li><b>Discreet</b>: looks like an ordinary calendar app, for anyone whose phone gets seen by others.</li>
+          <li><b>Ritual</b>, <i>The Crimson Rite</i>: candlelight and ceremony. Candles light one by one through the cycle, and a period is "the rite".</li>
+          <li><b>Garden</b>, <i>In Bloom</i>: leaves grow through the cycle, and period days bloom.</li>
+          <li><b>Pomegranate</b>, <i>Red Season</i>: a cut-open fruit, a seed a day, with deep red seeds for period days. A period is "red season".</li>
+          <li><b>Book</b>, <i>Marginalia</i>: ruled paper and red ink. Every cycle a page, and a period is "turn the page".</li>
+          <li><b>Pixel</b>, <i>Side Quest</i>: an old game screen, where each day is a block and a period is a quest.</li>
+          <li><b>Vinyl</b>, <i>B-Side</i>: a record on the turntable. The needle moves round through the cycle, and a period is "now playing".</li>
+          <li><b>Film</b>, <i>Director's Cut</i>: a strip of film, one frame a day. A period is "now showing", and it ends with "that's a wrap".</li>
+          <li><b>Quilt</b>, <i>Sew Far, Sew Good</i>: patchwork, sewn a square a day, with red patches for period days. Every cycle a row.</li>
+          <li><b>Mosaic</b>, <i>Opus Tessellatum</i> (the Roman name for mosaic made of small tiles): a tile set each day, red for period days. Over the years, your own pattern.</li>
+          <li><b>Cards</b>, <i>Hearts &amp; Diamonds</i>: a playing card. Each day is a pip, spades and clubs, with hearts and diamonds for period days, the "red suit".</li>
+          <li><b>Discreet</b>, no subtitle: looks like an ordinary calendar app, for anyone whose phone gets seen by others.</li>
         </ul>
         <p>Plain stays the default, and choosing a look could be the first thing you do when you open the app. A look never changes the record, the safety notes, Support or the doctor's summary. One day, looks could be made by artists and credited by name, shared as simple files of colours, pictures and words, never code, so a look can't touch anyone's data.</p>
       </section>
@@ -687,8 +710,10 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <h2>The name</h2>
         <p>The working name is <b>Tender</b>. It means sore, and it means gentle and kind: the body, and going easy on yourself, in one plain word.</p>
         <p><i>About 450 periods in a lifetime. Go easy on yourself.</i><br>And reach out when you need to: a friend, someone you trust, or the help lines in <button class="inline-link" type="button" data-go="support" data-scroll="phone">Support</button>, there any time.</p>
-        <p>Also in the running: <b>Chapters</b>. Every cycle a page, every stage a chapter. It's the name the Book look shows, so you can try it on in <button class="inline-link" type="button" data-go="looks" data-scroll="phone">Looks</button>.</p>
-        <p class="aril"><span class="aril-icon" aria-hidden="true"><svg width="34" height="36" viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg></span><span>And a new one: <b>Aril</b>, the jewel-like seed inside a pomegranate, with a pomegranate for its logo. Short and soft, and the Pomegranate look shows it on Today.</span></p>
+        <p>Also in the running: <b>Chapters</b>. Every cycle a page, every stage a chapter. </p>
+        <p class="aril"><span class="aril-icon" aria-hidden="true"><svg width="34" height="36" viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg></span><span>And a new one: <b>Aril</b>, the jewel-like seed inside a pomegranate, with a pomegranate for its logo. Short and soft.</span></p>
+        <p class="aril"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="56" height="56"><rect width="512" height="512" rx="115" fill="#A3214F"/><circle cx="256" cy="256" r="170" fill="#FAFAF9"/><circle cx="282.3" cy="141.0" r="21" fill="#A3214F"/><circle cx="329.6" cy="163.7" r="21" fill="#A3214F"/><circle cx="362.3" cy="204.8" r="21" fill="#A3214F"/><circle cx="374.0" cy="256.0" r="21" fill="#E0B44C"/><circle cx="362.3" cy="307.2" r="21" fill="#E0B44C"/><circle cx="329.6" cy="348.3" r="21" fill="#3F8FB0"/><circle cx="282.3" cy="371.0" r="21" fill="#2F7D75"/><circle cx="229.7" cy="371.0" r="21" fill="#2F7D75"/><circle cx="182.4" cy="348.3" r="21" fill="#E0B44C"/><circle cx="149.7" cy="307.2" r="21" fill="#5AA3C2"/><circle cx="138.0" cy="256.0" r="21" fill="#E0B44C"/><circle cx="149.7" cy="204.8" r="21" fill="#E0B44C"/><circle cx="182.4" cy="163.7" r="21" fill="#3F8FB0"/><circle cx="229.7" cy="141.0" r="21" fill="#23688A"/></svg><span>And another: <b>Pips</b>. Seeds, the dots on dice and cards, the beeps that mark the hour, and Gladys Knight's backing singers. Small things that count and keep time. The icon sketch is a circle of pips like the ring on Today, with a run of berry pips for a period.</span></p>
+        <div class="namepick"><span class="meta">Try a name on the phone. The look's subtitle stays separate.</span><div class="seg" id="namePick" role="group" aria-label="Try a name"><button type="button" data-name="Tender" aria-pressed="true">Tender</button><button type="button" data-name="Chapters" aria-pressed="false">Chapters</button><button type="button" data-name="Aril" aria-pressed="false">Aril</button><button type="button" data-name="Pips" aria-pressed="false">Pips</button></div></div>
         <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
           <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
@@ -723,7 +748,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li>How much logging is too much?</li>
           <li>Would a one-page summary for your doctor be useful?</li>
           <li>Which look would you pick first, and what look would you love to see?</li>
-          <li>Tender, Chapters or Aril: which feels right to you?</li>
+          <li>Tender, Chapters, Aril or Pips: which feels right to you?</li>
         </ul>
       </section>
     </div>
@@ -783,16 +808,23 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   var WORDS = {
     plain: {},
     garden: { start: 'My bloom started today', end: 'My bloom has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next bloom in about', likely: 'Bloom likely', cycleDay: 'Day {n} of the season', periodLabel: 'In bloom', since: 'Since the last bloom', last: 'Last bloom', dayHead: 'Today, bloom day {n}' },
-    book: { name: 'Chapters', start: 'Turn the page', end: 'The page is turned', earlierStart: 'It turned on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next page in about', likely: 'Next page likely', cycleDay: 'Day {n} on this page', periodLabel: 'New page', since: 'Since the last page', last: 'Last page', dayHead: 'Today, day {n} of the new page' },
+    book: { start: 'Turn the page', end: 'The page is turned', earlierStart: 'It turned on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next page in about', likely: 'Next page likely', cycleDay: 'Day {n} on this page', periodLabel: 'New page', since: 'Since the last page', last: 'Last page', dayHead: 'Today, day {n} of the new page' },
     pixel: { start: 'Press start: period', end: 'Quest complete', earlierStart: 'It started earlier', earlierEnd: 'It ended earlier', inAbout: 'Next quest in', likely: 'Quest incoming', cycleDay: 'Day {n}', periodLabel: 'Quest', since: 'Since last quest', last: 'Last quest', dayHead: 'Today, quest day {n}' },
-    ritual: { name: 'Tender', start: 'The rite begins', end: 'The rite is complete', earlierStart: 'It began on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next rite in about', likely: 'The rite draws near', cycleDay: 'Day {n} of the cycle', periodLabel: 'The rite', since: 'Since the last rite', last: 'Last rite', dayHead: 'Today, day {n} of the rite' },
+    ritual: { start: 'The rite begins', end: 'The rite is complete', earlierStart: 'It began on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Next rite in about', likely: 'The rite draws near', cycleDay: 'Day {n} of the cycle', periodLabel: 'The rite', since: 'Since the last rite', last: 'Last rite', dayHead: 'Today, day {n} of the rite' },
     vinyl: { start: 'Drop the needle', end: 'The track has ended', inAbout: 'Next track in about', likely: 'Next track likely', cycleDay: 'Day {n} on this side', periodLabel: 'Now playing', since: 'Since the last track', last: 'Last track', dayHead: 'Today, track day {n}' },
     film: { start: 'And\u2026 action', end: 'That\u2019s a wrap', inAbout: 'Next showing in about', likely: 'Coming', cycleDay: 'Day {n} of this reel', periodLabel: 'Now showing', since: 'Since the last showing', last: 'Last showing', dayHead: 'Today, take {n}' },
     quilt: { start: 'Start a red patch', end: 'Patch finished', inAbout: 'Next patch in about', likely: 'Next patch likely', cycleDay: 'Day {n} of this row', periodLabel: 'Red patch', since: 'Since the last patch', last: 'Last patch', dayHead: 'Today, patch day {n}' },
     mosaic: { start: 'Red tiles start today', end: 'Back to blue', inAbout: 'Red tiles in about', likely: 'Red tiles likely', cycleDay: 'Tile {n}', periodLabel: 'Red tiles', since: 'Since the last red', last: 'Last red', dayHead: 'Today, red tile {n}' },
-    pomegranate: { name: 'Aril', start: 'Red season starts today', end: 'Red season is over', inAbout: 'Red season in about', likely: 'Red season likely', cycleDay: 'Seed {n}', periodLabel: 'Red season', since: 'Since the last red season', last: 'Last red season', dayHead: 'Today, red season day {n}' },
+    pomegranate: { start: 'Red season starts today', end: 'Red season is over', inAbout: 'Red season in about', likely: 'Red season likely', cycleDay: 'Seed {n}', periodLabel: 'Red season', since: 'Since the last red season', last: 'Last red season', dayHead: 'Today, red season day {n}' },
+    cards: { start: 'Red suit starts today', end: 'Red suit is done', inAbout: 'Red suit in about', likely: 'Red suit likely', cycleDay: 'Card {n}', periodLabel: 'Red suit', since: 'Since the last red suit', last: 'Last red suit', dayHead: 'Today, red suit day {n}' },
     discreet: { name: 'Calendar', start: 'Mark today', end: 'Mark as done', earlierStart: 'Another day', earlierEnd: 'It ended another day', inAbout: 'Next in about', likely: 'Next likely', cycleDay: 'Day {n}', periodLabel: 'Marked', since: 'Since last mark', last: 'Last mark', dayHead: 'Today, day {n}' }
   };
+  var SUB = { plain: '', ritual: 'The Crimson Rite', garden: 'In Bloom', pomegranate: 'Red Season', book: 'Marginalia', pixel: 'Side Quest', vinyl: 'B-Side', film: 'Director\u2019s Cut', quilt: 'Sew Far, Sew Good', mosaic: 'Opus Tessellatum', cards: 'Hearts & Diamonds', discreet: '' };
+  var appTitle = 'Tender';
+  function showTitle() {
+    $('appName').textContent = skin === 'discreet' ? 'Calendar' : appTitle;
+    $('lookSub').textContent = SUB[skin] || ''; $('lookSub').hidden = !SUB[skin];
+  }
   var PLAIN = { name: 'Tender', start: 'My period started today', end: 'My period has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Period in about', likely: 'Period likely', cycleDay: 'Cycle day {n}', periodLabel: 'Period', since: 'Since your last period', last: 'Last period', dayHead: 'Today, period day {n}' };
   function T(k, n) { var w = (WORDS[skin] && WORDS[skin][k]) || PLAIN[k]; return n === undefined ? w : w.replace('{n}', n); }
   var WHY_NOTE = {
@@ -1049,6 +1081,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     mosaic: '<svg viewBox="0 0 26 26"><g><rect x="1" y="1" width="7" height="7" fill="#23688a"></rect><rect x="9.5" y="1.5" width="7" height="7" fill="#e0b44c" transform="rotate(6 13 5)"></rect><rect x="18" y="1" width="7" height="7" fill="#3f8fb0"></rect><rect x="1.5" y="9.5" width="7" height="7" fill="#2f7d75" transform="rotate(-5 5 13)"></rect><rect x="9.5" y="9.5" width="7" height="7" fill="#b5432c"></rect><rect x="18" y="9.5" width="7" height="7" fill="#1f4e6b" transform="rotate(4 21 13)"></rect><rect x="1" y="18" width="7" height="7" fill="#e0b44c"></rect><rect x="9.5" y="18" width="7" height="7" fill="#23688a" transform="rotate(-6 13 21)"></rect><rect x="18" y="18" width="7" height="7" fill="#d0623f"></rect></g></svg>'
   };
   GLYPH.pomegranate = '<svg viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg>';
+  GLYPH.cards = '<svg viewBox="0 0 22 28"><rect x="1" y="1" width="20" height="26" rx="3" fill="#ffffff" stroke="#1d1d1f" stroke-width="1.4"></rect><path d="M11 20.5 C5.5 16.5 4.5 13.8 4.5 11.9 A3.3 3.3 0 0 1 11 10.9 A3.3 3.3 0 0 1 17.5 11.9 C17.5 13.8 16.5 16.5 11 20.5 Z" fill="#c8102e"></path></svg>';
   var ART = {
     plain: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="none" stroke="#e8dde1" stroke-width="4"></circle><path d="M13 3 a10 10 0 0 1 9.5 6.9" fill="none" stroke="#a3214f" stroke-width="4" stroke-linecap="round"></path></svg>',
     discreet: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="18" rx="3" fill="#ffffff" stroke="#2f5fa8" stroke-width="2"></rect><rect x="2" y="4" width="20" height="5" rx="2" fill="#2f5fa8"></rect><path d="M7 2v4M17 2v4" stroke="#2f5fa8" stroke-width="2"></path></svg>'
@@ -1131,6 +1164,22 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           out += '<g transform="translate(' + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1) + ') rotate(' + (aa * 180 / Math.PI + 90).toFixed(0) + ') scale(' + sc + ')"><path d="M0 -5.6 C3.6 -3.4 3.8 2.6 0 5 C-3.8 2.6 -3.6 -3.4 0 -5.6 Z" fill="' + (red ? '#8e0f26' : ripe ? '#e0566a' : '#f3dcd6') + '"' + (ripe ? '' : ' stroke="#e6c2bd" stroke-width="0.8"') + '></path>' + (ripe ? '<ellipse cx="-1.2" cy="-1.6" rx="0.9" ry="1.5" fill="#ffffff" opacity="0.55"></ellipse>' : '') + '</g>';
         }
       });
+    } else if (skin === 'cards') {
+      var SUIT = {
+        heart: 'M10 18 C2 12 0 8 0 5 A5 5 0 0 1 10 4 A5 5 0 0 1 20 5 C20 8 18 12 10 18 Z',
+        diamond: 'M10 0 L17.5 10 L10 20 L2.5 10 Z',
+        spade: 'M10 0 C14 5 20 8 20 12 A4.5 4.5 0 0 1 11.5 14 L13 19.5 H7 L8.5 14 A4.5 4.5 0 0 1 0 12 C0 8 6 5 10 0 Z',
+        club: 'M10 1 A4.6 4.6 0 0 1 13.6 8.4 A4.6 4.6 0 1 1 11.6 14.2 L13 19.5 H7 L8.4 14.2 A4.6 4.6 0 1 1 6.4 8.4 A4.6 4.6 0 0 1 10 1 Z'
+      };
+      n = 28;
+      out += '<circle cx="120" cy="120" r="113" fill="none" stroke="rgba(200,16,46,0.35)" stroke-width="1"></circle><circle cx="120" cy="120" r="87" fill="none" stroke="rgba(200,16,46,0.35)" stroke-width="1"></circle>';
+      for (i = 0; i < n; i++) {
+        var t2 = (i + 0.5) / n, a2 = t2 * 2 * Math.PI - Math.PI / 2, q2 = at(100, a2), dealt = t2 <= p, redS = t2 <= pf && dealt;
+        if (dealt) {
+          var suit = redS ? (i % 2 ? 'diamond' : 'heart') : (i % 2 ? 'club' : 'spade');
+          out += '<path d="' + SUIT[suit] + '" transform="translate(' + (q2[0] - 6).toFixed(1) + ' ' + (q2[1] - 6).toFixed(1) + ') scale(0.6)" fill="' + (redS ? '#c8102e' : '#1d1d1f') + '"></path>';
+        } else out += '<circle cx="' + q2[0].toFixed(1) + '" cy="' + q2[1].toFixed(1) + '" r="2.4" fill="#c9c6bd"></circle>';
+      }
     } else if (skin === 'mosaic') {
       n = 30;
       var sea = ['#23688a', '#3f8fb0', '#e0b44c', '#2f7d75', '#1f4e6b', '#5aa3c2'], fire = ['#b5432c', '#d0623f', '#9c2f22'];
@@ -1149,7 +1198,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     skin = k;
     document.querySelector('.screen').setAttribute('data-skin', k);
     document.querySelectorAll('.look[data-skin]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-skin') === k)); });
-    $('appName').textContent = T('name');
+    showTitle();
     LOOKS.forEach(function (L) { if (L.k === k) $('lookNow').textContent = L.name; });
     render();
   }
@@ -1157,20 +1206,30 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     { k: 'plain', name: 'Plain', meta: 'Calm and clear. The default.', say: '\u201cPeriod in about 18 days\u201d' },
     { k: 'ritual', name: 'Ritual', meta: 'Candlelight and ceremony. Candles light through your cycle.', say: '\u201cThe rite begins\u201d', font: 'Cinzel, Georgia, serif' },
     { k: 'garden', name: 'Garden', meta: 'Leaves grow through your cycle, and period days bloom.', say: '\u201cNext bloom in about 18 days\u201d' },
-    { k: 'pomegranate', name: 'Pomegranate', meta: 'A seed a day, deep red for period days. Under the name Aril.', say: '\u201cRed season in about 18 days\u201d', font: 'Fraunces, Georgia, serif' },
-    { k: 'book', name: 'Book', meta: 'Ruled paper and red ink, under the name Chapters.', say: '\u201cTurn the page\u201d', font: '\'Special Elite\', \'Courier New\', monospace' },
+    { k: 'pomegranate', name: 'Pomegranate', meta: 'A seed a day, deep red for period days.', say: '\u201cRed season in about 18 days\u201d', font: 'Fraunces, Georgia, serif' },
+    { k: 'book', name: 'Book', meta: 'Ruled paper and red ink. Every cycle a page.', say: '\u201cTurn the page\u201d', font: '\'Special Elite\', \'Courier New\', monospace' },
     { k: 'pixel', name: 'Pixel', meta: 'An old game screen. Each day is a block.', say: 'QUEST COMPLETE', font: '\'Press Start 2P\', monospace', size: '9px' },
     { k: 'vinyl', name: 'Vinyl', meta: 'A record on the turntable. Your period is the track.', say: '\u201cNow playing\u201d', font: 'Shrikhand, Georgia, serif' },
     { k: 'film', name: 'Film', meta: 'A strip of film, one frame a day.', say: '\u201cThat\u2019s a wrap\u201d', font: '\'Bebas Neue\', \'Arial Narrow\', sans-serif', size: '17px' },
     { k: 'quilt', name: 'Quilt', meta: 'Patchwork, a square a day. Every cycle a row.', say: '\u201cStart a red patch\u201d', font: '\'Patrick Hand\', cursive', size: '16px' },
     { k: 'mosaic', name: 'Mosaic', meta: 'A tile a day. Over the years, your own pattern.', say: '\u201cRed tiles in about 18 days\u201d', font: 'Marcellus, Georgia, serif' },
+    { k: 'cards', name: 'Cards', meta: 'A playing card. Each day a pip, red suits for period days.', say: '\u201cRed suit in about 18 days\u201d', font: '\'Playfair Display\', Georgia, serif' },
     { k: 'discreet', name: 'Discreet', meta: 'Looks like an ordinary calendar, if others see your phone.', say: '\u201cMark today\u201d' }
   ];
   $('looksGrid').innerHTML = LOOKS.map(function (L) {
-    return '<button class="look" type="button" data-skin="' + L.k + '" aria-pressed="' + (L.k === skin) + '"><span class="look-art" data-art="' + L.k + '" aria-hidden="true">' + (GLYPH[L.k] || ART[L.k]) + '</span><span class="look-body"><b>' + L.name + '</b><span class="meta">' + L.meta + '</span><span class="say"' + (L.font ? ' style="font-family: ' + L.font + (L.size ? '; font-size: ' + L.size : '') + '"' : '') + '>' + L.say + '</span></span></button>';
+    return '<button class="look" type="button" data-skin="' + L.k + '" aria-pressed="' + (L.k === skin) + '"><span class="look-art" data-art="' + L.k + '" aria-hidden="true">' + (GLYPH[L.k] || ART[L.k]) + '</span><span class="look-body"><b>' + L.name + '</b>' + (SUB[L.k] ? '<span class="look-subline"' + (L.font ? ' style="font-family: ' + L.font + '"' : '') + '>' + SUB[L.k] + '</span>' : '') + '<span class="meta">' + L.meta + '</span><span class="say"' + (L.font ? ' style="font-family: ' + L.font + (L.size ? '; font-size: ' + L.size : '') + '"' : '') + '>' + L.say + '</span></span></button>';
   }).join('') + '<div class="look more"><span class="look-body"><b>More to come</b><span class="meta">Looks made by artists, with their names on them. Shared as simple files of colours, pictures and words, never code, so a look can\u2019t touch anyone\u2019s record.</span></span></div>';
   document.querySelectorAll('.look[data-skin]').forEach(function (b) {
     b.addEventListener('click', function () { setSkin(b.getAttribute('data-skin')); });
+  });
+  document.querySelectorAll('#namePick [data-name]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      appTitle = b.getAttribute('data-name');
+      document.querySelectorAll('#namePick [data-name]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      showTitle(); go('today');
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelector('.phone').scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+    });
   });
   $('spotBtn').addEventListener('click', function () { $('mainHint').textContent = 'Spotting noted for today. It doesn\u2019t start a period.'; });
   $('twelveBtn').addEventListener('click', function () { $('twelveCard').hidden = false; $('twelveBtn').hidden = true; });
