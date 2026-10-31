@@ -7,7 +7,7 @@
 <title>Pips (working name) — a concept from bitScribbles</title>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400&family=Caveat:wght@600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
 :root {
@@ -236,6 +236,29 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .screen[data-skin="garden"] .look-sub, .screen[data-skin="pomegranate"] .look-sub { color: var(--berry); }
 .look-subline { display: block; font-size: 13px; color: var(--berry); }
 .namepick { display: grid; gap: 8px; justify-items: start; }
+/* bitScribbles byline, Help and About */
+.screen { --bitc: #0e9688; }
+.screen[data-skin="ritual"], .screen[data-skin="pixel"], .screen[data-skin="vinyl"], .screen[data-skin="film"] { --bitc: #16B3A3; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .screen:not([data-skin]), :root:not([data-theme="light"]) .screen[data-skin="plain"] { --bitc: #16B3A3; } }
+:root[data-theme="dark"] .screen:not([data-skin]), :root[data-theme="dark"] .screen[data-skin="plain"] { --bitc: #16B3A3; }
+.byline { justify-self: center; display: flex; align-items: baseline; gap: 0; margin: 6px 0 0; color: var(--muted); }
+.byline .by { font: 11px "JetBrains Mono", ui-monospace, monospace; margin-right: 5px; }
+.byline .bit { font: 12px "JetBrains Mono", ui-monospace, monospace; color: var(--bitc); }
+.byline .scrib { font: 600 19.4px "Caveat", cursive; color: var(--ink); }
+.byline.big { justify-self: start; margin: 0; }
+.byline.big .by { font-size: 13px; } .byline.big .bit { font-size: 16px; } .byline.big .scrib { font-size: 26px; }
+.screen[data-skin="discreet"] #v-today .byline { display: none; }
+.faq details { border-top: 1px solid var(--line); padding: 8px 0; }
+.faq details:first-of-type { border-top: 0; padding-top: 0; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq details p { margin: 6px 0 0; font-size: 14px; }
+.faq details .linkbtn { margin-top: 6px; }
+.abouthead { display: flex; gap: 12px; align-items: center; }
+.abouthead svg { flex: none; }
+.abouthead .meta { margin: 2px 0 0; }
+#v-about a { color: var(--berry); font-weight: 700; text-underline-offset: 3px; }
+.partner { margin: 0; border: 1.5px dashed var(--line); border-radius: 12px; padding: 8px 10px; font-weight: 700; font-size: 14px; }
+.partner span { display: block; font-weight: 400; font-size: 12px; color: var(--muted); font-style: italic; }
 /* Looks gallery */
 .headbtns { display: flex; gap: 8px; }
 .looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -416,6 +439,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
               <p class="sample">The further ahead, the wider the range and the less sure.</p>
             </div>
           </div>
+          <p class="byline"><span class="by">by</span> <span class="bit">&lt;bit/&gt;</span><span class="scrib">Scribbles</span></p>
         </div>
 
         <!-- History -->
@@ -495,6 +519,60 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <div class="dates" id="lookCard">
             <h3>Look</h3>
             <button class="rec" type="button" data-go="looks"><b>Look: <span id="lookNow">Plain</span></b><span class="meta">Browse the gallery. A look never changes your record.</span></button>
+          </div>
+          <div class="dates" id="infoCard">
+            <h3>Help and About</h3>
+            <div class="reclist">
+              <button class="rec" type="button" data-go="help"><b>Help</b><span class="meta">How it works, in a few short answers.</span></button>
+              <button class="rec" type="button" data-go="about"><b>About <span class="appname-x">Pips</span></b><span class="meta">Who made it, privacy, credits and how to get in touch.</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Help -->
+        <div class="view" id="v-help" role="region" aria-label="Help" hidden>
+          <button class="linkbtn" type="button" data-go="settings" style="justify-self:start">← Settings</button>
+          <h2>Help</h2>
+          <div class="dates faq">
+            <details><summary>Logging a period</summary><p>Tap the big button on Today on the day it starts. Forgot? Tap “It started on an earlier day” and pick the date. Logging the end is optional: forecasts only need start dates.</p></details>
+            <details><summary>How sure are the forecasts?</summary><p>Each forecast says how sure it is, from your recent starts and how much they vary. It firms up as you log, and the further ahead you look, the wider the range.</p></details>
+            <details><summary>When cycles change</summary><p>First periods, the months after having a baby, coming off contraception, perimenopause: choose <b>Changing</b> in Settings, under Your cycles. You get less forecasting and more record.</p></details>
+            <details><summary>Looks</summary><p>Tap the palette on Today. A look changes the colours, the artwork and some of the words. Your record, the safety notes and Support stay the same.</p></details>
+            <details><summary>Where is my record?</summary><p>Only on this phone. Back it up in Settings, under Your record: the backup is locked with a passphrase only you know, so nobody else can open it, including us.</p></details>
+            <details><summary>A summary for a doctor</summary><p>Settings, then Your record, then Summary for a doctor. You choose what goes in, and you save or print it yourself. Nothing is sent.</p></details>
+            <details><summary>Need help now?</summary><p>Support has emergency numbers, people to talk to and health lines where you live.</p><button class="linkbtn" type="button" data-go="support" style="justify-self:start">Open Support</button></details>
+          </div>
+          <p class="sample"><span class="appname-x">Pips</span> isn't a medical app and doesn't diagnose anything.</p>
+        </div>
+
+        <!-- About -->
+        <div class="view" id="v-about" role="region" aria-label="About" hidden>
+          <button class="linkbtn" type="button" data-go="settings" style="justify-self:start">← Settings</button>
+          <div class="abouthead"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="56" height="56"><rect width="512" height="512" rx="115" fill="#A3214F"/><circle cx="256" cy="256" r="170" fill="#FAFAF9"/><circle cx="282.3" cy="141.0" r="21" fill="#A3214F"/><circle cx="329.6" cy="163.7" r="21" fill="#A3214F"/><circle cx="362.3" cy="204.8" r="21" fill="#A3214F"/><circle cx="374.0" cy="256.0" r="21" fill="#E0B44C"/><circle cx="362.3" cy="307.2" r="21" fill="#E0B44C"/><circle cx="329.6" cy="348.3" r="21" fill="#3F8FB0"/><circle cx="282.3" cy="371.0" r="21" fill="#2F7D75"/><circle cx="229.7" cy="371.0" r="21" fill="#2F7D75"/><circle cx="182.4" cy="348.3" r="21" fill="#E0B44C"/><circle cx="149.7" cy="307.2" r="21" fill="#5AA3C2"/><circle cx="138.0" cy="256.0" r="21" fill="#E0B44C"/><circle cx="149.7" cy="204.8" r="21" fill="#E0B44C"/><circle cx="182.4" cy="163.7" r="21" fill="#3F8FB0"/><circle cx="229.7" cy="141.0" r="21" fill="#23688A"/></svg><div><h2 class="appname-x">Pips</h2><p class="meta">Version 0.1 · a concept</p></div></div>
+          <p>A private cycle app for every stage, from first periods to menopause.</p>
+          <div class="dates">
+            <h3>Made by</h3>
+            <p class="byline big"><span class="by">by</span> <span class="bit">&lt;bit/&gt;</span><span class="scrib">Scribbles</span></p>
+            <p class="meta">Small apps, carefully made, that keep your data yours. <a href="https://bitscribbles.com/" target="_blank" rel="noopener">bitscribbles.com</a></p>
+            <p class="partner">Made with … <span>If the app is made with an organization, its name and a line about why go here.</span></p>
+          </div>
+          <div class="dates">
+            <h3>Privacy</h3>
+            <p class="meta">No accounts, no ads, no analytics or trackers. Your record stays on this phone, and backups are encrypted with a passphrase only you know.</p>
+          </div>
+          <div class="dates">
+            <h3>Not a medical app</h3>
+            <p class="meta"><span class="appname-x">Pips</span> doesn't diagnose anything and never marks “safe days”. For health questions, see <button class="inline-link" type="button" data-go="support">Support</button>.</p>
+          </div>
+          <div class="dates">
+            <h3>Get in touch</h3>
+            <p class="meta">Questions, ideas or something not working? <a href="mailto:support@bitscribbles.com">support@bitscribbles.com</a></p>
+          </div>
+          <div class="dates">
+            <h3>Credits</h3>
+            <p class="meta">Looks by bitScribbles. Artists who make looks are credited here by name.</p>
+            <p class="meta">Type: Bricolage Grotesque, Atkinson Hyperlegible, Cinzel, Press Start 2P, Special Elite, Shrikhand, Bebas Neue, Patrick Hand, Marcellus, Fraunces, Playfair Display, JetBrains Mono and Caveat, all under the SIL Open Font License.</p>
+            <p class="meta">© 2026 bitScribbles Studio Ltd.</p>
           </div>
         </div>
 
@@ -761,7 +839,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 <script>
 (function () {
   // --- Tabs
-  var views = { today: 'v-today', hist: 'v-hist', support: 'v-support', settings: 'v-settings', report: 'v-report', looks: 'v-looks' };
+  var views = { today: 'v-today', hist: 'v-hist', support: 'v-support', settings: 'v-settings', report: 'v-report', looks: 'v-looks', help: 'v-help', about: 'v-about' };
   document.getElementById('regionBtn').addEventListener('click', function () { var r = document.getElementById('regionPick'); r.hidden = !r.hidden; });
   document.querySelectorAll('#regionSeg [data-region]').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -824,6 +902,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
   var appTitle = 'Pips';
   function showTitle() {
     $('appName').textContent = skin === 'discreet' ? 'Calendar' : appTitle;
+    document.querySelectorAll('.appname-x').forEach(function (e) { e.textContent = appTitle; });
     $('lookSub').textContent = SUB[skin] || ''; $('lookSub').hidden = !SUB[skin];
   }
   var PLAIN = { name: 'Pips', start: 'My period started today', end: 'My period has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Period in about', likely: 'Period likely', cycleDay: 'Cycle day {n}', periodLabel: 'Period', since: 'Since your last period', last: 'Last period', dayHead: 'Today, period day {n}' };
