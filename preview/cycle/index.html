@@ -7,7 +7,7 @@
 <title>Tender (working name) — a concept from bitScribbles</title>
 <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Cinzel:wght@600;700&family=Press+Start+2P&family=Special+Elite&family=Shrikhand&family=Bebas+Neue&family=Patrick+Hand&family=Marcellus&family=Fraunces:opsz,wght@9..144,600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Layout: a working phone on the left, the reasoning beside it; one column on phones. */
 :root {
@@ -210,6 +210,12 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .screen[data-skin="mosaic"] .primary { font-family: "Marcellus", Georgia, serif; font-weight: 400; letter-spacing: 0.03em; border-radius: 4px; box-shadow: 0 0 0 3px #f0eee8, 0 0 0 6px #23688a; }
 .screen[data-skin="mosaic"] .ring-day, .screen[data-skin="mosaic"] .app-name, .screen[data-skin="mosaic"] h2, .screen[data-skin="mosaic"] h3 { font-weight: 400; }
 .screen[data-skin="mosaic"] .tabs { background: #fbfaf7; }
+/* Pomegranate: a seed a day */
+.screen[data-skin="pomegranate"] { --bg: #fbf3ee; --surface: #fffaf7; --ink: #3a1a20; --muted: #6e4f54; --line: rgba(58,26,32,0.14); --berry: #a3132f; --berry-soft: #f6d9dc; --pine: #5b7a3a; --pine-soft: #e4ecd8; --on-berry: #fffaf7; --display: "Fraunces", Georgia, serif; color-scheme: light; }
+.screen[data-skin="pomegranate"] { background: radial-gradient(rgba(184,50,63,0.09) 2px, transparent 3px) 0 0 / 22px 22px, #fbf3ee; }
+.screen[data-skin="pomegranate"] #ringBase, .screen[data-skin="pomegranate"] #periodArc { display: none; }
+.screen[data-skin="pomegranate"] .primary { background: linear-gradient(#b8323f, #8e1b2e); font-family: "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: 0.01em; box-shadow: 0 3px 0 #6a1222; }
+.screen[data-skin="pomegranate"] .tabs { background: #fffaf7; }
 /* Looks gallery */
 .headbtns { display: flex; gap: 8px; }
 .looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -232,6 +238,7 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .look-art[data-art="film"] { background: repeating-linear-gradient(90deg, rgba(243,234,216,0.4) 0 7px, transparent 7px 14px) 0 4px / 100% 5px no-repeat, repeating-linear-gradient(90deg, rgba(243,234,216,0.4) 0 7px, transparent 7px 14px) 0 calc(100% - 4px) / 100% 5px no-repeat, #15130f; }
 .look-art[data-art="quilt"] { background: repeating-linear-gradient(0deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), repeating-linear-gradient(90deg, rgba(178,58,72,0.08) 0 8px, transparent 8px 16px), #f7f0e3; }
 .look-art[data-art="mosaic"] { background: repeating-linear-gradient(0deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), repeating-linear-gradient(90deg, rgba(31,43,54,0.07) 0 1px, transparent 1px 10px), #f0eee8; }
+.look-art[data-art="pomegranate"] { background: radial-gradient(rgba(184,50,63,0.12) 2px, transparent 3px) 0 0 / 14px 14px, #fbf3ee; }
 .look-art[data-art="discreet"] { background: #f4f5f7; }
 @media (prefers-reduced-motion: no-preference) {
   .spin { transform-origin: 120px 120px; animation: spin 9s linear infinite; }
@@ -269,6 +276,8 @@ select { width: 100%; font: 16px var(--body); padding: 10px; border-radius: 12px
 .checks label { display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 400; }
 .checks input { width: 18px; height: 18px; accent-color: var(--berry); }
 .screen[data-skin="ritual"] .app-name { letter-spacing: 0.12em; text-transform: uppercase; }
+.aril { display: flex; gap: 12px; align-items: center; }
+.aril-icon { flex: none; width: 56px; height: 56px; border-radius: 14px; background: #fbf3ee; border: 1px solid var(--line); display: grid; place-items: center; }
 .note { font-size: 13px; background: var(--berry-soft); border-radius: 10px; padding: 8px 10px; }
 .sample { font-size: 12px; color: var(--muted); font-style: italic; }
 
@@ -492,9 +501,14 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <!-- Support -->
         <div class="view" id="v-support" role="tabpanel" aria-labelledby="t-support" hidden>
           <h2>Support</h2>
-          <div class="res" style="border-color: var(--berry)"><span class="res-name">Emergency</span><span>Call <a class="num" href="tel:911">9-1-1</a>.</span></div>
-          <div class="region"><span class="meta">Showing <b>British Columbia</b></span><button class="quiet" type="button" id="regionBtn">Change</button></div>
-          <p class="note" id="regionNote" hidden>In the app, this picks your province or country, and the list changes to match.</p>
+          <div class="res" style="border-color: var(--berry)"><span class="res-name">Emergency</span><span id="emergBC">Call <a class="num" href="tel:911">9-1-1</a>.</span><span id="emergAT" hidden>Call <a class="num" href="tel:112">112</a>, or <a class="num" href="tel:144">144</a> for an ambulance. Deaf or hard of hearing: the DEC112 app lets you text emergency services.</span></div>
+          <div class="region"><span class="meta">Showing <b id="regionName">British Columbia</b></span><button class="quiet" type="button" id="regionBtn">Change</button></div>
+          <div id="regionPick" class="stack" style="gap:6px" hidden>
+            <div class="seg" id="regionSeg" role="group" aria-label="Where you live"><button type="button" data-region="bc" aria-pressed="true">British Columbia</button><button type="button" data-region="at" aria-pressed="false">Austria</button></div>
+            <p class="meta">In the app, this picks your province or country, and the list changes to match. This preview has two.</p>
+          </div>
+
+          <div id="supBC" class="stack">
 
           <div class="rgroup">
             <h3>Someone to talk to, any time</h3>
@@ -530,6 +544,44 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           </div>
 
           <p class="sample">Checked against each service's own site, 28 Oct 2026. Rechecked before each release.</p>
+          </div>
+
+          <div id="supAT" class="stack" hidden>
+          <p class="meta">Most of these services work in German.</p>
+          <div class="rgroup">
+            <h3>Someone to talk to, any time</h3>
+            <div class="res"><span class="res-name">TelefonSeelsorge</span><span>Call <a class="num" href="tel:142">142</a>, day or night. Chat and email online too.</span><a href="https://www.telefonseelsorge.at/" target="_blank" rel="noopener">telefonseelsorge.at</a></div>
+            <div class="res"><span class="res-name">Rat auf Draht</span><span>For children and young people. Call <a class="num" href="tel:147">147</a>, day or night. Free and anonymous, with chat and online advice too.</span><a href="https://www.rataufdraht.at/" target="_blank" rel="noopener">rataufdraht.at</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Need products now?</h3>
+            <div class="res"><span class="res-name">Free period products near you</span><span>From community groups, no questions asked.</span><button class="linkbtn" type="button" id="finderBtnAT" style="justify-self:start">Find free products</button><p class="note" id="finderNoteAT" hidden>In the app, this opens a free-product finder for where you live, where one exists. It's a separate tool, so nothing from your record goes with you.</p></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Health questions, any time</h3>
+            <div class="res"><span class="res-name">1450, the health line</span><span>Call <a class="num" href="tel:1450">1450</a> for advice on a health problem and where to get the right care, day or night. Free apart from normal call charges. Deaf or hard of hearing: through relayservice.at.</span><a href="https://www.gesundheit.gv.at/service/notruf/hotline.html" target="_blank" rel="noopener">About 1450</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Periods and sexual health</h3>
+            <div class="res"><span class="res-name">First Love, from the ÖGF</span><span>Free, anonymous advice for young people on body, sexuality and health, with no appointment. In Vienna: Klinik Landstraße, Monday and Wednesday 2 to 6 pm; Klinik Donaustadt, Friday 2 to 5 pm.</span><a href="https://www.firstlove.at/" target="_blank" rel="noopener">firstlove.at</a></div>
+            <div class="res"><span class="res-name">Herzklopfen</span><span>Ask a question online from anywhere in Austria, anonymously and free, without an email address. Answers usually within 3 days.</span><a href="https://www.herzklopfen.or.at/" target="_blank" rel="noopener">herzklopfen.or.at</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Young people</h3>
+            <div class="res"><span class="res-name">Youth advice near you</span><span>Austria's public health portal lists youth services in every state, including gynaecologists with consultation hours for girls.</span><a href="https://www.gesundheit.gv.at/service/beratungsstellen/jugendberatung" target="_blank" rel="noopener">gesundheit.gv.at</a></div>
+          </div>
+
+          <div class="rgroup">
+            <h3>Learn more</h3>
+            <div class="res"><span class="res-name">gesundheit.gv.at, Austria's public health portal</span><span>Plain information, from the cycle to menopause.</span><a href="https://www.gesundheit.gv.at/krankheiten/sexualorgane/weibliche-hormone-zyklus.html" target="_blank" rel="noopener">Hormones and the cycle</a><a href="https://www.gesundheit.gv.at/krankheiten/sexualorgane/weibliche-sexualorgane/endometriose.html" target="_blank" rel="noopener">Endometriosis</a><a href="https://www.gesundheit.gv.at/krankheiten/sexualorgane/weibliche-hormone-zyklus/wechseljahre-koerper-hormone.html" target="_blank" rel="noopener">Menopause</a></div>
+          </div>
+
+          <p class="sample">Checked against official Austrian sources, 30 Oct 2026. Rechecked before each release.</p>
+          </div>
         </div>
 
         <nav class="tabs" role="tablist" aria-label="App sections">
@@ -598,7 +650,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 
       <section class="plain">
         <h2>Help where you live</h2>
-        <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for your own province or country, each checked against the service's own site and dated.</p>
+        <p>The Support tab lists health lines, sexual health services, youth services and information for each stage, for your own province or country, each checked against the service's own site and dated. The preview has two to try: British Columbia and Austria (tap Change in Support).</p>
         <p>Finding free period products in the moment is a different job, for a different moment, so it belongs to its own tool, run by the community groups who know their area. Support links to one where it exists, and nothing from your record goes with you.</p>
       </section>
 
@@ -608,6 +660,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <ul class="questions">
           <li><b>Ritual</b>: candlelight and ceremony. Candles light one by one through the cycle, and a period is "the rite".</li>
           <li><b>Garden</b>: leaves grow through the cycle, and period days bloom.</li>
+          <li><b>Pomegranate</b>: a cut-open fruit, a seed a day, with deep red seeds for period days, under the name Aril. A period is "red season".</li>
           <li><b>Book</b>: ruled paper and red ink, under the name Chapters. Every cycle a page, and a period is "turn the page".</li>
           <li><b>Pixel</b>: an old game screen, where each day is a block and a period is a quest.</li>
           <li><b>Vinyl</b>: a record on the turntable. The needle moves round through the cycle, and a period is "now playing".</li>
@@ -635,6 +688,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
         <p>The working name is <b>Tender</b>. It means sore, and it means gentle and kind: the body, and going easy on yourself, in one plain word.</p>
         <p><i>About 450 periods in a lifetime. Go easy on yourself.</i><br>And reach out when you need to: a friend, someone you trust, or the help lines in <button class="inline-link" type="button" data-go="support" data-scroll="phone">Support</button>, there any time.</p>
         <p>Also in the running: <b>Chapters</b>. Every cycle a page, every stage a chapter. It's the name the Book look shows, so you can try it on in <button class="inline-link" type="button" data-go="looks" data-scroll="phone">Looks</button>.</p>
+        <p class="aril"><span class="aril-icon" aria-hidden="true"><svg width="34" height="36" viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg></span><span>And a new one: <b>Aril</b>, the jewel-like seed inside a pomegranate, with a pomegranate for its logo. Short and soft, and the Pomegranate look shows it on Today.</span></p>
         <p>Other names we tried, and why we set them aside. These come from quick searches in October 2026, not a trademark search.</p>
         <ul class="questions">
           <li><b>Circa</b>, Latin for "around", as in "expected around 15 Nov". Already a registered US trademark for an anxiety app, and used by other health and sleep apps.</li>
@@ -669,7 +723,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           <li>How much logging is too much?</li>
           <li>Would a one-page summary for your doctor be useful?</li>
           <li>Which look would you pick first, and what look would you love to see?</li>
-          <li>Tender or Chapters: which feels right to you?</li>
+          <li>Tender, Chapters or Aril: which feels right to you?</li>
         </ul>
       </section>
     </div>
@@ -682,7 +736,17 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
 (function () {
   // --- Tabs
   var views = { today: 'v-today', hist: 'v-hist', support: 'v-support', settings: 'v-settings', report: 'v-report', looks: 'v-looks' };
-  document.getElementById('regionBtn').addEventListener('click', function () { document.getElementById('regionNote').hidden = false; });
+  document.getElementById('regionBtn').addEventListener('click', function () { var r = document.getElementById('regionPick'); r.hidden = !r.hidden; });
+  document.querySelectorAll('#regionSeg [data-region]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var at = b.getAttribute('data-region') === 'at';
+      document.querySelectorAll('#regionSeg [data-region]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      document.getElementById('supBC').hidden = at; document.getElementById('supAT').hidden = !at;
+      document.getElementById('emergBC').hidden = at; document.getElementById('emergAT').hidden = !at;
+      document.getElementById('regionName').textContent = at ? 'Austria' : 'British Columbia';
+    });
+  });
+  document.getElementById('finderBtnAT').addEventListener('click', function () { document.getElementById('finderNoteAT').hidden = false; });
   document.getElementById('finderBtn').addEventListener('click', function () { document.getElementById('finderNote').hidden = false; });
   function go(name) {
     if (name === 'report') renderReport();
@@ -726,6 +790,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     film: { start: 'And\u2026 action', end: 'That\u2019s a wrap', inAbout: 'Next showing in about', likely: 'Coming', cycleDay: 'Day {n} of this reel', periodLabel: 'Now showing', since: 'Since the last showing', last: 'Last showing', dayHead: 'Today, take {n}' },
     quilt: { start: 'Start a red patch', end: 'Patch finished', inAbout: 'Next patch in about', likely: 'Next patch likely', cycleDay: 'Day {n} of this row', periodLabel: 'Red patch', since: 'Since the last patch', last: 'Last patch', dayHead: 'Today, patch day {n}' },
     mosaic: { start: 'Red tiles start today', end: 'Back to blue', inAbout: 'Red tiles in about', likely: 'Red tiles likely', cycleDay: 'Tile {n}', periodLabel: 'Red tiles', since: 'Since the last red', last: 'Last red', dayHead: 'Today, red tile {n}' },
+    pomegranate: { name: 'Aril', start: 'Red season starts today', end: 'Red season is over', inAbout: 'Red season in about', likely: 'Red season likely', cycleDay: 'Seed {n}', periodLabel: 'Red season', since: 'Since the last red season', last: 'Last red season', dayHead: 'Today, red season day {n}' },
     discreet: { name: 'Calendar', start: 'Mark today', end: 'Mark as done', earlierStart: 'Another day', earlierEnd: 'It ended another day', inAbout: 'Next in about', likely: 'Next likely', cycleDay: 'Day {n}', periodLabel: 'Marked', since: 'Since last mark', last: 'Last mark', dayHead: 'Today, day {n}' }
   };
   var PLAIN = { name: 'Tender', start: 'My period started today', end: 'My period has ended', earlierStart: 'It started on an earlier day', earlierEnd: 'It ended on an earlier day', inAbout: 'Period in about', likely: 'Period likely', cycleDay: 'Cycle day {n}', periodLabel: 'Period', since: 'Since your last period', last: 'Last period', dayHead: 'Today, period day {n}' };
@@ -754,7 +819,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     var sp = Math.max.apply(null, HIST) - Math.min.apply(null, HIST);
     var base = sp <= 4 ? 0 : sp <= 8 ? 1 : 2;
     var words = ['Fairly sure', 'Likely', 'Rough guess', "Can't say"];
-    return { w: words[Math.min(base + k - 1, 3)], why: 'your last ' + HIST.length + ' cycles were all within ' + sp + ' days of each other' };
+    return { w: words[Math.min(base + k - 1, 3)], why: 'your last ' + HIST.length + ' cycles were all ' + Math.min.apply(null, HIST) + ' to ' + Math.max.apply(null, HIST) + ' days long' };
   }
   function chip(w) { return '<span class="conf">' + w + '</span>'; }
   function $(id) { return document.getElementById(id); }
@@ -983,6 +1048,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     quilt: '<svg viewBox="0 0 26 26"><rect x="1" y="1" width="12" height="12" fill="#e9c46a"></rect><rect x="13" y="1" width="12" height="12" fill="#b23a48"></rect><rect x="1" y="13" width="12" height="12" fill="#7fb3ad"></rect><rect x="13" y="13" width="12" height="12" fill="#f4a261"></rect><rect x="3" y="3" width="20" height="20" fill="none" stroke="#fffaf1" stroke-width="1" stroke-dasharray="2 2"></rect></svg>',
     mosaic: '<svg viewBox="0 0 26 26"><g><rect x="1" y="1" width="7" height="7" fill="#23688a"></rect><rect x="9.5" y="1.5" width="7" height="7" fill="#e0b44c" transform="rotate(6 13 5)"></rect><rect x="18" y="1" width="7" height="7" fill="#3f8fb0"></rect><rect x="1.5" y="9.5" width="7" height="7" fill="#2f7d75" transform="rotate(-5 5 13)"></rect><rect x="9.5" y="9.5" width="7" height="7" fill="#b5432c"></rect><rect x="18" y="9.5" width="7" height="7" fill="#1f4e6b" transform="rotate(4 21 13)"></rect><rect x="1" y="18" width="7" height="7" fill="#e0b44c"></rect><rect x="9.5" y="18" width="7" height="7" fill="#23688a" transform="rotate(-6 13 21)"></rect><rect x="18" y="18" width="7" height="7" fill="#d0623f"></rect></g></svg>'
   };
+  GLYPH.pomegranate = '<svg viewBox="0 0 26 28"><path d="M8.6 7.2 L9.4 2.2 L11.4 5.4 L13 1.2 L14.6 5.4 L16.6 2.2 L17.4 7.2 Z" fill="#8e1b2e"></path><circle cx="13" cy="16.5" r="10.5" fill="#b8323f"></circle><path d="M9.6 6.6 Q13 8.4 16.4 6.6" fill="none" stroke="#8e1b2e" stroke-width="1.4"></path><ellipse cx="8.6" cy="13.2" rx="2.2" ry="3.4" fill="#ffffff" opacity="0.28" transform="rotate(25 8.6 13.2)"></ellipse></svg>';
   var ART = {
     plain: '<svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="10" fill="none" stroke="#e8dde1" stroke-width="4"></circle><path d="M13 3 a10 10 0 0 1 9.5 6.9" fill="none" stroke="#a3214f" stroke-width="4" stroke-linecap="round"></path></svg>',
     discreet: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="18" rx="3" fill="#ffffff" stroke="#2f5fa8" stroke-width="2"></rect><rect x="2" y="4" width="20" height="5" rx="2" fill="#2f5fa8"></rect><path d="M7 2v4M17 2v4" stroke="#2f5fa8" stroke-width="2"></path></svg>'
@@ -1055,6 +1121,16 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
           out += '<g' + tr + '><rect x="-10" y="-9" width="20" height="18" fill="' + (patch ? '#b23a48' : cloth[i % cloth.length]) + '"></rect><rect x="-7.5" y="-6.5" width="15" height="13" fill="none" stroke="#fffaf1" stroke-opacity="0.9" stroke-width="1" stroke-dasharray="2 2"></rect>' + (patch ? '<circle r="1.6" fill="#fffaf1"></circle>' : '') + '</g>';
         } else out += '<rect x="-9" y="-8" width="18" height="16" fill="none" stroke="#6d5d52" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="2 2"' + tr + '></rect>';
       }
+    } else if (skin === 'pomegranate') {
+      out += '<circle cx="120" cy="120" r="114" fill="none" stroke="#9c2235" stroke-width="7"></circle><circle cx="120" cy="120" r="109.5" fill="none" stroke="#f0dccd" stroke-width="2"></circle><circle cx="120" cy="120" r="86" fill="none" stroke="#f0dccd" stroke-width="2"></circle>';
+      n = 28;
+      [94, 104].forEach(function (r, row) {
+        for (i = 0; i < n; i++) {
+          var t = (i + 0.5 + row * 0.5) / n, aa = t * 2 * Math.PI - Math.PI / 2, pt = at(r, aa);
+          var ripe = t <= p, red = t <= pf && ripe, sc = red ? 1.2 : 1;
+          out += '<g transform="translate(' + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1) + ') rotate(' + (aa * 180 / Math.PI + 90).toFixed(0) + ') scale(' + sc + ')"><path d="M0 -5.6 C3.6 -3.4 3.8 2.6 0 5 C-3.8 2.6 -3.6 -3.4 0 -5.6 Z" fill="' + (red ? '#8e0f26' : ripe ? '#e0566a' : '#f3dcd6') + '"' + (ripe ? '' : ' stroke="#e6c2bd" stroke-width="0.8"') + '></path>' + (ripe ? '<ellipse cx="-1.2" cy="-1.6" rx="0.9" ry="1.5" fill="#ffffff" opacity="0.55"></ellipse>' : '') + '</g>';
+        }
+      });
     } else if (skin === 'mosaic') {
       n = 30;
       var sea = ['#23688a', '#3f8fb0', '#e0b44c', '#2f7d75', '#1f4e6b', '#5aa3c2'], fire = ['#b5432c', '#d0623f', '#9c2f22'];
@@ -1081,6 +1157,7 @@ footer { color: var(--muted); font-size: 14px; border-top: 1px solid var(--line)
     { k: 'plain', name: 'Plain', meta: 'Calm and clear. The default.', say: '\u201cPeriod in about 18 days\u201d' },
     { k: 'ritual', name: 'Ritual', meta: 'Candlelight and ceremony. Candles light through your cycle.', say: '\u201cThe rite begins\u201d', font: 'Cinzel, Georgia, serif' },
     { k: 'garden', name: 'Garden', meta: 'Leaves grow through your cycle, and period days bloom.', say: '\u201cNext bloom in about 18 days\u201d' },
+    { k: 'pomegranate', name: 'Pomegranate', meta: 'A seed a day, deep red for period days. Under the name Aril.', say: '\u201cRed season in about 18 days\u201d', font: 'Fraunces, Georgia, serif' },
     { k: 'book', name: 'Book', meta: 'Ruled paper and red ink, under the name Chapters.', say: '\u201cTurn the page\u201d', font: '\'Special Elite\', \'Courier New\', monospace' },
     { k: 'pixel', name: 'Pixel', meta: 'An old game screen. Each day is a block.', say: 'QUEST COMPLETE', font: '\'Press Start 2P\', monospace', size: '9px' },
     { k: 'vinyl', name: 'Vinyl', meta: 'A record on the turntable. Your period is the track.', say: '\u201cNow playing\u201d', font: 'Shrikhand, Georgia, serif' },
